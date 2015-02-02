@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:card_view="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="always">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="0dp"
+                android:layout_marginLeft="-2dp"
+                android:layout_marginRight="-2dp"
+                android:layout_marginTop="0dp"
+                card_view:cardBackgroundColor="@android:color/white"
+                card_view:cardElevation="2dp"
+                >
+
+                <LinearLayout
+                    android:id="@+id/register_form"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@android:color/white"
+                    android:orientation="vertical"
+                    >
+
+                    <TextView
+                        android:text="@string/user_label"
+                        style="@style/LabelTextStyle"/>
+
+                    <EditText
+                        android:id="@+id/et_username"
+                        android:hint="@string/register_username_hint"
+                        android:inputType="textEmailAddress"
+                        style="@style/InputTextEditStyle"/>
+                    <TextView
+                        android:id="@+id/tv_username_error"
+                        android:text="@string/username_tips"
+                        style="@style/ErrorTextViewStyle"/>
+
+                    <TextView
+                        android:text="@string/pass_label"
+                        style="@style/LabelTextStyle"/>
+
+                    <EditText
+                        android:id="@+id/et_password"
+                        android:hint="@string/register_passwd_hint"
+                        android:inputType="textPassword"
+                        style="@style/InputTextEditStyle"/>
+                    <TextView
+                        android:id="@+id/tv_password_error"
+                        android:text="@string/password_tips"
+                        style="@style/ErrorTextViewStyle"/>
+
+                    <TextView
+                        android:text="@string/nickname_label"
+                        style="@style/LabelTextStyle"/>
+
+                    <EditText
+                        android:id="@+id/et_nickname"
+                        android:hint="@string/register_nickname_hint"
+                        android:inputType="textPersonName"
+                        style="@style/InputTextEditStyle"/>
+                    <TextView
+                        android:id="@+id/tv_nickname_error"
+                        android:text="@string/nickname_tips"
+                        style="@style/ErrorTextViewStyle"/>
+
+                    <TextView
+                        android:text="@string/group_label"
+                        style="@style/LabelTextStyle"/>
+
+                    <EditText
+                        android:id="@+id/et_group"
+                        android:hint="@string/register_group_hint"
+                        android:inputType="textPersonName"
+                        style="@style/InputTextEditStyle"/>
+                    <TextView
+                        android:id="@+id/tv_group_error"
+                        android:text="@string/groupcode_tips"
+                        style="@style/ErrorTextViewStyle"/>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <CheckBox
+                android:id="@+id/ckb_protocol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+
+                android:layout_marginLeft="8dp"
+                android:checked="true"
+                android:text="@string/protocol_confirm"
+                android:textColor="@color/base_color"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/error_msg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:visibility="gone"/>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                card_view:cardBackgroundColor="@android:color/transparent"
+                card_view:cardElevation="2dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/btn_register"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_btn"
+                        android:text="@string/regist"
+                        android:textColor="#ffffff"
+                        android:textSize="18sp"/>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

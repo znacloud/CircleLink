@@ -1,0 +1,15 @@
+<resources>
+    <declare-styleable name="SquareGridLayout">
+        <attr name="orientation" format="integer"/>
+        <attr name="rowCount" format="integer" />
+        <attr name="columnCount" format="integer" />
+        <attr name="gridGap" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="SquareGridLayout_Layout">
+        <attr name="layout_rowSpan" format="integer" min="1" />
+        <attr name="layout_columnSpan" format="integer" min="1" />
+        <attr name="layout_column" format="integer"/>
+        <attr name="layout_row" format="integer"/>
+    </declare-styleable>
+</resources>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <string-array name="nav_item_icons">
+        <item>@drawable/ic_item_home</item>
+        <item>@drawable/ic_item_family</item>
+        <item>@drawable/ic_item_community</item>
+        <item>@drawable/ic_item_devices</item>
+        <item>@drawable/ic_item_settings</item>
+    </string-array>
+
+    <string-array name="nav_item_dislpay">
+        <item>@string/home_item_str</item>
+        <item>@string/family_item_str</item>
+        <item>@string/community_item_str</item>
+        <item>@string/devices_item_str</item>
+        <item>@string/settings_item_str</item>
+    </string-array>
+
+    <string-array name="nav_item_icons_focus">
+        <item>@drawable/ic_item_home_focus</item>
+        <item>@drawable/ic_item_family_focus</item>
+        <item>@drawable/ic_item_community_focus</item>
+        <item>@drawable/ic_item_devices_focus</item>
+        <item>@drawable/ic_item_settings_focus</item>
+    </string-array>
+    <string-array name="sample_head_imgs">
+        <item>@drawable/grumpy_bear</item>
+        <item>@drawable/ooopsy_bear</item>
+        <item>@drawable/head_img_default</item>
+        <item>@drawable/cheer_bear</item>
+        <item>@drawable/share_bear</item>
+    </string-array>
+    <string-array name="sample_dislpay_names">
+        <item>Koala1</item>
+        <item>Koala2</item>
+        <item>Koala3</item>
+        <item>Koala4</item>
+        <item>Koala5</item>
+    </string-array>
+
+</resources>

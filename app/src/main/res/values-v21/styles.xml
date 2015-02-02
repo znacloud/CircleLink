@@ -1,0 +1,48 @@
+<resources>
+
+    <!--
+        Base application theme for API 14+. This theme completely replaces
+        AppBaseTheme from BOTH res/values/styles.xml and
+        res/values-v11/styles.xml on API 14+ devices.
+    -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- API 21 theme customizations can go here. -->
+        <!--<item name="android:actionBarStyle">@style/BaseActionBarStyle</item>-->
+        <item name="android:navigationBarColor">@color/base_color_dark</item>
+        <item name="android:colorEdgeEffect">@color/base_color_light</item>
+    </style>
+
+    <style name="BaseActionBarStyle" parent="android:ThemeOverlay.Material.ActionBar">
+        <item name="background">@color/base_color</item>
+        <item name="titleTextStyle">@style/BaseTitleTextStyle</item>
+
+    </style>
+
+    <style name="BaseDrawerArrowToggle" parent="@style/Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">@android:color/white</item>
+    </style>
+
+    <style name="BaseTitleTextStyle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="FamilyImageStyle">
+        <item name="android:layout_width">96dp</item>
+        <item name="android:layout_height">96dp</item>
+        <item name="android:layout_marginBottom">4dp</item>
+        <item name="android:background">@drawable/family_default</item>
+        <item name="android:elevation">4dp</item>
+        <item name="android:scaleType">fitXY</item>
+    </style>
+
+    <style name="PersonalInformationStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">68dp</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:elevation">4dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+</resources>
