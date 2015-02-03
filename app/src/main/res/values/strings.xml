@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">FiveCircles</string>
-    <string name="welcome_str">Enjoy your family</string>
+    <string name="app_name">CircleLink</string>
+    <string name="welcome_str">Link your things</string>
     <string name="app_info">version 0.1\nby zna</string>
     <string name="user_label">Username</string>
     <string name="pass_label">Password</string>
     <string name="login">Login</string>
     <string name="regist">Regist</string>
-    <string name="forget"><u>Forget password >></u></string>
+    <string name="forget"><u>Forget password ?</u></string>
     <string name="name_pass_error">Username or password ERROR!</string>
     <string name="net_error">Network error</string>
     <string name="unknown">Unknown error !</string>
