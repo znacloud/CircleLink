@@ -42,9 +42,9 @@ public class WelcomeActivity extends Activity{
 	  }
 
       //set font type
-      Typeface tf = Typeface.createFromAsset(getAssets(),"fonts/logoFont.ttf");
+      Typeface tf = Typeface.createFromAsset(getAssets(),"fonts/ub.otf");
       TextView tvWelcome = (TextView)findViewById(R.id.tv_welcome);
-      tvWelcome.setTypeface(tf);
+      tvWelcome.setTypeface(tf,Typeface.BOLD);
 
 	  
 	  new Handler().postDelayed(new Runnable(){
