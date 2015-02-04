@@ -71,24 +71,7 @@ public class LoginActivity extends ActionBarActivity {
 				String userName = mEtUsername.getText().toString();
 				String passwd = mEtPasswd.getText().toString();
 				new LoginTask().execute(userName, passwd);
-//				int resultCode = LoginServer.checkAuth(userName, NetUtil.md5(passwd));
-//				if(resultCode == LoginServer.CheckStatus.SUCCESS){
-//					Intent intent = new Intent(LoginActivity.this,UserActivity.class);
-//					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//					intent.putExtra(UserConfig.USER_NAME,userName);
-//					LoginActivity.this.startActivity(intent);
-//					LoginActivity.this.finish();
-//				}else{
-//					mTvErrorMsg.setVisibility(View.VISIBLE);
-//					//TO-DO:show Alert Message to User
-//					if(LoginServer.CheckStatus.DATA_ERROR == resultCode){
-//						mTvErrorMsg.setText(R.string.name_pass_error);
-//					}else if(LoginServer.CheckStatus.NET_ERROR == resultCode){
-//						mTvErrorMsg.setText(R.string.net_error);
-//					}else{
-//						mTvErrorMsg.setText(R.string.unknow_error);
-//					}
-//				}
+
 			}
 		});
 

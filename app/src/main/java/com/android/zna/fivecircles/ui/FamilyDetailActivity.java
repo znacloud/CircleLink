@@ -62,6 +62,9 @@ public class FamilyDetailActivity extends ActionBarActivity {
                      if(vibrant != null){
                         mToolbar.getNavigationIcon().setTint(vibrant.getTitleTextColor());
                         mToolbar.setTitleTextColor(vibrant.getTitleTextColor());
+                         //update NavigationBar Color and StatusBar Color
+                        getWindow().setNavigationBarColor(vibrant.getRgb());
+                        getWindow().setStatusBarColor(vibrant.getRgb());
                     }
                 }else{
                     mToolbar.setTitleTextColor(getResources().getColor(android.R.color.white));

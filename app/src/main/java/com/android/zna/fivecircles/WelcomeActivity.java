@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -39,6 +40,12 @@ public class WelcomeActivity extends Activity{
 	  }catch(NameNotFoundException e){
 		  e.printStackTrace();
 	  }
+
+      //set font type
+      Typeface tf = Typeface.createFromAsset(getAssets(),"fonts/logoFont.ttf");
+      TextView tvWelcome = (TextView)findViewById(R.id.tv_welcome);
+      tvWelcome.setTypeface(tf);
+
 	  
 	  new Handler().postDelayed(new Runnable(){
 		  public void run(){
@@ -66,5 +73,13 @@ public class WelcomeActivity extends Activity{
 	  if(token != null) return true;
 	  return false;
   }
+
+    /**
+     * Override onBackPressed
+     * to avoid back to launcher from Welcome Activity
+     */
+    @Override
+    public void onBackPressed(){
+    }
   
 }
