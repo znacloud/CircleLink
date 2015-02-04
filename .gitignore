@@ -1,12 +1,4 @@
-.gradle
-/local.properties
-/.idea
-.DS_Store
-/build
-/gradle
-/CircleLink.iml
-/build.gradle
-/gradle.properties
-/gradlew
-/gradlew.bat
-/settings.gradle
+/*
+!/app
+!/.gitignore
+!/README.md
