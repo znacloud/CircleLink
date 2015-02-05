@@ -1,8 +1,9 @@
 package com.android.zna.fivecircles.ui;
 
 
-import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
@@ -38,6 +39,8 @@ public class UserActivity extends ActionBarActivity {
     private ActionBarDrawerToggle mToggle;
     private int mCurrentPositon = 0;
 
+    private FragmentManager mFragmentManager;
+
     @Override
     public void onCreate(Bundle savedState) {
         super.onCreate(savedState);
@@ -51,6 +54,8 @@ public class UserActivity extends ActionBarActivity {
         mLvNavItem.setAdapter(new NavItemAdapter(this));
         mLvNavItem.setOnItemClickListener(new NavItemClickListener(this));
         mLvNavItem.setItemChecked(0, true);
+
+        mFragmentManager = getFragmentManager();
 
         getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -107,7 +112,7 @@ public class UserActivity extends ActionBarActivity {
         if (mToggle.onOptionsItemSelected(item)) {
             return true;
         }
-        // 处理你的其他action bar items...
+        // TODO: other Item selected event
 
         return super.onOptionsItemSelected(item);
     }
@@ -194,14 +199,50 @@ public class UserActivity extends ActionBarActivity {
         public NavItemClickListener(UserActivity activity) {
         }
 
+        private void switchItemFragment(Class<? extends Fragment> fromFragmentClass, Class<? extends Fragment> toFragmentClass, Bundle args){
+
+            //obtain Fragment instance
+            String fromFragmentTag = fromFragmentClass.getSimpleName();
+            Fragment fromFragment = mFragmentManager.findFragmentByTag(fromFragmentTag);
+
+            String toFragmentTag = toFragmentClass.getSimpleName();
+            Fragment toFragment = mFragmentManager.findFragmentByTag(toFragmentTag);
+
+            //if toFragment instance is null,create it
+            if(toFragment == null){
+                try {
+                    toFragment = toFragmentClass.newInstance();
+                    toFragment.setArguments(args);
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            //if there are arguments
+            if(args != null && !args.isEmpty()){
+                toFragment.getArguments().putAll(args);
+            }
+
+            FragmentTransaction ft = mFragmentManager.beginTransaction();
+            //if toFragment already added,show it
+            //else add it
+            if(toFragment.isAdded()){
+                ft.hide(fromFragment).show(toFragment);
+            }else{
+                ft.hide(fromFragment).add(R.id.content_frame,toFragment,toFragmentTag);
+            }
+            ft.commit();
+        }
+
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             mLvNavItem.setItemChecked(position, true);
             mCurrentPositon = position;
             if (((NavItem) mLvNavItem.getItemAtPosition(position)).getDisplayText().equals("Family")) {
-                FragmentManager fm = UserActivity.this.getFragmentManager();
-                fm.beginTransaction()
-                        .replace(R.id.content_frame, new FamilyFragment())
+                mFragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, FamilyFragment.newInstance("", ""))
                         .commit();
             } else {
                 //TODO:
