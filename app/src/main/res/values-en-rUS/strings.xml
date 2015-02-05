@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">CircleLink</string>
+    <string name="welcome_str">Link your things</string>
+    <string name="app_info">version 0.1\nby zna</string>
+    <string name="user_label">Username</string>
+    <string name="pass_label">Password</string>
+    <string name="login">Login</string>
+    <string name="regist">Regist</string>
+    <string name="forget"><u>Forget password ?</u></string>
+    <string name="name_pass_error">Username or password ERROR!</string>
+    <string name="net_error">Network error</string>
+    <string name="unknown">Unknown error !</string>
+    <string name="community_item_str">Community</string>
+    <string name="family_item_str">Family</string>
+    <string name="devices_item_str">Devices</string>
+    <string name="home_item_str">Home</string>
+    <string name="settings_item_str">Settings</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_family_detail">FamilyDetailActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="display_text_defualt">Koala</string>
+    <string name="user_name_hint">Username</string>
+    <string name="passwd_hint">Password</string>
+    <string name="remember_pass">Rember password</string>
+    <string name="regist_link"><u>Register >></u></string>
+    <string name="register_username_hint">Email address</string>
+    <string name="register_passwd_hint">6~16 chars or digits,Capital sensitive</string>
+    <string name="nickname_label">Nickname</string>
+    <string name="register_nickname_hint">4~24 chars:Chinese,English,numbers,and \"-\" are supported</string>
+    <string name="group_label">Group Code</string>
+    <string name="protocol_confirm">Agree with Privicy Policy</string>
+    <string name="register_group_hint">Input your invitation code</string>
+    <string name="regist_user">Register new user</string>
+    <string name="username_tips">Invalid Emailaddress</string>
+    <string name="password_tips">Password consists of 6~16 chars or digits</string>
+    <string name="nickname_tips">Nickname consists of 4~24 Chinese,English,numbers or \"-\"</string>
+    <string name="groupcode_tips">Invalid group code</string>
+
+</resources>
