@@ -38,5 +38,7 @@
     <string name="password_tips">Password consists of 6~16 chars or digits</string>
     <string name="nickname_tips">Nickname consists of 4~24 Chinese,English,numbers or \"-\"</string>
     <string name="groupcode_tips">Invalid group code</string>
+    <string name="register_validate_hint">Validate Code</string>
+    <string name="validate_tips">Tips:you should check your validation code in your email</string>
 
 </resources>

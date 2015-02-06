@@ -34,5 +34,7 @@
     <string name="password_tips">密码由6到16位英文字符或数字组成</string>
     <string name="nickname_tips">昵称由4到24位中文、英文、数字或“-”组成</string>
     <string name="groupcode_tips">无效的邀请码</string>
+    <string name="register_validate_hint">验证码</string>
+    <string name="validate_tips">温馨提示：请到邮箱查看验证码</string>
 
 </resources>
