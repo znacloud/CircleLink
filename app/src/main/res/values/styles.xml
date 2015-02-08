@@ -60,13 +60,23 @@
     </style>
 
     <style name="ErrorTextStyle" parent="BaseLabelTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:gravity">center_vertical</item>
         <item name="android:paddingLeft">24dp</item>
         <item name="android:paddingTop">8dp</item>
-        <item name="android:paddingBottom">16dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:drawableLeft">@drawable/ic_error_red</item>
         <item name="android:textColor">#ff0000</item>
         <item name="android:textSize">14sp</item>
         <item name="android:singleLine">true</item>
-        <item name="android:visibility">invisible</item>
+        <item name="android:visibility">gone</item>
+    </style>
+
+    <style name="TipsTextStyle" parent="BaseLabelTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textColor">@color/base_color_inverse</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_marginLeft">24dp</item>
     </style>
 
     <!-- EditText Style defined here-->
@@ -91,6 +101,22 @@
     <style name="RegisterEditTextStyle" parent="BaseEditTextStyle">
         <item name="android:layout_marginLeft">32dp</item>
         <item name="android:layout_marginRight">32dp</item>
+        <item name="android:layout_marginBottom">4dp</item>
+        <item name="android:layout_marginTop">4dp</item>
+    </style>
+
+    <!--  Button style defined here -->
+    <style name="BaseButtonStyle">
+        <item name="android:background">@drawable/bg_btn</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="InnerButtonStyle" parent="BaseButtonStyle">
+        <item name="android:padding">5dp</item>
+        <item name="android:radius">2dp</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
     <!-- Other style -->
@@ -112,10 +138,7 @@
         <item name="android:orientation">horizontal</item>
     </style>
 
-    <style name="TipsTextStyle" parent="BaseLabelTextStyle">
-        <item name="android:textColor">@color/base_color_inverse</item>
-        <item name="android:textSize">14sp</item>
-    </style>
+
 
 
 </resources>

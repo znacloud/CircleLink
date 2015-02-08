@@ -19,11 +19,11 @@
     <string name="settings_item_str">设置</string>
     <string name="action_settings">设置</string>
     <string name="display_text_defualt">大小考拉</string>
-    <string name="user_name_hint">邮箱/手机号码</string>
-    <string name="passwd_hint">输入你的密码</string>
+    <string name="user_name_hint">输入您的邮箱</string>
+    <string name="passwd_hint">输入您的密码</string>
     <string name="regist_link"><u>注册>></u></string>
-    <string name="register_username_hint">邮箱地址</string>
-    <string name="register_passwd_hint">6到16为数字或字母，大小写敏感</string>
+    <string name="register_username_hint">邮箱</string>
+    <string name="register_passwd_hint">密码</string>
     <string name="nickname_label">昵称</string>
     <string name="register_nickname_hint">4到24位字符：支持中文，英文，数字和“-”</string>
     <string name="group_label">邀请码</string>
@@ -31,10 +31,14 @@
     <string name="register_group_hint">输入邀请码</string>
     <string name="regist_user">注册新用户</string>
     <string name="username_tips">无效的邮箱</string>
-    <string name="password_tips">密码由6到16位英文字符或数字组成</string>
+    <string name="password_tips">6到16位英文字符或数字</string>
     <string name="nickname_tips">昵称由4到24位中文、英文、数字或“-”组成</string>
     <string name="groupcode_tips">无效的邀请码</string>
     <string name="register_validate_hint">验证码</string>
     <string name="validate_tips">温馨提示：请到邮箱查看验证码</string>
+    <string name="get_valid_code">获取验证码</string>
+    <string name="register_account">账号密码</string>
+    <string name="register_repasswd_hint">确认密码</string>
+    <string name="repassword_tips">密码不一致</string>
 
 </resources>

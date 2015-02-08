@@ -22,8 +22,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="display_text_defualt">Koala</string>
-    <string name="user_name_hint">Username</string>
-    <string name="passwd_hint">Password</string>
+    <string name="user_name_hint">Your Emailaddress</string>
+    <string name="passwd_hint">Your password</string>
     <string name="remember_pass">Rember password</string>
     <string name="regist_link"><u>Register >></u></string>
     <string name="register_username_hint">Email address</string>
@@ -35,10 +35,12 @@
     <string name="register_group_hint">Input your invitation code</string>
     <string name="regist_user">Register new user</string>
     <string name="username_tips">Invalid Emailaddress</string>
-    <string name="password_tips">Password consists of 6~16 chars or digits</string>
+    <string name="password_tips">6~16 chars or digits</string>
     <string name="nickname_tips">Nickname consists of 4~24 Chinese,English,numbers or \"-\"</string>
     <string name="groupcode_tips">Invalid group code</string>
     <string name="register_validate_hint">Validate Code</string>
     <string name="validate_tips">Tips:you should check your validation code in your email</string>
+    <string name="register_account">Account&#38;Password</string>
+    <string name="register_repasswd_hint">Confirm password</string>
 
 </resources>

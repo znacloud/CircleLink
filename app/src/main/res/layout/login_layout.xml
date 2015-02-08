@@ -41,12 +41,12 @@
                 android:drawableLeft="@drawable/ic_account_white"
                 android:drawablePadding="8dp"
                 android:hint="@string/user_name_hint"
-                android:inputType="text"/>
+                android:inputType="textEmailAddress"/>
 
             <EditText
                 android:id="@+id/password"
                 style="@style/LoginEditTextStyle"
-                android:drawableLeft="@drawable/ic_lock_white"
+                android:drawableLeft="@drawable/ic_lock_confirm_white"
                 android:drawablePadding="8dp"
                 android:hint="@string/passwd_hint"
                 android:inputType="textPassword" />
@@ -74,12 +74,10 @@
             <Button
                 android:id="@+id/btn_login"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/bg_btn"
+                android:layout_height="wrap_content"
                 android:padding="0dp"
                 android:text="@string/login"
-                android:textColor="#ffffff"
-                android:textSize="18sp"/>
+                style="@style/BaseButtonStyle"/>
         </android.support.v7.widget.CardView>
 
         <RelativeLayout
