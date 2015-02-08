@@ -40,5 +40,8 @@
     <string name="register_account">账号密码</string>
     <string name="register_repasswd_hint">确认密码</string>
     <string name="repassword_tips">密码不一致</string>
+    <string name="progress_register">正在注册...</string>
+    <string name="Register_failed">注册失败：</string>
+    <string name="register_success">注册成功</string>
 
 </resources>

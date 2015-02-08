@@ -42,5 +42,8 @@
     <string name="validate_tips">Tips:you should check your validation code in your email</string>
     <string name="register_account">Account&#38;Password</string>
     <string name="register_repasswd_hint">Confirm password</string>
+    <string name="progress_register">Register...</string>
+    <string name="Register_failed">Register failed</string>
+    <string name="register_success">Register success</string>
 
 </resources>

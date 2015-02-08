@@ -1,6 +1,5 @@
 package com.android.zna.fivecircles.ui;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -18,6 +17,8 @@ import android.widget.Toast;
 import com.android.zna.fivecircles.R;
 import com.android.zna.fivecircles.data.FamilyUser;
 import com.android.zna.fivecircles.net.NetUtil;
+import com.android.zna.fivecircles.view.CustomProgressDialog;
+import com.android.zna.fivecircles.view.CustomToast;
 
 import cn.bmob.v3.listener.SaveListener;
 
@@ -25,7 +26,7 @@ import cn.bmob.v3.listener.SaveListener;
 /**
  * Created by ZNA on 2014/12/1.
  */
-public class RegisterActivity extends ActionBarActivity{
+public class RegisterActivity extends ActionBarActivity {
     private static String LOG_TAG = "ResigterActivity";
     private EditText mUserNameEdit;
     private EditText mPasswordEdit;
@@ -39,7 +40,7 @@ public class RegisterActivity extends ActionBarActivity{
     private TextView mRepasswordErrorTv;
 
     @Override
-    public void onCreate(Bundle savedInstance){
+    public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         setContentView(R.layout.register_layout);
         //setup widget
@@ -57,21 +58,23 @@ public class RegisterActivity extends ActionBarActivity{
         mRegisterBtn = (Button) findViewById(R.id.btn_register);
 
         //Error field
-        mUserNameErrorTv =(TextView) findViewById(R.id.tv_username_error);
-        mPasswordErrorTv =(TextView) findViewById(R.id.tv_password_error);
+        mUserNameErrorTv = (TextView) findViewById(R.id.tv_username_error);
+        mPasswordErrorTv = (TextView) findViewById(R.id.tv_password_error);
         mRepasswordErrorTv = (TextView) findViewById(R.id.tv_repassword_error);
 
         //setup textwatcher listener
         mUserNameEdit.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                android.util.Log.d("ZNA_DEBUG","afterTextChange");
+                android.util.Log.d("ZNA_DEBUG", "afterTextChange");
                 mUserNameErrorTv.setVisibility(View.GONE);
                 //if username changed,we reset password
                 mPasswordEdit.setText("");
@@ -80,27 +83,31 @@ public class RegisterActivity extends ActionBarActivity{
         });
         mPasswordEdit.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                android.util.Log.d("ZNA_DEBUG","afterTextChange");
+                android.util.Log.d("ZNA_DEBUG", "afterTextChange");
                 mPasswordErrorTv.setVisibility(View.GONE);
             }
         });
         mRepasswordEdit.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                android.util.Log.d("ZNA_DEBUG","afterTextChange");
+                android.util.Log.d("ZNA_DEBUG", "afterTextChange");
                 mRepasswordErrorTv.setVisibility(View.GONE);
             }
         });
@@ -115,32 +122,34 @@ public class RegisterActivity extends ActionBarActivity{
         mRegisterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!checkValid()) return;
+                if (!checkValid()) return;
 
                 //create a new user
                 FamilyUser user = new FamilyUser();
                 user.setUsername(mUserNameEdit.getText().toString().trim());
                 user.setPassword(NetUtil.md5(mPasswordEdit.getText().toString()));
 
-                final ProgressDialog progressDialog = ProgressDialog.show(RegisterActivity.this,"Message","Register...",true,false);
+                final CustomProgressDialog progressDialog = CustomProgressDialog.show
+                        (RegisterActivity.this, R.string.progress_register);
                 //register on Bmob server
-                user.signUp(RegisterActivity.this,new SaveListener() {
+                user.signUp(RegisterActivity.this, new SaveListener() {
                     @Override
                     public void onSuccess() {
-                        if(progressDialog.isShowing()){
+                        if (progressDialog.isShowing()) {
                             progressDialog.dismiss();
-
                         }
-                        Toast.makeText(RegisterActivity.this,"Register successfully",Toast.LENGTH_LONG).show();
+                        CustomToast.show(RegisterActivity.this, R.string.register_success,
+                                Toast.LENGTH_LONG);
                     }
 
                     @Override
                     public void onFailure(int i, String s) {
-                        if(progressDialog.isShowing()){
+                        if (progressDialog.isShowing()) {
                             progressDialog.dismiss();
                         }
-
-                        Toast.makeText(RegisterActivity.this,"Register failsd:"+i+" "+s,Toast.LENGTH_LONG).show();
+                        String errorMsg = RegisterActivity.this.getString(R.string.Register_failed);
+                        CustomToast.show(RegisterActivity.this, errorMsg + i
+                                + " " + s, Toast.LENGTH_LONG);
                     }
                 });
             }
@@ -149,9 +158,9 @@ public class RegisterActivity extends ActionBarActivity{
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-          if(item.getItemId() == android.R.id.home){
-              onBackPressed();
-          }
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -161,17 +170,17 @@ public class RegisterActivity extends ActionBarActivity{
      * else show error tips
      * and return false
      */
-    private boolean checkValid(){
+    private boolean checkValid() {
         boolean valid = true;
-        if(!isEmailaddress(mUserNameEdit.getText().toString().trim())){
+        if (!isEmailaddress(mUserNameEdit.getText().toString().trim())) {
             valid = false;
             mUserNameErrorTv.setVisibility(View.VISIBLE);
         }
-        if(!isPasswdValid(mPasswordEdit.getText().toString())){
+        if (!isPasswdValid(mPasswordEdit.getText().toString())) {
             valid = false;
             mPasswordErrorTv.setVisibility(View.VISIBLE);
-        }else if(!isPasswdConsistent(mPasswordEdit.getText().toString(),
-                                mRepasswordEdit.getText().toString())){
+        } else if (!isPasswdConsistent(mPasswordEdit.getText().toString(),
+                mRepasswordEdit.getText().toString())) {
             valid = false;
             mRepasswordErrorTv.setVisibility(View.VISIBLE);
         }
@@ -183,20 +192,21 @@ public class RegisterActivity extends ActionBarActivity{
         return emailAddress.matches(emailPattern);
     }
 
-    private boolean isPasswdValid(String password){
+    private boolean isPasswdValid(String password) {
         String passwdPattern = "[0-9a-zA-Z]{6,16}";
         return password.matches(passwdPattern);
     }
 
-    private boolean isPasswdConsistent(String password,String repassword){
+    private boolean isPasswdConsistent(String password, String repassword) {
         return isPasswdValid(password) && password.contentEquals(repassword);
     }
-    private boolean isNicknameValid(String nickname){
+
+    private boolean isNicknameValid(String nickname) {
         String nicknamePattern = "[-0-9a-zA-Z\u4e00-\u9fa5]{4,24}";
         return nickname.matches(nicknamePattern);
     }
 
-    private boolean isGroupValid(String groupCode){
+    private boolean isGroupValid(String groupCode) {
         String groupCodePattern = "";
         return true;//TO-DO:
     }

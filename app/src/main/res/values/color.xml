@@ -8,6 +8,7 @@
     <color name="base_color_light">#aedd89</color>
     <color name="base_color_inverse">#269d88</color>
     <color name="base_color_black">#000000</color>
+    <color name="base_color_progress">#aa2F3528</color>
 
     <!-- Theme colors -->
     <color name="theme_light">#F48FB1</color>
@@ -17,7 +18,7 @@
     <color name="gray_row_color">#ff515252</color>
 
 
-    <!-- Dialer theme -->
+    <!-- Dialer theme -->a
     <color name="dialer_call">#00C853</color>
     <color name="theme_dialer_high">#0277BD</color>
     <color name="theme_dialer_primary">#0288D1</color>
