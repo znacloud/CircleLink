@@ -81,6 +81,10 @@
     <style name="BaseEditTextStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">4dp</item>
+        <item name="android:layout_marginLeft">32dp</item>
+        <item name="android:layout_marginRight">32dp</item>
+        <item name="android:layout_marginTop">4dp</item>
         <item name="android:padding">8dp</item>
         <item name="android:textColor">@color/base_color_dark</item>
         <item name="android:textSize">18sp</item>
@@ -90,17 +94,9 @@
     </style>
 
     <style name="LoginEditTextStyle" parent="BaseEditTextStyle" >
-        <item name="android:layout_marginBottom">4dp</item>
-        <item name="android:layout_marginLeft">32dp</item>
-        <item name="android:layout_marginRight">32dp</item>
-        <item name="android:layout_marginTop">4dp</item>
     </style>
 
     <style name="RegisterEditTextStyle" parent="BaseEditTextStyle">
-        <item name="android:layout_marginLeft">32dp</item>
-        <item name="android:layout_marginRight">32dp</item>
-        <item name="android:layout_marginBottom">4dp</item>
-        <item name="android:layout_marginTop">4dp</item>
     </style>
 
     <!--  Button style defined here -->

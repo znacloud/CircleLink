@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:card_view="http://schemas.android.com/apk/res-auto"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/base_color"
+              android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="always">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#ffffff"
+                    android:text="@string/nickname_avatar"
+                    android:textColor="@color/base_color"
+                    android:textSize="32sp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical"
+                >
+
+                <com.makeramen.RoundedImageView
+                    android:id="@+id/head_img"
+                    style="@style/FamilyImageStyle"
+                    android:layout_marginTop="0dp"
+                    android:layout_gravity="center_horizontal"
+                    android:elevation="10dp"
+                    android:transitionName="user_head"
+                    android:src="@drawable/head_img_default"
+                    android:onClick="pickAvatar"
+                    app:riv_oval="true"/>
+                <EditText
+                    android:id="@+id/nickname"
+                    style="@style/BaseEditTextStyle"
+                    android:background="@drawable/bg_editable_nickname"
+                    android:gravity="center_horizontal"
+                    android:text="@string/nickname_default"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:gravity="right|center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#ffffff"
+                    android:text="@string/user_basic_info"
+                    android:textColor="@color/base_color"
+                    android:textSize="32sp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="0dp"
+                android:orientation="vertical"
+                >
+
+                <Spinner
+                    style="@style/BaseEditTextStyle"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:background="@null"
+                    android:entries="@array/family_roles"
+                    android:layout_gravity="right"/>
+
+                <EditText
+                    style="@style/BaseEditTextStyle"
+                    android:background="@drawable/bg_editable_nickname"
+                    android:gravity="end"
+                    android:text="@string/realname_tips"/>
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:orientation="horizontal">
+                    <RadioButton
+                        style="@style/BaseEditTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_marginRight="0dp"
+                        android:text="@string/sex_m"
+                        android:background="@null"
+                        android:checked="true"/>
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sex_w"
+                        style="@style/BaseEditTextStyle"
+                        android:background="@null"/>
+                    </RadioGroup>
+
+
+
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_modify_tips"
+                style="@style/TipsTextStyle"
+                android:text="@string/modify_tips"/>
+
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginTop="8dp"
+                card_view:cardBackgroundColor="@android:color/transparent"
+                card_view:cardElevation="2dp"
+                >
+
+                <Button
+                    android:id="@+id/btn_modify"
+                    style="@style/BaseButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/modify"/>
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

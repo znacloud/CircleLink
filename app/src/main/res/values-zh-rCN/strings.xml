@@ -41,5 +41,20 @@
     <string name="progress_register">正在注册...</string>
     <string name="Register_failed">注册失败：</string>
     <string name="register_success">注册成功</string>
+    <string name="nickname_avatar">头像昵称</string>
+    <string name="nickname_default">小小考拉</string>
+    <string name="modify_tips">温馨提示：触摸可以编辑</string>
+    <string name="modify">确认修改</string>
+    <string name="user_basic_info">基本信息</string>
+    <string name="sex_m">男</string>
+    <string name="sex_w">女</string>
+    <string name="realname_tips">真实姓名</string>
+    <string name="repassword_tips">密码不一致</string>
+    <string name="get_valid_code">获取验证码</string>
+    <string name="role_brother">儿子</string>
+    <string name="role_father">父亲</string>
+    <string name="role_mother">母亲</string>
+    <string name="role_other">其他</string>
+    <string name="role_sister">女儿</string>
 
 </resources>

@@ -39,5 +39,13 @@
         <item>Koala4</item>
         <item>Koala5</item>
     </string-array>
+    <string-array name="family_roles">
+        <item>@string/role_father</item>
+        <item>@string/role_mother</item>
+        <item>@string/role_brother</item>
+        <item>@string/role_sister</item>
+        <item>@string/role_other</item>
+    </string-array>
+
 
 </resources>
