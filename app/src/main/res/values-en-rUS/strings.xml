@@ -53,12 +53,13 @@
     <string name="realname_tips">Real name</string>
     <string name="repassword_tips">Password inconsitant</string>
     <string name="get_valid_code">Get Vali Code</string>
-    <string name="sex_m">Man</string>
-    <string name="sex_w">Woman</string>
+    <string name="sex_male">Man</string>
+    <string name="sex_female">Woman</string>
     <string name="role_brother">Son</string>
     <string name="role_father">Father</string>
     <string name="role_mother">Mother</string>
     <string name="role_other">Other</string>
     <string name="role_sister">Daughter</string>
+    <string name="title_finish_basic_info">Fill basic info</string>
 
 </resources>

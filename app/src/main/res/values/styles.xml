@@ -122,6 +122,10 @@
         <item name="android:background">@drawable/family_default</item>
         <item name="android:scaleType">fitXY</item>
     </style>
+    <style name="FamilyImageStyle.Large">
+      <item name="android:layout_width">144dp</item>
+      <item name="android:layout_height">144dp</item>
+    </style>
 
     <style name="PersonalInformationStyle">
         <item name="android:layout_width">match_parent</item>

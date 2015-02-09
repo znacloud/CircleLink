@@ -1,5 +1,6 @@
 package com.android.zna.fivecircles.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -46,7 +47,7 @@ public class RegisterActivity extends ActionBarActivity {
         //setup widget
         //toolbar
         mToolbar = getSupportActionBar();
-        mToolbar.setTitle(R.string.regist_user);
+//        mToolbar.setTitle(R.string.regist_user);
         mToolbar.setDisplayHomeAsUpEnabled(true);
         mToolbar.setHomeButtonEnabled(true);
 
@@ -140,6 +141,8 @@ public class RegisterActivity extends ActionBarActivity {
                         }
                         CustomToast.show(RegisterActivity.this, R.string.register_success,
                                 Toast.LENGTH_LONG);
+
+                        startActivity(new Intent(RegisterActivity.this,BasicInfoFinishAcitivity.class));
                     }
 
                     @Override
@@ -160,6 +163,7 @@ public class RegisterActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             onBackPressed();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
