@@ -6,7 +6,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.TextView;
@@ -15,7 +14,6 @@ import com.android.zna.fivecircles.ui.LoginActivity;
 import com.android.zna.fivecircles.ui.UserActivity;
 
 import cn.bmob.im.BmobChat;
-import cn.bmob.v3.Bmob;
 
 public class WelcomeActivity extends Activity{
 	
@@ -24,17 +22,14 @@ public class WelcomeActivity extends Activity{
 	  super.onCreate(savedState);
 
       //Bmob.initialize(this,Config.APP_ID);
-      if(Build.VERSION.SDK_INT <Build.VERSION_CODES.LOLLIPOP)
             BmobChat.getInstance(this).init(Config.APP_ID);
-	  //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-	  //this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 	  setContentView(R.layout.welcome);
 	  final TextView appInfoView = (TextView)findViewById(R.id.app_info);
 	  
 	  //get APP VERSION
 	  PackageManager pm = getPackageManager();
 	  try{
-		  PackageInfo pi = pm.getPackageInfo(Config.APP_ID, 0);
+		  PackageInfo pi = pm.getPackageInfo(Config.APP_PACKAGE, 0);
 		  String verNum = "version "+pi.versionName;
 		  appInfoView.setText(verNum);
 	  }catch(NameNotFoundException e){

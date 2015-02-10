@@ -8,9 +8,10 @@ public class Config {
 	public static final String APP_ID = "0d503dc1eb65942b6f1cae681ef36f41";
 	public static final String KEY_TOKEN = "token";
 	public static final String USER_NAME = "username";
+    public static final String APP_PACKAGE ="com.android.zna.fivecircles" ;
 
 
-	/**
+    /**
 	 * get cached token string
 	 * @param context app context
 	 * @return token string

@@ -48,7 +48,7 @@
     <string name="nickname_avatar">nickname&#38;avatar</string>
     <string name="nickname_default">Little Small Koala</string>
     <string name="modify_tips">Tips:touch to modify</string>
-    <string name="modify">apply change</string>
+    <string name="modify">apply</string>
     <string name="user_basic_info">Basic info</string>
     <string name="realname_tips">Real name</string>
     <string name="repassword_tips">Password inconsitant</string>
@@ -61,5 +61,6 @@
     <string name="role_other">Other</string>
     <string name="role_sister">Daughter</string>
     <string name="title_finish_basic_info">Fill basic info</string>
+    <string name="description_tips">Description yourself in a word</string>
 
 </resources>
