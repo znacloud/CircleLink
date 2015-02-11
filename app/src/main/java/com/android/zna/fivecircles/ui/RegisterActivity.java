@@ -129,32 +129,36 @@ public class RegisterActivity extends ActionBarActivity {
                 FamilyUser user = new FamilyUser();
                 user.setUsername(mUserNameEdit.getText().toString().trim());
                 user.setPassword(NetUtil.md5(mPasswordEdit.getText().toString()));
-
-                final CustomProgressDialog progressDialog = CustomProgressDialog.show
-                        (RegisterActivity.this, R.string.progress_register);
-                //register on Bmob server
-                user.signUp(RegisterActivity.this, new SaveListener() {
-                    @Override
-                    public void onSuccess() {
-                        if (progressDialog.isShowing()) {
-                            progressDialog.dismiss();
-                        }
-                        CustomToast.show(RegisterActivity.this, R.string.register_success,
-                                Toast.LENGTH_LONG);
-
-                        startActivity(new Intent(RegisterActivity.this,BasicInfoFinishAcitivity.class));
-                    }
-
-                    @Override
-                    public void onFailure(int i, String s) {
-                        if (progressDialog.isShowing()) {
-                            progressDialog.dismiss();
-                        }
-                        String errorMsg = RegisterActivity.this.getString(R.string.Register_failed);
-                        CustomToast.show(RegisterActivity.this, errorMsg + i
-                                + " " + s, Toast.LENGTH_LONG);
-                    }
-                });
+                Intent intent = new Intent(RegisterActivity.this,BasicInfoFinishAcitivity.class);
+                Bundle bd = new Bundle();
+                bd.putSerializable("user",user);
+                intent.putExtras(bd);
+                startActivity(intent);
+//                final CustomProgressDialog progressDialog = CustomProgressDialog.show
+//                        (RegisterActivity.this, R.string.progress_register);
+//                //register on Bmob server
+//                user.signUp(RegisterActivity.this, new SaveListener() {
+//                    @Override
+//                    public void onSuccess() {
+//                        if (progressDialog.isShowing()) {
+//                            progressDialog.dismiss();
+//                        }
+//                        CustomToast.show(RegisterActivity.this, R.string.register_success,
+//                                Toast.LENGTH_LONG);
+//
+//                        startActivity(new Intent(RegisterActivity.this,BasicInfoFinishAcitivity.class));
+//                    }
+//
+//                    @Override
+//                    public void onFailure(int i, String s) {
+//                        if (progressDialog.isShowing()) {
+//                            progressDialog.dismiss();
+//                        }
+//                        String errorMsg = RegisterActivity.this.getString(R.string.Register_failed);
+//                        CustomToast.show(RegisterActivity.this, errorMsg + i
+//                                + " " + s, Toast.LENGTH_LONG);
+//                    }
+//                });
             }
         });
     }

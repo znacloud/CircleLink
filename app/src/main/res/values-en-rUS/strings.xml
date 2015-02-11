@@ -62,5 +62,7 @@
     <string name="role_sister">Daughter</string>
     <string name="title_finish_basic_info">Fill basic info</string>
     <string name="description_tips">Description yourself in a word</string>
+    <string name="sdcard_unavailable">SDCard unavailable</string>
+    <string name="set_headimg_failed">Set head image failed</string>
 
 </resources>

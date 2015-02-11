@@ -9,7 +9,8 @@ public class Config {
 	public static final String KEY_TOKEN = "token";
 	public static final String USER_NAME = "username";
     public static final String APP_PACKAGE ="com.android.zna.fivecircles" ;
-
+    public static final String APP_DIR = "/Android/data/"+APP_PACKAGE;
+    public  static final String TEMP_PHOTO_FILE = "/head.jpeg";
 
     /**
 	 * get cached token string

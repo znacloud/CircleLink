@@ -148,4 +148,10 @@ public class CustomProgressDialog extends Dialog {
         }
 
     }
+
+    @Override
+    public void dismiss(){
+        mProgressIv.getAnimation().cancel();//stop animation
+        super.dismiss();
+    }
 }

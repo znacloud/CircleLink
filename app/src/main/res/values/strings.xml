@@ -60,5 +60,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="sex_group">性别</string>
     <string name="description_tips">用一句话介绍自己</string>
+    <string name="sdcard_unavailable">SD卡不可用</string>
+    <string name="set_headimg_failed">设置头像失败</string>
+    <string name="upload_head_image">正在上传头像文件</string>
 
 </resources>

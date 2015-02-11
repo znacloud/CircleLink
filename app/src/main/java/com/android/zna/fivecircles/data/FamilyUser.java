@@ -3,10 +3,14 @@ package com.android.zna.fivecircles.data;
 /**
  * Created by ZNA on 2015/1/22.
  */
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.EnumMap;
 
 import cn.bmob.im.bean.BmobChatUser;
 public class FamilyUser extends BmobChatUser {
+    private static  final long serialVersionUID = 2L;
     private String realname;
     private int sex;
     private String selfDesc;//Self description

@@ -22,7 +22,7 @@ public class WelcomeActivity extends Activity{
 	  super.onCreate(savedState);
 
       //Bmob.initialize(this,Config.APP_ID);
-            BmobChat.getInstance(this).init(Config.APP_ID);
+      //BmobChat.getInstance(this).init(Config.APP_ID);
 	  setContentView(R.layout.welcome);
 	  final TextView appInfoView = (TextView)findViewById(R.id.app_info);
 	  
