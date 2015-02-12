@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:card_view="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/base_color"
-              android:orientation="vertical">
+<LinearLayout
+    android:id="@+id/layout_basic_info"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/base_color"
+    android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -36,27 +38,48 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 >
+
                 <FrameLayout
+                    android:id="@+id/head_img_wrap"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal">
-                <com.makeramen.RoundedImageView
-                    android:id="@+id/head_img"
-                    style="@style/FamilyImageStyle.Large"
-                    android:src="@drawable/head_img_default"
-                    app:riv_border_color="#ffffff"
-                    app:riv_border_width="2dp"
-                    app:riv_oval="true"
-                    android:onClick="pickAvatar"
-                    />
+
+                    <com.makeramen.RoundedImageView
+                        android:id="@+id/head_img"
+                        style="@style/FamilyImageStyle.Large"
+                        android:onClick="pickAvatar"
+                        android:src="@drawable/head_img_default"
+                        app:riv_border_color="#ffffff"
+                        app:riv_border_width="2dp"
+                        app:riv_oval="true"/>
+
+                    <ImageView
+                        android:id="@+id/cover_img"
+                        style="@style/FamilyImageStyle.Large"
+                        android:background="@drawable/bg_editable_imageview"/>
                 </FrameLayout>
 
-                <EditText
-                    android:id="@+id/et_nickname"
-                    style="@style/BaseEditTextStyle"
-                    android:background="@drawable/bg_editable_textview"
-                    android:gravity="center_horizontal"
-                    android:text="@string/nickname_default"/>
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/et_nickname"
+                        style="@style/BaseEditTextStyle"
+                        android:background="@drawable/bg_editable_textview"
+                        android:gravity="center_horizontal"
+                        android:text="@string/nickname_default"/>
+
+                    <TextView
+                        android:id="@+id/tv_nickname_error"
+                        style="@style/ErrorTextStyle"
+                        android:layout_below="@id/et_nickname"
+                        android:layout_centerInParent="true"
+                        android:padding="0dp"
+                        android:text="@string/nickname_tips"
+                        android:visibility="invisible"/>
+                </RelativeLayout>
 
             </LinearLayout>
 
@@ -82,12 +105,26 @@
                 android:orientation="vertical"
                 >
 
-                <EditText
-                    android:id="@+id/et_realname"
-                    style="@style/BaseEditTextStyle"
-                    android:background="@drawable/bg_editable_textview"
-                    android:gravity="end"
-                    android:text="@string/realname_tips"/>
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/et_realname"
+                        style="@style/BaseEditTextStyle"
+                        android:background="@drawable/bg_editable_textview"
+                        android:gravity="end"
+                        android:hint="@string/realname_hint"
+                        android:textColorHint="@color/base_color_dark"/>
+
+                    <TextView
+                        android:id="@+id/tv_realname_error"
+                        style="@style/ErrorTextStyle"
+                        android:layout_alignStart="@id/et_realname"
+                        android:layout_centerInParent="true"
+                        android:padding="0dp"
+                        android:text="@string/realname_tips"/>
+                </RelativeLayout>
 
                 <RadioGroup
                     android:id="@+id/gp_sex"
@@ -114,6 +151,7 @@
                         android:background="@null"
                         android:text="@string/sex_female"/>
                 </RadioGroup>
+
                 <EditText
                     android:id="@+id/et_description"
                     style="@style/BaseEditTextStyle"

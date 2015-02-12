@@ -48,7 +48,7 @@
     <string name="user_basic_info">基本信息</string>
     <string name="sex_male">男</string>
     <string name="sex_female">女</string>
-    <string name="realname_tips">真实姓名</string>
+    <string name="realname_tips">由2~4个中文字符组成</string>
     <string name="repassword_tips">密码不一致</string>
     <string name="get_valid_code">获取验证码</string>
     <string name="role_brother">儿子</string>
@@ -62,5 +62,7 @@
     <string name="sdcard_unavailable">SD卡不可用</string>
     <string name="set_headimg_failed">设置头像失败</string>
     <string name="upload_head_image">正在上传头像文件</string>
+    <string name="next">下一步</string>
+    <string name="realname_hint">真实姓名</string>
 
 </resources>

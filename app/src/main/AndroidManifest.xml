@@ -40,29 +40,19 @@
             android:name=".ui.LoginActivity"
             android:icon="@drawable/ic_action_white"
             android:label="@string/login"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBarActivityTheme" />
         <activity
             android:name=".ui.RegisterActivity"
             android:icon="@drawable/ic_arrow_back"
             android:label="@string/regist_user"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustUnspecified"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.FamilyDetailActivity"
             android:label="@string/title_activity_family_detail"
             android:theme="@style/NoActionBarActivityTheme" >
-        </activity>
-        <activity
-            android:name=".ui.BasicInfoFinishAcitivity"
-            android:icon="@drawable/ic_arrow_back"
-            android:label="@string/title_finish_basic_info"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustUnspecified"
-            android:screenOrientation="portrait"
-            android:parentActivityName="android.support.v7.app.ActionBarActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="android.support.v7.app.ActionBarActivity" />
         </activity>
     </application>
 

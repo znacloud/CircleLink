@@ -1,27 +1,39 @@
 package com.android.zna.fivecircles.ui;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.zna.fivecircles.CommonUtils;
 import com.android.zna.fivecircles.R;
 import com.android.zna.fivecircles.data.FamilyUser;
 import com.android.zna.fivecircles.net.NetUtil;
 import com.android.zna.fivecircles.view.CustomProgressDialog;
 import com.android.zna.fivecircles.view.CustomToast;
 
+import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UploadFileListener;
 
 
 /**
@@ -29,39 +41,173 @@ import cn.bmob.v3.listener.SaveListener;
  */
 public class RegisterActivity extends ActionBarActivity {
     private static String LOG_TAG = "ResigterActivity";
+    private static final int REQUEST_PICK_IMAGE = 0;
+    private static final int REQUEST_CROP_IMAGE = 1;
+
     private EditText mUserNameEdit;
     private EditText mPasswordEdit;
     private EditText mRepasswordEdit;
     private CheckBox mProtocolCheck;
-    private Button mRegisterBtn;
+    private Button mNextBtn;
 
     private ActionBar mToolbar;
     private TextView mUserNameErrorTv;
     private TextView mPasswordErrorTv;
     private TextView mRepasswordErrorTv;
+    private LinearLayout mAccountInfoLayout;
+    private LinearLayout mBasicInfoLayout;
+
+    private ImageView mHeadIv;
+    private EditText mNicknameEt;
+    private EditText mRealnameEt;
+    private RadioGroup mSexGp;
+    private EditText mDescriptionEt;
+
+    private Button mFinishBtn;
+
+    private FamilyUser currentUser;
+    private TextView mNicknameErrorTv;
+    private TextView mRealnameErrorTv;
 
     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         setContentView(R.layout.register_layout);
-        //setup widget
-        //toolbar
+        //setup toolbar
         mToolbar = getSupportActionBar();
 //        mToolbar.setTitle(R.string.regist_user);
         mToolbar.setDisplayHomeAsUpEnabled(true);
         mToolbar.setHomeButtonEnabled(true);
 
+        currentUser = new FamilyUser();
+
+        //setup layout
+        mAccountInfoLayout = (LinearLayout) findViewById(R.id.layout_account_info);
+        initAccountView(mAccountInfoLayout);
+        mBasicInfoLayout = (LinearLayout) findViewById(R.id.layout_basic_info);
+        initBasicView(mBasicInfoLayout);
+
+        mAccountInfoLayout.setVisibility(View.VISIBLE);
+        mBasicInfoLayout.setVisibility(View.GONE);
+
+
+    }
+
+    private void initBasicView(View rootView) {
+        //input field
+        mHeadIv = (ImageView) rootView.findViewById(R.id.head_img);
+        mNicknameEt = (EditText) rootView.findViewById(R.id.et_nickname);
+        mRealnameEt = (EditText) rootView.findViewById(R.id.et_realname);
+        mDescriptionEt = (EditText) rootView.findViewById(R.id.et_description);
+        mSexGp = (RadioGroup) rootView.findViewById(R.id.gp_sex);
+        mFinishBtn = (Button) rootView.findViewById(R.id.btn_modify);
+
+        //errorfield
+        mNicknameErrorTv = (TextView) rootView.findViewById(R.id.tv_nickname_error);
+        mRealnameErrorTv = (TextView) rootView.findViewById(R.id.tv_realname_error);
+
+        final ImageView coverIv = (ImageView) rootView.findViewById(R.id.cover_img);
+        coverIv.setVisibility(View.INVISIBLE);
+        FrameLayout frameLayout = (FrameLayout) rootView.findViewById(R.id.head_img_wrap);
+        frameLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View pView, MotionEvent pMotionEvent) {
+                if(pMotionEvent.getAction() == MotionEvent.ACTION_DOWN){
+                    coverIv.setVisibility(View.VISIBLE);
+                    return false;
+                }else if(pMotionEvent.getAction() == MotionEvent.ACTION_UP){
+                    coverIv.setVisibility(View.INVISIBLE);
+                    return false;
+                }
+                return false;
+            }
+        });
+
+
+        mNicknameEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                android.util.Log.d("ZNA_DEBUG", "afterTextChange");
+                mNicknameErrorTv.setVisibility(View.INVISIBLE);
+            }
+        });
+        mRealnameEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                android.util.Log.d("ZNA_DEBUG", "afterTextChange");
+                mRealnameErrorTv.setVisibility(View.GONE);
+            }
+        });
+
+
+        mFinishBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View pView) {
+                if(!checkValid2()) return;
+                currentUser.setRealName(mRealnameEt.getText().toString().trim());
+                currentUser.setNick(mNicknameEt.getText().toString().trim());
+                currentUser.setSex(mSexGp.getCheckedRadioButtonId() == R.id.rb_sex_male ? 0 : 1);
+                currentUser.setSelfDesc(mDescriptionEt.getText().toString().trim());
+
+
+                final CustomProgressDialog progressDialog = CustomProgressDialog.show
+                        (RegisterActivity.this, R.string.progress_register);
+                //register on Bmob server
+                currentUser.signUp(RegisterActivity.this, new SaveListener() {
+                    @Override
+                    public void onSuccess() {
+                        if (progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
+                        CustomToast.show(RegisterActivity.this, R.string.register_success,
+                                Toast.LENGTH_LONG);
+
+                        startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                    }
+
+                    @Override
+                    public void onFailure(int i, String s) {
+                        if (progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
+                        String errorMsg = RegisterActivity.this.getString(R.string.Register_failed);
+                        CustomToast.show(RegisterActivity.this, errorMsg + i
+                                + " " + s, Toast.LENGTH_LONG);
+                    }
+                });
+            }
+        });
+    }
+
+    private void initAccountView(View rootView) {
+
         //Input field
-        mUserNameEdit = (EditText) findViewById(R.id.et_username);
-        mPasswordEdit = (EditText) findViewById(R.id.et_password);
-        mRepasswordEdit = (EditText) findViewById(R.id.et_repassword);
-        mProtocolCheck = (CheckBox) findViewById(R.id.ckb_protocol);
-        mRegisterBtn = (Button) findViewById(R.id.btn_register);
+        mUserNameEdit = (EditText) rootView.findViewById(R.id.et_username);
+        mPasswordEdit = (EditText) rootView.findViewById(R.id.et_password);
+        mRepasswordEdit = (EditText) rootView.findViewById(R.id.et_repassword);
+        mProtocolCheck = (CheckBox) rootView.findViewById(R.id.ckb_protocol);
+        mNextBtn = (Button) rootView.findViewById(R.id.btn_next);
 
         //Error field
-        mUserNameErrorTv = (TextView) findViewById(R.id.tv_username_error);
-        mPasswordErrorTv = (TextView) findViewById(R.id.tv_password_error);
-        mRepasswordErrorTv = (TextView) findViewById(R.id.tv_repassword_error);
+        mUserNameErrorTv = (TextView) rootView.findViewById(R.id.tv_username_error);
+        mPasswordErrorTv = (TextView) rootView.findViewById(R.id.tv_password_error);
+        mRepasswordErrorTv = (TextView) rootView.findViewById(R.id.tv_repassword_error);
 
         //setup textwatcher listener
         mUserNameEdit.addTextChangedListener(new TextWatcher() {
@@ -116,49 +262,20 @@ public class RegisterActivity extends ActionBarActivity {
         mProtocolCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mRegisterBtn.setEnabled(isChecked);
+                mNextBtn.setEnabled(isChecked);
             }
         });
 
-        mRegisterBtn.setOnClickListener(new View.OnClickListener() {
+        mNextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!checkValid()) return;
 
                 //create a new user
-                FamilyUser user = new FamilyUser();
-                user.setUsername(mUserNameEdit.getText().toString().trim());
-                user.setPassword(NetUtil.md5(mPasswordEdit.getText().toString()));
-                Intent intent = new Intent(RegisterActivity.this,BasicInfoFinishAcitivity.class);
-                Bundle bd = new Bundle();
-                bd.putSerializable("user",user);
-                intent.putExtras(bd);
-                startActivity(intent);
-//                final CustomProgressDialog progressDialog = CustomProgressDialog.show
-//                        (RegisterActivity.this, R.string.progress_register);
-//                //register on Bmob server
-//                user.signUp(RegisterActivity.this, new SaveListener() {
-//                    @Override
-//                    public void onSuccess() {
-//                        if (progressDialog.isShowing()) {
-//                            progressDialog.dismiss();
-//                        }
-//                        CustomToast.show(RegisterActivity.this, R.string.register_success,
-//                                Toast.LENGTH_LONG);
-//
-//                        startActivity(new Intent(RegisterActivity.this,BasicInfoFinishAcitivity.class));
-//                    }
-//
-//                    @Override
-//                    public void onFailure(int i, String s) {
-//                        if (progressDialog.isShowing()) {
-//                            progressDialog.dismiss();
-//                        }
-//                        String errorMsg = RegisterActivity.this.getString(R.string.Register_failed);
-//                        CustomToast.show(RegisterActivity.this, errorMsg + i
-//                                + " " + s, Toast.LENGTH_LONG);
-//                    }
-//                });
+                currentUser.setUsername(mUserNameEdit.getText().toString().trim());
+                currentUser.setPassword(NetUtil.md5(mPasswordEdit.getText().toString()));
+                mAccountInfoLayout.setVisibility(View.GONE);
+                mBasicInfoLayout.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -170,6 +287,21 @@ public class RegisterActivity extends ActionBarActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_PICK_IMAGE) {
+                if (data != null && data.getData() != null) {
+                    cropAvatar(data.getData());
+                }
+            } else if (requestCode == REQUEST_CROP_IMAGE) {
+                if (data != null) {
+                    updateAvatar();
+                }
+            }
+        }
     }
 
     /**
@@ -195,6 +327,90 @@ public class RegisterActivity extends ActionBarActivity {
         return valid;
     }
 
+    private boolean checkValid2(){
+        boolean valid = true;
+        if(!isRealNameValid(mRealnameEt.getText().toString().trim())){
+            valid = false;
+            mRealnameErrorTv.setVisibility(View.VISIBLE);
+        }
+        if(!isNicknameValid(mNicknameEt.getText().toString().trim())){
+            valid = false;
+            mNicknameErrorTv.setVisibility(View.VISIBLE);
+        }
+        return valid;
+    }
+
+
+    public void pickAvatar(View view) {
+        if (CommonUtils.getHeadImageTempFile() == null) {
+            CustomToast.show(this, R.string.sdcard_unavailable, Toast.LENGTH_LONG);
+            return;
+        }
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media
+                .EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, REQUEST_PICK_IMAGE);
+    }
+
+
+    public void cropAvatar(Uri uri) {
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, "image/*")
+                .putExtra("crop", true)
+                .putExtra("aspectX", 1)
+                .putExtra("aspectY", 1)
+                .putExtra("outputX", 144)
+                .putExtra("outputY", 144)
+                .putExtra("scale", true)
+                .putExtra("return-data", false)
+                .putExtra("output", Uri.fromFile(CommonUtils.getHeadImageTempFile()))
+                .putExtra("outputFormat", Bitmap.CompressFormat.JPEG)
+                .putExtra("noFaceDetection", true);
+        startActivityForResult(intent, REQUEST_CROP_IMAGE);
+
+    }
+
+
+    private void updateAvatar() {
+        final CustomProgressDialog progressDialog = CustomProgressDialog.show(this,
+                R.string.upload_head_image);
+        //upload head image file to server
+        final BmobFile bf = new BmobFile(CommonUtils.getHeadImageTempFile());
+        bf.upload(this, new UploadFileListener() {
+            @Override
+            public void onSuccess() {
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+                //set head image url to server url
+                currentUser.setAvatar(bf.getFileUrl(RegisterActivity.this));
+                String absolutePath = CommonUtils.getHeadImageTempFile()
+                        .getAbsolutePath();
+                Bitmap bitmap = BitmapFactory.decodeFile(absolutePath);
+                if (bitmap != null) {
+                    mHeadIv.setImageBitmap(bitmap);
+                } else {
+                    //rollback
+                    bf.delete(RegisterActivity.this);
+                    currentUser.setAvatar("");
+                    CustomToast.show(RegisterActivity.this,
+                            getResources().getString(R.string.set_headimg_failed),
+                            Toast.LENGTH_LONG);
+                }
+            }
+
+            @Override
+            public void onFailure(int i, String s) {
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+                CustomToast.show(RegisterActivity.this,
+                        getResources().getString(R.string.set_headimg_failed) + ":" + i + s,
+                        Toast.LENGTH_LONG);
+            }
+        });
+    }
+
+
     private boolean isEmailaddress(String emailAddress) {
         String emailPattern = "^(\\w)+(\\.\\w+)*@(\\w)+((\\.\\w+)+)$";
         return emailAddress.matches(emailPattern);
@@ -214,8 +430,8 @@ public class RegisterActivity extends ActionBarActivity {
         return nickname.matches(nicknamePattern);
     }
 
-    private boolean isGroupValid(String groupCode) {
-        String groupCodePattern = "";
-        return true;//TO-DO:
+    private boolean isRealNameValid(String realName) {
+        String realNamePattern = "[\\u4e00-\\u9fa5]{2,4}";
+        return realName.matches(realNamePattern);
     }
 }

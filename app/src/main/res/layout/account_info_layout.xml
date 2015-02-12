@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/base_color"
+    android:orientation="vertical"
+    android:id="@+id/layout_account_info">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="102dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="32dp"
+            android:layout_marginTop="32dp"
+            android:text="@string/register_account"
+            android:textColor="@color/base_color_light"
+            android:textSize="32sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/register_form_basic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical"
+        >
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/et_username"
+                style="@style/RegisterEditTextStyle"
+                android:drawableLeft="@drawable/ic_mail_white"
+                android:drawablePadding="8dp"
+                android:hint="@string/register_username_hint"
+                android:inputType="textEmailAddress"/>
+
+            <TextView
+                android:id="@+id/tv_username_error"
+                style="@style/ErrorTextStyle"
+                android:layout_alignEnd="@id/et_username"
+                android:layout_centerInParent="true"
+                android:text="@string/username_tips"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/et_password"
+                style="@style/RegisterEditTextStyle"
+                android:drawableLeft="@drawable/ic_lock_white"
+                android:drawablePadding="8dp"
+                android:hint="@string/register_passwd_hint"
+                android:inputType="textPassword"/>
+
+            <TextView
+                android:id="@+id/tv_password_error"
+                style="@style/ErrorTextStyle"
+                android:layout_alignEnd="@id/et_password"
+                android:layout_centerInParent="true"
+                android:text="@string/password_tips"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/et_repassword"
+                style="@style/RegisterEditTextStyle"
+                android:drawableLeft="@drawable/ic_lock_confirm_white"
+                android:drawablePadding="8dp"
+                android:hint="@string/register_repasswd_hint"
+                android:inputType="textPassword"/>
+
+            <TextView
+                android:id="@+id/tv_repassword_error"
+                style="@style/ErrorTextStyle"
+                android:layout_alignEnd="@id/et_repassword"
+                android:layout_centerInParent="true"
+                android:text="@string/repassword_tips"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/et_validate"
+                style="@style/RegisterEditTextStyle"
+                android:drawableLeft="@drawable/ic_valid_key_white"
+                android:drawablePadding="8dp"
+                android:hint="@string/register_validate_hint"
+                android:inputType="numberDecimal"/>
+
+            <Button
+                android:id="@+id/btn_get_validation"
+                style="@style/InnerButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@id/et_validate"
+                android:layout_centerInParent="true"
+                android:text="@string/get_valid_code"/>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_validate_tips"
+            style="@style/TipsTextStyle"
+            android:text="@string/validate_tips"/>
+
+
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/ckb_protocol"
+        style="@style/TipsTextStyle"
+        android:checked="true"
+        android:text="@string/protocol_confirm"/>
+
+    <TextView
+        android:id="@+id/error_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="gone"/>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="8dp"
+        card_view:cardBackgroundColor="@android:color/transparent"
+        card_view:cardElevation="2dp"
+        >
+
+        <Button
+            android:id="@+id/btn_next"
+            style="@style/BaseButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/next"/>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

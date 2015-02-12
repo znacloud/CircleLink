@@ -50,7 +50,7 @@
     <string name="modify_tips">Tips:touch to modify</string>
     <string name="modify">apply</string>
     <string name="user_basic_info">Basic info</string>
-    <string name="realname_tips">Real name</string>
+    <string name="realname_tips">Consists of 2~4 Chinese characters</string>
     <string name="repassword_tips">Password inconsitant</string>
     <string name="get_valid_code">Get Vali Code</string>
     <string name="sex_male">Man</string>
@@ -64,5 +64,7 @@
     <string name="description_tips">Description yourself in a word</string>
     <string name="sdcard_unavailable">SDCard unavailable</string>
     <string name="set_headimg_failed">Set head image failed</string>
+    <string name="next">Next</string>
+    <string name="realname_hint">Real name</string>
 
 </resources>
