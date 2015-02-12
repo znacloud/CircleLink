@@ -1,8 +1,12 @@
 package com.android.zna.fivecircles.ui;
 
+import android.animation.LayoutTransition;
+import android.animation.ObjectAnimator;
+import android.animation.TimeInterpolator;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Interpolator;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -13,6 +17,7 @@ import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -107,23 +112,26 @@ public class RegisterActivity extends ActionBarActivity {
         mRealnameErrorTv = (TextView) rootView.findViewById(R.id.tv_realname_error);
 
         final ImageView coverIv = (ImageView) rootView.findViewById(R.id.cover_img);
-        coverIv.setVisibility(View.INVISIBLE);
-        FrameLayout frameLayout = (FrameLayout) rootView.findViewById(R.id.head_img_wrap);
-        frameLayout.setOnTouchListener(new View.OnTouchListener() {
+        mHeadIv.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onTouch(View pView, MotionEvent pMotionEvent) {
-                if(pMotionEvent.getAction() == MotionEvent.ACTION_DOWN){
+            public boolean onTouch(View v, MotionEvent event) {
+                int actionType = event.getActionMasked();
+                if(actionType == MotionEvent.ACTION_DOWN){
+                    android.util.Log.d("ZNA_DEBUG","action down");
                     coverIv.setVisibility(View.VISIBLE);
-                    return false;
-                }else if(pMotionEvent.getAction() == MotionEvent.ACTION_UP){
-                    coverIv.setVisibility(View.INVISIBLE);
-                    return false;
+                    return true;
+                }else if(actionType == MotionEvent.ACTION_UP){
+                    android.util.Log.d("ZNA_DEBUG","action up");
+                    coverIv.setVisibility(View.GONE);
+                    pickAvatar(v);
+                    return true;
+                }else if(actionType == MotionEvent.ACTION_CANCEL){
+                    android.util.Log.d("ZNA_DEBUG","action outside");
+                    coverIv.setVisibility(View.GONE);
                 }
                 return false;
             }
         });
-
-
         mNicknameEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

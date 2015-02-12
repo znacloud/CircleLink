@@ -2,7 +2,7 @@
 
 <layoutAnimation xmlns:android="http://schemas.android.com/apk/res/android"
                  android:interpolator="@android:interpolator/accelerate_cubic"
-                 android:delay="1"
+                 android:delay="10"
                  android:animationOrder="normal"
                  android:animation="@anim/block_anim">
 
