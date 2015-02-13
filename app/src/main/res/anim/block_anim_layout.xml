@@ -4,6 +4,6 @@
                  android:interpolator="@android:interpolator/accelerate_cubic"
                  android:delay="10"
                  android:animationOrder="normal"
-                 android:animation="@anim/block_anim">
+                 android:animation="@anim/slide_bottom_in">
 
 </layoutAnimation>

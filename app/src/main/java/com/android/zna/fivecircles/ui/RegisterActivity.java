@@ -1,12 +1,10 @@
 package com.android.zna.fivecircles.ui;
 
-import android.animation.LayoutTransition;
+import android.animation.Animator;
 import android.animation.ObjectAnimator;
-import android.animation.TimeInterpolator;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Interpolator;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -17,12 +15,13 @@ import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.OvershootInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
@@ -111,22 +110,23 @@ public class RegisterActivity extends ActionBarActivity {
         mNicknameErrorTv = (TextView) rootView.findViewById(R.id.tv_nickname_error);
         mRealnameErrorTv = (TextView) rootView.findViewById(R.id.tv_realname_error);
 
+        //setup touch event listener
         final ImageView coverIv = (ImageView) rootView.findViewById(R.id.cover_img);
         mHeadIv.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 int actionType = event.getActionMasked();
-                if(actionType == MotionEvent.ACTION_DOWN){
-                    android.util.Log.d("ZNA_DEBUG","action down");
+                if (actionType == MotionEvent.ACTION_DOWN) {
+                    android.util.Log.d("ZNA_DEBUG", "action down");
                     coverIv.setVisibility(View.VISIBLE);
                     return true;
-                }else if(actionType == MotionEvent.ACTION_UP){
-                    android.util.Log.d("ZNA_DEBUG","action up");
+                } else if (actionType == MotionEvent.ACTION_UP) {
+                    android.util.Log.d("ZNA_DEBUG", "action up");
                     coverIv.setVisibility(View.GONE);
                     pickAvatar(v);
                     return true;
-                }else if(actionType == MotionEvent.ACTION_CANCEL){
-                    android.util.Log.d("ZNA_DEBUG","action outside");
+                } else if (actionType == MotionEvent.ACTION_CANCEL) {
+                    android.util.Log.d("ZNA_DEBUG", "action outside");
                     coverIv.setVisibility(View.GONE);
                 }
                 return false;
@@ -282,8 +282,66 @@ public class RegisterActivity extends ActionBarActivity {
                 //create a new user
                 currentUser.setUsername(mUserNameEdit.getText().toString().trim());
                 currentUser.setPassword(NetUtil.md5(mPasswordEdit.getText().toString()));
-                mAccountInfoLayout.setVisibility(View.GONE);
-                mBasicInfoLayout.setVisibility(View.VISIBLE);
+                //animation to next page
+                android.util.Log.e("ZNA_DEBUG","height:"+mAccountInfoLayout.getHeight()+","+mBasicInfoLayout.getHeight());
+                final int screenHeight = mAccountInfoLayout.getHeight();
+                final ObjectAnimator animTopOut = ObjectAnimator.ofFloat(mAccountInfoLayout,"translationY",0,-screenHeight);
+                animTopOut.setDuration(300);
+                animTopOut.setInterpolator(new LinearInterpolator());
+
+                final ObjectAnimator animBottomIn = ObjectAnimator.ofFloat(mBasicInfoLayout,
+                        "translationY", screenHeight, 0);
+                animBottomIn.setDuration(300);
+                animBottomIn.setInterpolator(new LinearInterpolator());
+
+                animTopOut.addListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator pAnimator) {
+                        mBasicInfoLayout.setVisibility(View.VISIBLE);
+
+                        animBottomIn.start();
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator pAnimator) {
+                        mAccountInfoLayout.setVisibility(View.GONE);
+                        mBasicInfoLayout.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator pAnimator) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator pAnimator) {
+
+                    }
+                });
+                animTopOut.start();
+
+//                Animation slideOut = AnimationUtils.loadAnimation(RegisterActivity.this,R.anim.slide_top_out);
+//                final Animation slideIn = AnimationUtils.loadAnimation(RegisterActivity.this,R.anim.slide_bottom_in);
+//                slideOut.setAnimationListener(new Animation.AnimationListener() {
+//                    @Override
+//                    public void onAnimationStart(Animation pAnimation) {
+//                        mBasicInfoLayout.setVisibility(View.VISIBLE);
+//                        mBasicInfoLayout.startAnimation(slideIn);
+//                    }
+//
+//                    @Override
+//                    public void onAnimationEnd(Animation pAnimation) {
+//                        mAccountInfoLayout.setVisibility(View.GONE);
+//                        mBasicInfoLayout.setVisibility(View.VISIBLE);
+//                    }
+//
+//                    @Override
+//                    public void onAnimationRepeat(Animation pAnimation) {
+//
+//                    }
+//                });
+//                mAccountInfoLayout.startAnimation(slideOut);
+
             }
         });
     }
