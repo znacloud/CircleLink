@@ -15,66 +15,67 @@ import com.android.zna.fivecircles.ui.UserActivity;
 
 import cn.bmob.im.BmobChat;
 
-public class WelcomeActivity extends Activity{
-	
-  @Override
-  public void onCreate(Bundle savedState){
-	  super.onCreate(savedState);
+public class WelcomeActivity extends Activity {
 
-      //Bmob.initialize(this,Config.APP_ID);
-      BmobChat.getInstance(this).init(Config.APP_ID);
-	  setContentView(R.layout.welcome);
-	  final TextView appInfoView = (TextView)findViewById(R.id.app_info);
-	  
-	  //get APP VERSION
-	  PackageManager pm = getPackageManager();
-	  try{
-		  PackageInfo pi = pm.getPackageInfo(Config.APP_PACKAGE, 0);
-		  String verNum = "version "+pi.versionName;
-		  appInfoView.setText(verNum);
-	  }catch(NameNotFoundException e){
-		  e.printStackTrace();
-	  }
+    @Override
+    public void onCreate(Bundle savedState) {
+        super.onCreate(savedState);
 
-      //set font type
-      Typeface tf = Typeface.createFromAsset(getAssets(),"fonts/ub.otf");
-      TextView tvWelcome = (TextView)findViewById(R.id.tv_welcome);
-      tvWelcome.setTypeface(tf,Typeface.BOLD);
+        //Bmob.initialize(this,Config.APP_ID);
+        BmobChat.getInstance(this).init(Config.APP_ID);
+        setContentView(R.layout.welcome);
+        final TextView appInfoView = (TextView) findViewById(R.id.app_info);
 
-	  
-	  new Handler().postDelayed(new Runnable(){
-		  public void run(){
-			if(isLogined()){
-				//jump to activity_main activity
-				Intent intent = new Intent(WelcomeActivity.this,UserActivity.class);
-				intent.putExtra(Config.KEY_TOKEN, Config.getCachedToken(WelcomeActivity.this));
-				startActivity(intent);
-			}else{
-				//jump to login activity
-				startActivity(new Intent(WelcomeActivity.this,LoginActivity.class));
-			}
-			finish();
-		  }
-	  }, 2900);//3 seconds later jump to activity_main activity
-	  
-  }
-  
-  /**
-   * check if user has login
-   * @return true if logined
-   */
-  private boolean isLogined(){
-	  String token = Config.getCachedToken(this);
-	  if(token != null) return true;
-	  return false;
-  }
+        //get APP VERSION
+        PackageManager pm = getPackageManager();
+        try {
+            PackageInfo pi = pm.getPackageInfo(Config.APP_PACKAGE, 0);
+            String verNum = "version " + pi.versionName;
+            appInfoView.setText(verNum);
+        } catch (NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        //set font type
+        Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/ub.otf");
+        TextView tvWelcome = (TextView) findViewById(R.id.tv_welcome);
+        tvWelcome.setTypeface(tf, Typeface.BOLD);
+
+
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                if (isLogined()) {
+                    //jump to activity_main activity
+                    Intent intent = new Intent(WelcomeActivity.this, UserActivity.class);
+                    intent.putExtra(Config.KEY_TOKEN, Config.getCachedToken(WelcomeActivity.this));
+                    startActivity(intent);
+                } else {
+                    //jump to login activity
+                    startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
+                }
+                finish();
+            }
+        }, 2900);//3 seconds later jump to activity_main activity
+
+    }
+
+    /**
+     * check if user has login
+     *
+     * @return true if logined
+     */
+    private boolean isLogined() {
+        String token = Config.getCachedToken(this);
+        if (token != null) return true;
+        return false;
+    }
 
     /**
      * Override onBackPressed
      * to avoid back to launcher from Welcome Activity
      */
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
     }
-  
+
 }

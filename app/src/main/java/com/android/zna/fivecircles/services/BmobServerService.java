@@ -16,7 +16,7 @@ import cn.bmob.v3.listener.UploadFileListener;
  */
 public class BmobServerService extends ServerSerivce {
 
-    private class BmobChatUserExt extends BmobChatUser{
+    private class BmobChatUserExt extends BmobChatUser {
 
         private String mRealname;
         private String mSelfDesc;
@@ -41,8 +41,8 @@ public class BmobServerService extends ServerSerivce {
 
     @Override
     public void login(FamilyUser pUser, final ResultListener pListener) {
-        android.util.Log.e("ZNA_DEBUG","username:"+pUser.getUsername());
-        android.util.Log.e("ZNA_DEBUG","password:"+pUser.getPassword());
+        android.util.Log.e("ZNA_DEBUG", "username:" + pUser.getUsername());
+        android.util.Log.e("ZNA_DEBUG", "password:" + pUser.getPassword());
         BmobChatUser bmobChatUser = new BmobChatUser();
         bmobChatUser.setUsername(pUser.getUsername());
         bmobChatUser.setPassword(pUser.getPassword());
@@ -96,27 +96,27 @@ public class BmobServerService extends ServerSerivce {
     }
 
     @Override
-    public void uploadFile(File pFile, final ResultListener pListener){
+    public void uploadFile(File pFile, final ResultListener pListener) {
         final BmobFile bmobFile = new BmobFile(pFile);
-        bmobFile.upload(mContext,new UploadFileListener() {
+        bmobFile.upload(mContext, new UploadFileListener() {
             @Override
             public void onSuccess() {
-                if(pListener != null){
+                if (pListener != null) {
                     pListener.onSuccess(bmobFile.getFileUrl(mContext));
                 }
             }
 
             @Override
             public void onFailure(int i, String s) {
-                if(pListener != null){
-                    pListener.onFailure(i,s);
+                if (pListener != null) {
+                    pListener.onFailure(i, s);
                 }
             }
         });
     }
 
     @Override
-    public void deleteFile(String pFileUri){
+    public void deleteFile(String pFileUri) {
         BmobFile bmobFile = new BmobFile();
         bmobFile.setUrl(pFileUri);
         bmobFile.delete(mContext);

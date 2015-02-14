@@ -425,39 +425,39 @@ public class RegisterActivity extends ActionBarActivity {
         //upload head image file to server
         mServerSerivce.uploadFile(CommonUtils.getHeadImageTempFile(),
                 new ServerSerivce.ResultListener() {
-            @Override
-            public void onSuccess(Object pObj) {
-                if (progressDialog != null && progressDialog.isShowing()) {
-                    progressDialog.dismiss();
-                }
-                //set head image url to server url
-                String url = (String) pObj;
-                currentUser.setAvatar(url);
-                String absolutePath = CommonUtils.getHeadImageTempFile()
-                        .getAbsolutePath();
-                Bitmap bitmap = BitmapFactory.decodeFile(absolutePath);
-                if (bitmap != null) {
-                    mHeadIv.setImageBitmap(bitmap);
-                } else {
-                    //rollback
-                    mServerSerivce.deleteFile(url);
-                    currentUser.setAvatar("");
-                    CustomToast.show(RegisterActivity.this,
-                            getResources().getString(R.string.set_headimg_failed),
-                            Toast.LENGTH_LONG);
-                }
-            }
+                    @Override
+                    public void onSuccess(Object pObj) {
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
+                        //set head image url to server url
+                        String url = (String) pObj;
+                        currentUser.setAvatar(url);
+                        String absolutePath = CommonUtils.getHeadImageTempFile()
+                                .getAbsolutePath();
+                        Bitmap bitmap = BitmapFactory.decodeFile(absolutePath);
+                        if (bitmap != null) {
+                            mHeadIv.setImageBitmap(bitmap);
+                        } else {
+                            //rollback
+                            mServerSerivce.deleteFile(url);
+                            currentUser.setAvatar("");
+                            CustomToast.show(RegisterActivity.this,
+                                    getResources().getString(R.string.set_headimg_failed),
+                                    Toast.LENGTH_LONG);
+                        }
+                    }
 
-            @Override
-            public void onFailure(int i, String s) {
-                if (progressDialog != null && progressDialog.isShowing()) {
-                    progressDialog.dismiss();
-                }
-                CustomToast.show(RegisterActivity.this,
-                        getResources().getString(R.string.set_headimg_failed) + ":" + i + s,
-                        Toast.LENGTH_LONG);
-            }
-        });
+                    @Override
+                    public void onFailure(int i, String s) {
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
+                        CustomToast.show(RegisterActivity.this,
+                                getResources().getString(R.string.set_headimg_failed) + ":" + i + s,
+                                Toast.LENGTH_LONG);
+                    }
+                });
     }
 
 

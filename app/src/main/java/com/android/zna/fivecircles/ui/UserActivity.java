@@ -58,28 +58,32 @@ public class UserActivity extends ActionBarActivity {
         mFragmentManager = getFragmentManager();
 
         getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getSupportActionBar().setElevation(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getSupportActionBar().setElevation(TypedValue.applyDimension(TypedValue
+                            .COMPLEX_UNIT_DIP,
                     10, getResources().getDisplayMetrics()));
         }
-        mToggle = new ActionBarDrawerToggle(this, mDrawerLayout,R.string.login, R.string.app_name);
+        mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.login, R.string.app_name);
 
         mDrawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
-                mToggle.onDrawerSlide(drawerView,slideOffset);
+                mToggle.onDrawerSlide(drawerView, slideOffset);
             }
+
             @Override
             public void onDrawerClosed(View view) {
                 mToggle.onDrawerClosed(view);
-                getSupportActionBar().setTitle(((NavItem) mLvNavItem.getItemAtPosition(mCurrentPositon))
-                            .getDisplayText());
+                getSupportActionBar().setTitle(((NavItem) mLvNavItem.getItemAtPosition
+                        (mCurrentPositon))
+                        .getDisplayText());
                 invalidateOptionsMenu();
             }
+
             @Override
             public void onDrawerOpened(View drawerView) {
                 mToggle.onDrawerOpened(drawerView);
-                    getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
+                getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
                 invalidateOptionsMenu();
             }
 
@@ -188,7 +192,8 @@ public class UserActivity extends ActionBarActivity {
                 ((TextView) convertView.findViewById(R.id.text)).setTextColor(mContext
                         .getResources().getColor(R.color.base_color));
             } else {
-                ((TextView) convertView.findViewById(R.id.text)).setTextColor(mContext.getResources().getColor(R.color.base_color_gray));
+                ((TextView) convertView.findViewById(R.id.text)).setTextColor(mContext
+                        .getResources().getColor(R.color.base_color_gray));
             }
 
             return convertView;
@@ -199,7 +204,8 @@ public class UserActivity extends ActionBarActivity {
         public NavItemClickListener(UserActivity activity) {
         }
 
-        private void switchItemFragment(Class<? extends Fragment> fromFragmentClass, Class<? extends Fragment> toFragmentClass, Bundle args){
+        private void switchItemFragment(Class<? extends Fragment> fromFragmentClass,
+                                        Class<? extends Fragment> toFragmentClass, Bundle args) {
 
             //obtain Fragment instance
             String fromFragmentTag = fromFragmentClass.getSimpleName();
@@ -209,7 +215,7 @@ public class UserActivity extends ActionBarActivity {
             Fragment toFragment = mFragmentManager.findFragmentByTag(toFragmentTag);
 
             //if toFragment instance is null,create it
-            if(toFragment == null){
+            if (toFragment == null) {
                 try {
                     toFragment = toFragmentClass.newInstance();
                     toFragment.setArguments(args);
@@ -221,17 +227,17 @@ public class UserActivity extends ActionBarActivity {
             }
 
             //if there are arguments
-            if(args != null && !args.isEmpty()){
+            if (args != null && !args.isEmpty()) {
                 toFragment.getArguments().putAll(args);
             }
 
             FragmentTransaction ft = mFragmentManager.beginTransaction();
             //if toFragment already added,show it
             //else add it
-            if(toFragment.isAdded()){
+            if (toFragment.isAdded()) {
                 ft.hide(fromFragment).show(toFragment);
-            }else{
-                ft.hide(fromFragment).add(R.id.content_frame,toFragment,toFragmentTag);
+            } else {
+                ft.hide(fromFragment).add(R.id.content_frame, toFragment, toFragmentTag);
             }
             ft.commit();
         }
@@ -240,7 +246,8 @@ public class UserActivity extends ActionBarActivity {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             mLvNavItem.setItemChecked(position, true);
             mCurrentPositon = position;
-            if (((NavItem) mLvNavItem.getItemAtPosition(position)).getDisplayText().equals("Family")) {
+            if (((NavItem) mLvNavItem.getItemAtPosition(position)).getDisplayText().equals
+                    ("Family")) {
                 mFragmentManager.beginTransaction()
                         .replace(R.id.content_frame, FamilyFragment.newInstance("", ""))
                         .commit();

@@ -8,22 +8,20 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.RelativeLayout;
 
 import com.android.zna.fivecircles.R;
-import com.getbase.floatingactionbutton.AddFloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.makeramen.RoundedImageView;
 
 public class FamilyDetailActivity extends ActionBarActivity {
     Toolbar mToolbar;
     RoundedImageView mHeadImg;
-    CardView mInfoCard1,mInfoCard2,mInfoCard3;
+    CardView mInfoCard1, mInfoCard2, mInfoCard3;
     FloatingActionButton mFloatBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,42 +29,42 @@ public class FamilyDetailActivity extends ActionBarActivity {
         Bitmap bitmap = intent.getParcelableExtra("bitmap");
 
         setContentView(R.layout.activity_family_detail);
-	    mHeadImg = (RoundedImageView)findViewById(R.id.head_img);
-        mToolbar = (Toolbar)findViewById(R.id.toolbar);
-        mInfoCard1 = (CardView)findViewById(R.id.info1);
-        mInfoCard2 = (CardView)findViewById(R.id.info2);
-        mInfoCard3 = (CardView)findViewById(R.id.info3);
+        mHeadImg = (RoundedImageView) findViewById(R.id.head_img);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mInfoCard1 = (CardView) findViewById(R.id.info1);
+        mInfoCard2 = (CardView) findViewById(R.id.info2);
+        mInfoCard3 = (CardView) findViewById(R.id.info3);
         mFloatBtn = (FloatingActionButton) findViewById(R.id.fab_button);
         mHeadImg.setImageBitmap(bitmap);
 
-        Palette.generateAsync(bitmap,new Palette.PaletteAsyncListener() {
+        Palette.generateAsync(bitmap, new Palette.PaletteAsyncListener() {
             @Override
             public void onGenerated(Palette palette) {
                 Palette.Swatch vibrant = palette.getDarkVibrantSwatch();
                 Palette.Swatch lightVibrant = palette.getLightVibrantSwatch();
                 Palette.Swatch muted = palette.getDarkMutedSwatch();
-                if(vibrant != null) {
+                if (vibrant != null) {
                     findViewById(R.id.header_view).setBackgroundColor(vibrant.getRgb());
                     mToolbar.setBackgroundColor(vibrant.getRgb());
 
                     mFloatBtn.setColorNormal(vibrant.getRgb());
                 }
 
-                if(lightVibrant != null) {
+                if (lightVibrant != null) {
                     mInfoCard1.setCardBackgroundColor(lightVibrant.getRgb());
                     mInfoCard2.setCardBackgroundColor(lightVibrant.getRgb());
                     mInfoCard3.setCardBackgroundColor(lightVibrant.getRgb());
                     mFloatBtn.setColorPressed(lightVibrant.getRgb());
                 }
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-                     if(vibrant != null){
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    if (vibrant != null) {
                         mToolbar.getNavigationIcon().setTint(vibrant.getTitleTextColor());
                         mToolbar.setTitleTextColor(vibrant.getTitleTextColor());
-                         //update NavigationBar Color and StatusBar Color
+                        //update NavigationBar Color and StatusBar Color
                         getWindow().setNavigationBarColor(vibrant.getRgb());
                         getWindow().setStatusBarColor(vibrant.getRgb());
                     }
-                }else{
+                } else {
                     mToolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
                 }
             }

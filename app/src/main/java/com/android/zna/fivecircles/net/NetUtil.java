@@ -5,7 +5,7 @@ package com.android.zna.fivecircles.net;
  */
 public class NetUtil {
 
-	public static String md5(String str){
-		return "test";
-	}
+    public static String md5(String str) {
+        return "test";
+    }
 }

@@ -14,7 +14,7 @@ import com.android.zna.fivecircles.R;
 
 public class CustomProgressDialog extends Dialog {
 
-    private Context mContext ;
+    private Context mContext;
     private Drawable mDrawable;
     private String mMessage;
 
@@ -23,15 +23,16 @@ public class CustomProgressDialog extends Dialog {
 
     /**
      * to indicate whether a animation will take affect on mDrawable.
+     *
      * @see com.android.zna.fivecircles.R.anim#progress_anim
      * always be true for now.
      * may be used for later.
      */
-    private boolean animated =true;
+    private boolean animated = true;
 
-    public CustomProgressDialog(Context context){
-        super(context,R.style.custom_progress_dialog) ;
-        mContext = context ;
+    public CustomProgressDialog(Context context) {
+        super(context, R.style.custom_progress_dialog);
+        mContext = context;
     }
 
     public CustomProgressDialog(Context context, int theme) {
@@ -51,59 +52,65 @@ public class CustomProgressDialog extends Dialog {
 
     /**
      * show this dialog using self-defined message string
+     *
      * @param context application context
      * @param message string to show in Dialog
      * @return CustomProgressDialog
      */
-    public static CustomProgressDialog show(Context context,String message){
-        return show(context,message,null);
+    public static CustomProgressDialog show(Context context, String message) {
+        return show(context, message, null);
     }
 
     /**
      * show this dialog using self-defined message string id
-     * @param context Application context
+     *
+     * @param context   Application context
      * @param messageId String id to show in Dialog
      * @return CustomProgressDialog
      */
-    public static CustomProgressDialog show(Context context,int messageId){
-        return show(context,messageId,0);
+    public static CustomProgressDialog show(Context context, int messageId) {
+        return show(context, messageId, 0);
     }
 
     /**
      * show this dialog using self-defined message string and drawable
-     * @param context application context
-     * @param message String to show in Dialog
+     *
+     * @param context  application context
+     * @param message  String to show in Dialog
      * @param drawable Drawable to show in Dialog
      * @return CustomProgressDialog
      */
-    public static CustomProgressDialog show(Context context,String message,Drawable drawable){
+    public static CustomProgressDialog show(Context context, String message, Drawable drawable) {
         CustomProgressDialog dialog = new CustomProgressDialog(context);
         dialog.show();
         dialog.setMessage(message);
         dialog.setDrawable(drawable);
 
-        if(dialog.animated){
-            dialog.mProgressIv.startAnimation(AnimationUtils.loadAnimation(context,R.anim.progress_anim));
+        if (dialog.animated) {
+            dialog.mProgressIv.startAnimation(AnimationUtils.loadAnimation(context,
+                    R.anim.progress_anim));
         }
         return dialog;
     }
 
     /**
      * show this dialog using self-defined message string id and drawable id
-     * @param context application context
-     * @param messageId String id to show in Dialog
+     *
+     * @param context    application context
+     * @param messageId  String id to show in Dialog
      * @param drawableId Drawable id to show in Dialog
      * @return CustomProgressDialog
      */
-    public static CustomProgressDialog show(Context context,int messageId,int drawableId){
+    public static CustomProgressDialog show(Context context, int messageId, int drawableId) {
         CustomProgressDialog dialog = new CustomProgressDialog(context);
         dialog.show();
         dialog.setMessage(messageId);
-        if( 0 != drawableId) {
+        if (0 != drawableId) {
             dialog.setDrawable(drawableId);
         }
-        if(dialog.animated){
-            dialog.mProgressIv.startAnimation(AnimationUtils.loadAnimation(context,R.anim.progress_anim));
+        if (dialog.animated) {
+            dialog.mProgressIv.startAnimation(AnimationUtils.loadAnimation(context,
+                    R.anim.progress_anim));
         }
         return dialog;
     }
@@ -129,9 +136,9 @@ public class CustomProgressDialog extends Dialog {
     public void setMessage(String pMessage) {
         mMessage = pMessage;
         mProgressTv.setText(mMessage);
-        if(TextUtils.isEmpty(mMessage)){
+        if (TextUtils.isEmpty(mMessage)) {
             mProgressTv.setVisibility(View.GONE);
-        }else{
+        } else {
             mProgressTv.setVisibility(View.VISIBLE);
         }
 
@@ -139,9 +146,9 @@ public class CustomProgressDialog extends Dialog {
     }
 
     public void setMessage(int pMessageId) {
-        if(pMessageId == 0){
+        if (pMessageId == 0) {
             mProgressTv.setVisibility(View.GONE);
-        }else {
+        } else {
             mMessage = mContext.getString(pMessageId);
             mProgressTv.setText(mMessage);
             mProgressTv.setVisibility(View.VISIBLE);
@@ -150,7 +157,7 @@ public class CustomProgressDialog extends Dialog {
     }
 
     @Override
-    public void dismiss(){
+    public void dismiss() {
         mProgressIv.getAnimation().cancel();//stop animation
         super.dismiss();
     }

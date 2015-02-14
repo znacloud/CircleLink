@@ -6,35 +6,35 @@ import android.graphics.drawable.Drawable;
  * Created by ZNA on 2014/12/2.
  */
 public class NavItem {
-	private int mId;
-	private Drawable mIcon;
-	private Drawable mIconFocus;
-	private String mDisplayText;
+    private int mId;
+    private Drawable mIcon;
+    private Drawable mIconFocus;
+    private String mDisplayText;
 
-	public NavItem(Drawable icon,Drawable iconFocus, String text) {
-		mIcon = icon;
-		mIconFocus = iconFocus;
-		mDisplayText = text;
-		mId = generateNavItemId();
-	}
+    public NavItem(Drawable icon, Drawable iconFocus, String text) {
+        mIcon = icon;
+        mIconFocus = iconFocus;
+        mDisplayText = text;
+        mId = generateNavItemId();
+    }
 
-	private int generateNavItemId() {
-		//TODO:generate unique ID
-		return 0;
-	}
+    private int generateNavItemId() {
+        //TODO:generate unique ID
+        return 0;
+    }
 
-	public String getDisplayText() {
+    public String getDisplayText() {
 
-		return mDisplayText;
-	}
+        return mDisplayText;
+    }
 
-	public Drawable getIcon(boolean focused) {
+    public Drawable getIcon(boolean focused) {
 
-		return focused ? mIconFocus : mIcon;
-	}
+        return focused ? mIconFocus : mIcon;
+    }
 
-	public int getmId() {
+    public int getmId() {
 
-		return mId;
-	}
+        return mId;
+    }
 }

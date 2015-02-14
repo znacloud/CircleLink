@@ -10,19 +10,26 @@ import java.net.URL;
  * Created by ZNA on 2014/12/9.
  */
 public abstract class ServerConectionBase {
-	private  Context mContext;
-	public  boolean isNetworkAvailble(){
-		ConnectivityManager connMgr = (ConnectivityManager)
-				mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+    private Context mContext;
 
-		return networkInfo !=null && networkInfo.isConnected();
-	};
+    public boolean isNetworkAvailble() {
+        ConnectivityManager connMgr = (ConnectivityManager)
+                mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
-	public abstract  boolean login(URL url);
-	public abstract  boolean logout();
-	public abstract  boolean regist();
-	public abstract  boolean getPassword(String user);
-	public abstract String doAction(String action,String... args);
+        return networkInfo != null && networkInfo.isConnected();
+    }
+
+    ;
+
+    public abstract boolean login(URL url);
+
+    public abstract boolean logout();
+
+    public abstract boolean regist();
+
+    public abstract boolean getPassword(String user);
+
+    public abstract String doAction(String action, String... args);
 
 }

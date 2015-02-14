@@ -38,7 +38,6 @@ import java.util.List;
  * to handle interaction events.
  * Use the {@link FamilyFragment#newInstance} factory method to
  * create an instance of this fragment.
- *
  */
 public class FamilyFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -51,13 +50,13 @@ public class FamilyFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-	private ImageButton mFabAddBtn;
-	private GridLayout mFamilyItemsGridView;
-	private View revealView;
-	private List<FamilyItemData> mFamilyDataList;
-	private static int SAMPLE_COUNT = 5;
+    private ImageButton mFabAddBtn;
+    private GridLayout mFamilyItemsGridView;
+    private View revealView;
+    private List<FamilyItemData> mFamilyDataList;
+    private static int SAMPLE_COUNT = 5;
 
-	/**
+    /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
@@ -74,6 +73,7 @@ public class FamilyFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
     public FamilyFragment() {
         // Required empty public constructor
     }
@@ -85,68 +85,71 @@ public class FamilyFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-	    mFamilyDataList = getFamilyDatas();
+        mFamilyDataList = getFamilyDatas();
     }
 
-	private List<FamilyItemData> getFamilyDatas() {
-		List<FamilyItemData> list = new ArrayList<FamilyItemData>();
-		if(false){//TODO:get data from server
+    private List<FamilyItemData> getFamilyDatas() {
+        List<FamilyItemData> list = new ArrayList<FamilyItemData>();
+        if (false) {//TODO:get data from server
 
-		}else{//use default sample data
+        } else {//use default sample data
 
-			String[] mDisplayNames = getActivity().getResources().getStringArray(R.array.sample_dislpay_names);
+            String[] mDisplayNames = getActivity().getResources().getStringArray(R.array
+                    .sample_dislpay_names);
 
-			Drawable[] drawablesDefault;// = getActivity().getResources().obtainTypedArray(R.array.sample_head_imgs);
-			//get drawable array
-			TypedArray headImgArray = getActivity().getResources().obtainTypedArray(R.array.sample_head_imgs);
-			int len = headImgArray.length();
-			drawablesDefault = new Drawable[len];
-			for (int i = 0; i < len; i++) {
-				drawablesDefault[i] = headImgArray.getDrawable(i);
-			}
-			headImgArray.recycle();
+            Drawable[] drawablesDefault;// = getActivity().getResources().obtainTypedArray(R
+            // .array.sample_head_imgs);
+            //get drawable array
+            TypedArray headImgArray = getActivity().getResources().obtainTypedArray(R.array
+                    .sample_head_imgs);
+            int len = headImgArray.length();
+            drawablesDefault = new Drawable[len];
+            for (int i = 0; i < len; i++) {
+                drawablesDefault[i] = headImgArray.getDrawable(i);
+            }
+            headImgArray.recycle();
 
-			for(int i = 0;i<SAMPLE_COUNT;i++){
-				list.add(new FamilyItemData(drawablesDefault[i],mDisplayNames[i]));
-			}
-		}
-		return list;
-	}
+            for (int i = 0; i < SAMPLE_COUNT; i++) {
+                list.add(new FamilyItemData(drawablesDefault[i], mDisplayNames[i]));
+            }
+        }
+        return list;
+    }
 
-	@Override
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-	    View familyView = inflater.inflate(R.layout.fragment_family_items,container,false);
-	    mFamilyItemsGridView = (GridLayout)familyView.findViewById(R.id.family_list);
-		revealView = familyView.findViewById(R.id.reveal_view);
+        View familyView = inflater.inflate(R.layout.fragment_family_items, container, false);
+        mFamilyItemsGridView = (GridLayout) familyView.findViewById(R.id.family_list);
+        revealView = familyView.findViewById(R.id.reveal_view);
 
-		for(FamilyItemData item : mFamilyDataList) {
-			FamilyItemView itemView = new FamilyItemView(getActivity());
-			itemView.setHeadImageDrawable(item.headDrawable);
-			itemView.setDisplayText(item.displayText);
-			itemView.setOnClickListener(familyItemOnClickListener);
-			GridLayout.LayoutParams lp = new GridLayout.LayoutParams();
-			lp.topMargin=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-					16, getResources().getDisplayMetrics());
-			lp.bottomMargin=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-					16, getResources().getDisplayMetrics());
-			lp.leftMargin=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-					8, getResources().getDisplayMetrics());
-			lp.rightMargin=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-					8, getResources().getDisplayMetrics());
-			mFamilyItemsGridView.addView(itemView,lp);
-		}
+        for (FamilyItemData item : mFamilyDataList) {
+            FamilyItemView itemView = new FamilyItemView(getActivity());
+            itemView.setHeadImageDrawable(item.headDrawable);
+            itemView.setDisplayText(item.displayText);
+            itemView.setOnClickListener(familyItemOnClickListener);
+            GridLayout.LayoutParams lp = new GridLayout.LayoutParams();
+            lp.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                    16, getResources().getDisplayMetrics());
+            lp.bottomMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                    16, getResources().getDisplayMetrics());
+            lp.leftMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                    8, getResources().getDisplayMetrics());
+            lp.rightMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                    8, getResources().getDisplayMetrics());
+            mFamilyItemsGridView.addView(itemView, lp);
+        }
 
-	    mFabAddBtn = (ImageButton)familyView.findViewById(R.id.fab_button);
-	    return familyView;
+        mFabAddBtn = (ImageButton) familyView.findViewById(R.id.fab_button);
+        return familyView;
     }
 
-	@Override
-	public void onActivityCreated(Bundle bundle){
-		super.onActivityCreated(bundle);
-		mFabAddBtn.setOnClickListener(addFamilyOnClickListener);
+    @Override
+    public void onActivityCreated(Bundle bundle) {
+        super.onActivityCreated(bundle);
+        mFabAddBtn.setOnClickListener(addFamilyOnClickListener);
 
-	}
+    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -177,7 +180,7 @@ public class FamilyFragment extends Fragment {
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
-     * <p>
+     * <p/>
      * See the Android Training lesson <a href=
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
@@ -188,70 +191,70 @@ public class FamilyFragment extends Fragment {
     }
 
     @TargetApi(21)
-	private void showRevealEffect(final View v, int centerX, int centerY, Animator.AnimatorListener lis) {
+    private void showRevealEffect(final View v, int centerX, int centerY,
+                                  Animator.AnimatorListener lis) {
 
-		v.setVisibility(View.VISIBLE);
+        v.setVisibility(View.VISIBLE);
 
-		int height = v.getHeight();
+        int height = v.getHeight();
 
-		Animator anim = ViewAnimationUtils.createCircularReveal(
-				v, centerX, centerY, 0, height);
+        Animator anim = ViewAnimationUtils.createCircularReveal(
+                v, centerX, centerY, 0, height);
 
-		anim.setDuration(350);
+        anim.setDuration(350);
 
-		anim.addListener(lis);
-		anim.start();
-	}
+        anim.addListener(lis);
+        anim.start();
+    }
 
     @TargetApi(21)
-	private void hideRevealEffect (final View v, int centerX, int centerY, int initialRadius) {
+    private void hideRevealEffect(final View v, int centerX, int centerY, int initialRadius) {
 
-		v.setVisibility(View.VISIBLE);
+        v.setVisibility(View.VISIBLE);
 
-		// create the animation (the final radius is zero)
-		Animator anim = ViewAnimationUtils.createCircularReveal(
-				v, centerX, centerY, initialRadius, 0);
+        // create the animation (the final radius is zero)
+        Animator anim = ViewAnimationUtils.createCircularReveal(
+                v, centerX, centerY, initialRadius, 0);
 
-		anim.setDuration(350);
+        anim.setDuration(350);
 
-		// make the view invisible when the animation is done
-		anim.addListener(new AnimatorListenerAdapter() {
-			@Override
-			public void onAnimationEnd(Animator animation) {
-				super.onAnimationEnd(animation);
-				v.setVisibility(View.INVISIBLE);
-			}
-		});
+        // make the view invisible when the animation is done
+        anim.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                v.setVisibility(View.INVISIBLE);
+            }
+        });
 
-		anim.start();
-	}
-
-
-
-	View.OnClickListener addFamilyOnClickListener = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			//TO-DO
-
-		}
-	};
+        anim.start();
+    }
 
 
-	View.OnClickListener familyItemOnClickListener = new View.OnClickListener() {
+    View.OnClickListener addFamilyOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            //TO-DO
 
-		@Override
-		public void onClick(final View v) {
-			((ImageView) v).setDrawingCacheEnabled(true);
-			final Bitmap bitmap = Bitmap.createBitmap(((ImageView)v).getDrawingCache());
-			((ImageView) v).setDrawingCacheEnabled(false);
+        }
+    };
 
-			Palette.generateAsync(bitmap,new Palette.PaletteAsyncListener() {
-				@Override
-				public void onGenerated(Palette palette) {
 
-					int [] location = new int[2];
-					final Palette.Swatch vibrant = palette.getDarkVibrantSwatch();
-                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+    View.OnClickListener familyItemOnClickListener = new View.OnClickListener() {
+
+        @Override
+        public void onClick(final View v) {
+            ((ImageView) v).setDrawingCacheEnabled(true);
+            final Bitmap bitmap = Bitmap.createBitmap(((ImageView) v).getDrawingCache());
+            ((ImageView) v).setDrawingCacheEnabled(false);
+
+            Palette.generateAsync(bitmap, new Palette.PaletteAsyncListener() {
+                @Override
+                public void onGenerated(Palette palette) {
+
+                    int[] location = new int[2];
+                    final Palette.Swatch vibrant = palette.getDarkVibrantSwatch();
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         v.setTransitionName("user_head");
                         revealView.setBackgroundColor(vibrant.getRgb());
                         v.getLocationOnScreen(location);
@@ -268,7 +271,8 @@ public class FamilyFragment extends Fragment {
                             @Override
                             @TargetApi(21)
                             public void onAnimationEnd(Animator animation) {
-                                Intent intent = new Intent(getActivity(), FamilyDetailActivity.class);
+                                Intent intent = new Intent(getActivity(),
+                                        FamilyDetailActivity.class);
 
                                 Bundle bd = new Bundle();
 //                                bd.putInt("bgcolor", vibrant.getRgb());
@@ -276,9 +280,11 @@ public class FamilyFragment extends Fragment {
 //                                bd.putInt("bdtxtcolor", vibrant.getBodyTextColor());
 //                                intent.putExtra("vibrant", bd);
                                 intent.putExtra("bitmap", bitmap);
-                                ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(getActivity(),
-                                        Pair.create((View) mFabAddBtn, "fab"), Pair.create(v,
-                                                "user_head"));
+                                ActivityOptions transitionActivityOptions = ActivityOptions
+                                        .makeSceneTransitionAnimation(getActivity(),
+                                                Pair.create((View) mFabAddBtn, "fab"),
+                                                Pair.create(v,
+                                                        "user_head"));
 
                                 startActivity(intent, transitionActivityOptions.toBundle());
                                 hideRevealEffect(revealView, cx, cy, 1920);
@@ -294,7 +300,7 @@ public class FamilyFragment extends Fragment {
 
                             }
                         });
-                    }else{
+                    } else {
                         Intent intent = new Intent(getActivity(), FamilyDetailActivity.class);
                         Bundle bd = new Bundle();
 //                        bd.putInt("bgcolor", vibrant.getRgb());
@@ -303,13 +309,13 @@ public class FamilyFragment extends Fragment {
 //                        intent.putExtra("vibrant", bd);
                         intent.putExtra("bitmap", bitmap);
                         startActivity(intent);
-                        }
+                    }
 
 
-				}
-			});
+                }
+            });
 
 
-		}
-	};
+        }
+    };
 }

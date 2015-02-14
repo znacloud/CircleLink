@@ -18,24 +18,25 @@ public class CustomToast extends Toast {
     private TextView mToastTv;
     private ImageView mToastIv;
 
-    public CustomToast(Context pContext){
+    public CustomToast(Context pContext) {
         super(pContext);
         mContext = pContext;
-        View layout = LayoutInflater.from(pContext).inflate(R.layout.custom_toast,null);
+        View layout = LayoutInflater.from(pContext).inflate(R.layout.custom_toast, null);
         mToastTv = (TextView) layout.findViewById(R.id.text);
         mToastIv = (ImageView) layout.findViewById(R.id.icon);
         setView(layout);
     }
 
-    public static CustomToast show(Context pContext,CharSequence message,int showLength){
-        return show(pContext,message,null,showLength);
+    public static CustomToast show(Context pContext, CharSequence message, int showLength) {
+        return show(pContext, message, null, showLength);
     }
 
-    public static CustomToast show(Context pContext,int messageId,int showLength){
-        return show(pContext,messageId,0,showLength);
+    public static CustomToast show(Context pContext, int messageId, int showLength) {
+        return show(pContext, messageId, 0, showLength);
     }
 
-    public static CustomToast show(Context pContext,CharSequence message,Drawable drawable,int showLength){
+    public static CustomToast show(Context pContext, CharSequence message, Drawable drawable,
+                                   int showLength) {
         CustomToast toast = new CustomToast(pContext);
         toast.setToastMessage(message);
         toast.setToastIcon(drawable);
@@ -44,9 +45,10 @@ public class CustomToast extends Toast {
         return toast;
     }
 
-    public static CustomToast show(Context pContext,int messageId,int drawableId,int showLength) {
+    public static CustomToast show(Context pContext, int messageId, int drawableId,
+                                   int showLength) {
         CustomToast toast = new CustomToast(pContext);
-        if (0 != messageId){
+        if (0 != messageId) {
             toast.setToastMessage(messageId);
         }
         toast.setToastIcon(drawableId);
@@ -64,18 +66,18 @@ public class CustomToast extends Toast {
     }
 
     public void setToastIcon(Drawable pIcon) {
-        if(pIcon == null){
+        if (pIcon == null) {
             mToastIv.setVisibility(View.GONE);
-        }else {
+        } else {
             mToastIv.setImageDrawable(pIcon);
             mToastIv.setVisibility(View.VISIBLE);
         }
     }
 
     public void setToastIcon(int pIconId) {
-        if(pIconId == 0){
+        if (pIconId == 0) {
             mToastIv.setVisibility(View.GONE);
-        }else {
+        } else {
             mToastIv.setImageDrawable(mContext.getResources().getDrawable(pIconId));
             mToastIv.setVisibility(View.VISIBLE);
         }
