@@ -7,6 +7,9 @@ import com.android.zna.fivecircles.view.CustomToast;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by nianan.zeng
@@ -44,5 +47,22 @@ public class CommonUtils {
         } else {
             return null;
         }
+    }
+
+    public static String makeSHA(String s) {
+        try {
+            byte[] bytes = s.getBytes("UTF-8");
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA");
+            messageDigest.update(bytes);
+            return new String(messageDigest.digest(),"UTF-8");
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            android.util.Log.e("ZNA_DEBUG",e.getMessage());
+        }catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            android.util.Log.e("ZNA_DEBUG",e.getMessage());
+        }
+        return s;
     }
 }

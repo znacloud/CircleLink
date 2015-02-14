@@ -3,40 +3,75 @@ package com.android.zna.fivecircles.data;
 /**
  * Created by ZNA on 2015/1/22.
  */
-import android.os.Parcel;
-import android.os.Parcelable;
 
-import java.util.EnumMap;
+public class FamilyUser {
+    //    private static  final long serialVersionUID = 2L;
+    private String mUsername;
+    private String mPassword;
+    private String mNickname;
+    private String mRealname;
+    private int mSex;
+    private String mSelfDesc;//Self description
+    private String mAvatar;
 
-import cn.bmob.im.bean.BmobChatUser;
-public class FamilyUser extends BmobChatUser {
-    private static  final long serialVersionUID = 2L;
-    private String realname;
-    private int sex;
-    private String selfDesc;//Self description
-
-    public void setRealName(String pRealname){
-        realname = pRealname;
+    public String getUsername() {
+        return mUsername;
     }
 
-    public String getRealname(){
+    public String getPassword() {
+        return mPassword;
+    }
 
-        return realname;
+    public String getNickname() {
+        return mNickname;
+    }
+
+    public void setUsername(String pUsername) {
+        mUsername = pUsername;
+    }
+
+    public void setPassword(String pPassword) {
+        mPassword = pPassword;
+    }
+
+    public void setNickname(String pNickname) {
+        mNickname = pNickname;
+    }
+
+    public void setRealname(String pRealname) {
+        mRealname = pRealname;
+    }
+
+    public void setRealName(String pRealname) {
+        mRealname = pRealname;
+    }
+
+    public String getRealname() {
+
+        return mRealname;
     }
 
     public void setSex(int pSex) {
-        sex = pSex;
+        mSex = pSex;
     }
 
     public void setSelfDesc(String pSelfDesc) {
-        selfDesc = pSelfDesc;
+        mSelfDesc = pSelfDesc;
     }
 
     public int getSex() {
-        return sex;
+        return mSex;
     }
 
     public String getSelfDesc() {
-        return selfDesc;
+        return mSelfDesc;
+    }
+
+    public String getAvatar() {
+        return mAvatar;
+    }
+
+    public void setAvatar(String pAvatar) {
+        mAvatar = pAvatar;
     }
 }

@@ -15,8 +15,6 @@ import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -31,13 +29,9 @@ import android.widget.Toast;
 import com.android.zna.fivecircles.CommonUtils;
 import com.android.zna.fivecircles.R;
 import com.android.zna.fivecircles.data.FamilyUser;
-import com.android.zna.fivecircles.net.NetUtil;
+import com.android.zna.fivecircles.services.ServerSerivce;
 import com.android.zna.fivecircles.view.CustomProgressDialog;
 import com.android.zna.fivecircles.view.CustomToast;
-
-import cn.bmob.v3.datatype.BmobFile;
-import cn.bmob.v3.listener.SaveListener;
-import cn.bmob.v3.listener.UploadFileListener;
 
 
 /**
@@ -73,10 +67,17 @@ public class RegisterActivity extends ActionBarActivity {
     private TextView mNicknameErrorTv;
     private TextView mRealnameErrorTv;
 
+
+    private ServerSerivce mServerSerivce;
+
     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         setContentView(R.layout.register_layout);
+
+        //get remote server
+        mServerSerivce = ServerSerivce.getService(this, ServerSerivce.SERV_TYPE_BMOB);
+
         //setup toolbar
         mToolbar = getSupportActionBar();
 //        mToolbar.setTitle(R.string.regist_user);
@@ -167,19 +168,19 @@ public class RegisterActivity extends ActionBarActivity {
         mFinishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View pView) {
-                if(!checkValid2()) return;
+                if (!checkValid2()) return;
                 currentUser.setRealName(mRealnameEt.getText().toString().trim());
-                currentUser.setNick(mNicknameEt.getText().toString().trim());
+                currentUser.setNickname(mNicknameEt.getText().toString().trim());
                 currentUser.setSex(mSexGp.getCheckedRadioButtonId() == R.id.rb_sex_male ? 0 : 1);
                 currentUser.setSelfDesc(mDescriptionEt.getText().toString().trim());
 
 
                 final CustomProgressDialog progressDialog = CustomProgressDialog.show
                         (RegisterActivity.this, R.string.progress_register);
-                //register on Bmob server
-                currentUser.signUp(RegisterActivity.this, new SaveListener() {
+                //register on server
+                mServerSerivce.register(currentUser, new ServerSerivce.ResultListener() {
                     @Override
-                    public void onSuccess() {
+                    public void onSuccess(Object pObj) {
                         if (progressDialog.isShowing()) {
                             progressDialog.dismiss();
                         }
@@ -281,11 +282,14 @@ public class RegisterActivity extends ActionBarActivity {
 
                 //create a new user
                 currentUser.setUsername(mUserNameEdit.getText().toString().trim());
-                currentUser.setPassword(NetUtil.md5(mPasswordEdit.getText().toString()));
+                currentUser.setPassword(CommonUtils.makeSHA(mPasswordEdit.getText().toString() +
+                        mUserNameEdit.getText().toString()));
                 //animation to next page
-                android.util.Log.e("ZNA_DEBUG","height:"+mAccountInfoLayout.getHeight()+","+mBasicInfoLayout.getHeight());
+                android.util.Log.e("ZNA_DEBUG", "height:" + mAccountInfoLayout.getHeight() + "," +
+                        "" + mBasicInfoLayout.getHeight());
                 final int screenHeight = mAccountInfoLayout.getHeight();
-                final ObjectAnimator animTopOut = ObjectAnimator.ofFloat(mAccountInfoLayout,"translationY",0,-screenHeight);
+                final ObjectAnimator animTopOut = ObjectAnimator.ofFloat(mAccountInfoLayout,
+                        "translationY", 0, -screenHeight);
                 animTopOut.setDuration(300);
                 animTopOut.setInterpolator(new LinearInterpolator());
 
@@ -319,28 +323,6 @@ public class RegisterActivity extends ActionBarActivity {
                     }
                 });
                 animTopOut.start();
-
-//                Animation slideOut = AnimationUtils.loadAnimation(RegisterActivity.this,R.anim.slide_top_out);
-//                final Animation slideIn = AnimationUtils.loadAnimation(RegisterActivity.this,R.anim.slide_bottom_in);
-//                slideOut.setAnimationListener(new Animation.AnimationListener() {
-//                    @Override
-//                    public void onAnimationStart(Animation pAnimation) {
-//                        mBasicInfoLayout.setVisibility(View.VISIBLE);
-//                        mBasicInfoLayout.startAnimation(slideIn);
-//                    }
-//
-//                    @Override
-//                    public void onAnimationEnd(Animation pAnimation) {
-//                        mAccountInfoLayout.setVisibility(View.GONE);
-//                        mBasicInfoLayout.setVisibility(View.VISIBLE);
-//                    }
-//
-//                    @Override
-//                    public void onAnimationRepeat(Animation pAnimation) {
-//
-//                    }
-//                });
-//                mAccountInfoLayout.startAnimation(slideOut);
 
             }
         });
@@ -393,13 +375,13 @@ public class RegisterActivity extends ActionBarActivity {
         return valid;
     }
 
-    private boolean checkValid2(){
+    private boolean checkValid2() {
         boolean valid = true;
-        if(!isRealNameValid(mRealnameEt.getText().toString().trim())){
+        if (!isRealNameValid(mRealnameEt.getText().toString().trim())) {
             valid = false;
             mRealnameErrorTv.setVisibility(View.VISIBLE);
         }
-        if(!isNicknameValid(mNicknameEt.getText().toString().trim())){
+        if (!isNicknameValid(mNicknameEt.getText().toString().trim())) {
             valid = false;
             mNicknameErrorTv.setVisibility(View.VISIBLE);
         }
@@ -439,16 +421,18 @@ public class RegisterActivity extends ActionBarActivity {
     private void updateAvatar() {
         final CustomProgressDialog progressDialog = CustomProgressDialog.show(this,
                 R.string.upload_head_image);
+        android.util.Log.e("ZNA_DEBUG", "UPDATE AVATAR");
         //upload head image file to server
-        final BmobFile bf = new BmobFile(CommonUtils.getHeadImageTempFile());
-        bf.upload(this, new UploadFileListener() {
+        mServerSerivce.uploadFile(CommonUtils.getHeadImageTempFile(),
+                new ServerSerivce.ResultListener() {
             @Override
-            public void onSuccess() {
+            public void onSuccess(Object pObj) {
                 if (progressDialog != null && progressDialog.isShowing()) {
                     progressDialog.dismiss();
                 }
                 //set head image url to server url
-                currentUser.setAvatar(bf.getFileUrl(RegisterActivity.this));
+                String url = (String) pObj;
+                currentUser.setAvatar(url);
                 String absolutePath = CommonUtils.getHeadImageTempFile()
                         .getAbsolutePath();
                 Bitmap bitmap = BitmapFactory.decodeFile(absolutePath);
@@ -456,7 +440,7 @@ public class RegisterActivity extends ActionBarActivity {
                     mHeadIv.setImageBitmap(bitmap);
                 } else {
                     //rollback
-                    bf.delete(RegisterActivity.this);
+                    mServerSerivce.deleteFile(url);
                     currentUser.setAvatar("");
                     CustomToast.show(RegisterActivity.this,
                             getResources().getString(R.string.set_headimg_failed),
