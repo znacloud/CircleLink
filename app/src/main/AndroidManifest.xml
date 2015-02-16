@@ -35,7 +35,8 @@
         <activity
             android:name=".ui.UserActivity"
             android:icon="@drawable/ic_action_white"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            android:theme="@style/NoActionBarActivityTheme"/>
         <activity
             android:name=".ui.LoginActivity"
             android:icon="@drawable/ic_action_white"
@@ -54,12 +55,6 @@
             android:label="@string/title_activity_family_detail"
             android:theme="@style/NoActionBarActivityTheme" >
         </activity>
-
-        <service
-            android:name=".services.ServerSerivce"
-            android:enabled="true"
-            android:exported="false" >
-        </service>
     </application>
 
 </manifest>

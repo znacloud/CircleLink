@@ -33,9 +33,9 @@ public abstract class ServerSerivce {
      * @return instance fo subclass of ServerService
      * TO-DO: add UnsupportedServerType Exception
      */
-    public static ServerSerivce getService(Context pContext, int pServerType) {
+    public static ServerSerivce  getService(Context pContext, int pServerType) {
         if (pServerType == SERV_TYPE_BMOB) {
-            return new BmobServerService(pContext);
+            return BmobServerService.getInstance(pContext);
         } else if (pServerType == SERV_TYPE_OTHER) {
             //TO-DO: maybe use other app server
             return null;
@@ -43,13 +43,41 @@ public abstract class ServerSerivce {
         return null;
     }
 
+    /**
+     * login remote server,FamilyUser contains at least username and password information
+     * @param pUser Ther user to login server
+     * @param pListener callback to notify the result of login action
+     */
     public abstract void login(FamilyUser pUser, ResultListener pListener);
 
+    /**
+     * register remote server,FamilyUser contains basic information of an new user
+     * @param pUser Ther user to register server
+     * @param pListener callback to notify the result of register action
+     */
     public abstract void register(FamilyUser pUser, ResultListener pListener);
 
     public abstract void getValidCode(int pType, int pTarget);
 
+    /**
+     * upload file to remote server
+     * @param pFile The file to upload to server
+     * @param pListener callback to notify the result of upload action
+     */
     public abstract void uploadFile(File pFile, ResultListener pListener);
 
     public abstract void deleteFile(String pFileUri);
+
+    /**
+     * download image file from remote server
+     * @param pUrl Ther image url to be downloaded
+     * @param pListener callback to notify the result of download action
+     */
+    public abstract void downloadImage(String pUrl,ResultListener pListener);
+
+    /**
+     * get current user who has login on this devices
+     * @return
+     */
+    public abstract FamilyUser getCurrentUser();
 }

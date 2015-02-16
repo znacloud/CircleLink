@@ -42,10 +42,6 @@ public class FamilyUser {
         mRealname = pRealname;
     }
 
-    public void setRealName(String pRealname) {
-        mRealname = pRealname;
-    }
-
     public String getRealname() {
 
         return mRealname;

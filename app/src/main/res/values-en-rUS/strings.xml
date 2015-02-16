@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">CircleLink</string>
-    <string name="welcome_str">Link your things</string>
+    <string name="welcome_str">Connect the best of you and me</string>
     <string name="app_info">version 0.1\nby zna</string>
     <string name="user_label">Username</string>
     <string name="pass_label">Password</string>

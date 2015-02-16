@@ -5,8 +5,11 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,8 +29,12 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.android.zna.fivecircles.CommonUtils;
 import com.android.zna.fivecircles.R;
+import com.android.zna.fivecircles.data.FamilyUser;
 import com.android.zna.fivecircles.data.NavItem;
+import com.android.zna.fivecircles.services.ServerSerivce;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 public class UserActivity extends ActionBarActivity {
     private DrawerLayout mDrawerLayout;
@@ -36,36 +43,106 @@ public class UserActivity extends ActionBarActivity {
     private LinearLayout mLeftDrawView;
     private Toolbar mToolbar;
 
+    private TextView mUsernameTv;
+    private ImageView mSexIv;
+    private TextView mSelfDescTv;
+    private TextView mAccountName;
+    private ImageView mHeadIv;
+
     private ActionBarDrawerToggle mToggle;
     private int mCurrentPositon = 0;
 
     private FragmentManager mFragmentManager;
+    private SlidingMenu mSlidingMenuLayout;
+    private ServerSerivce mServerService;
+    private FamilyUser mCurrentUser;
 
     @Override
     public void onCreate(Bundle savedState) {
         super.onCreate(savedState);
         setContentView(R.layout.activity_main);
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        //get server and current user
+        mServerService = ServerSerivce.getService(this,ServerSerivce.SERV_TYPE_BMOB);
+        mCurrentUser = mServerService.getCurrentUser();
+        if(mCurrentUser == null){
+            startActivity(new Intent(this,LoginActivity.class));
+        }
+
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+//        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mSlidingMenuLayout =(SlidingMenu) findViewById(R.id.sliding_menu_layout);
         mLvNavItem = (ListView) findViewById(R.id.item_list);
         mLvContentView = (FrameLayout) findViewById(R.id.content_frame);
-        mLeftDrawView = (LinearLayout) findViewById(R.id.left_drawer);
+//        mLeftDrawView = (LinearLayout) findViewById(R.id.left_drawer);
 
         mLvNavItem.setAdapter(new NavItemAdapter(this));
         mLvNavItem.setOnItemClickListener(new NavItemClickListener(this));
         mLvNavItem.setItemChecked(0, true);
 
+        //init user information
+        mUsernameTv = (TextView) findViewById(R.id.tv_nickname);
+        mUsernameTv.setText(mCurrentUser.getNickname());
+
+        mAccountName = (TextView) findViewById(R.id.tv_account);
+        mAccountName.setText(mCurrentUser.getUsername());
+
+        mSexIv = (ImageView) findViewById(R.id.iv_sex);
+        mSexIv.setImageResource(mCurrentUser.getSex() == 0 ? R.drawable.ic_male : R.drawable.ic_female);
+
+        mSelfDescTv = (TextView) findViewById(R.id.tv_selfdesc);
+        mSelfDescTv.setText(mCurrentUser.getSelfDesc());
+        //set font type
+        Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/descFont.TTF");
+        mSelfDescTv.setTypeface(tf);
+
+        mHeadIv = (ImageView) findViewById(R.id.iv_head);
+
+
         mFragmentManager = getFragmentManager();
 
-        getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getSupportActionBar().setElevation(TypedValue.applyDimension(TypedValue
-                            .COMPLEX_UNIT_DIP,
-                    10, getResources().getDisplayMetrics()));
-        }
-        mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.login, R.string.app_name);
+        //set user's real name as title
+        mToolbar.setTitle(mCurrentUser.getRealname());
+        //generate Circle head image drawable
+        mServerService.downloadImage(mCurrentUser.getAvatar(),new ServerSerivce.ResultListener() {
+            @Override
+            public void onSuccess(Object pObj) {
+                Bitmap bitmap = (Bitmap)pObj;
+                //menu layout head image
+                mHeadIv.setImageBitmap(bitmap);
 
-        mDrawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
+                Drawable drawable = CommonUtils.generateScaledCircleDrawable(UserActivity.this,bitmap,
+                        (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,18,
+                                getResources().getDisplayMetrics()));
+                //set head image as navigation icon
+                mToolbar.setNavigationIcon(drawable);
+            }
+
+            @Override
+            public void onFailure(int pErrorCode, String pErrorMsg) {
+                //if failed to get head image,set default
+                Drawable drawable = CommonUtils.generateScaledCircleDrawable(UserActivity.this,R.drawable.head_img_default,
+                        (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,18,
+                                getResources().getDisplayMetrics()));
+                mToolbar.setNavigationIcon(drawable);
+                mHeadIv.setImageDrawable(drawable);
+            }
+        });
+
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mSlidingMenuLayout.toggle();//toggle menu
+            }
+        });
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mToolbar.setElevation(TypedValue.applyDimension(TypedValue
+                            .COMPLEX_UNIT_DIP,
+                    0, getResources().getDisplayMetrics()));
+        }
+//        mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.login, R.string.app_name);
+
+        /*mDrawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
                 mToggle.onDrawerSlide(drawerView, slideOffset);
@@ -91,31 +168,31 @@ public class UserActivity extends ActionBarActivity {
             public void onDrawerStateChanged(int newState) {
                 mToggle.onDrawerStateChanged(newState);
             }
-        });
+        });*/
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setHomeButtonEnabled(true);
 
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        mToggle.syncState();
+//        mToggle.syncState();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        mToggle.onConfigurationChanged(newConfig);
+//        mToggle.onConfigurationChanged(newConfig);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         //in OptionsItemSelected event,to do mToggle event
-        if (mToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
+//        if (mToggle.onOptionsItemSelected(item)) {
+//            return true;
+//        }
         // TODO: other Item selected event
 
         return super.onOptionsItemSelected(item);
@@ -254,7 +331,7 @@ public class UserActivity extends ActionBarActivity {
             } else {
                 //TODO:
             }
-            mDrawerLayout.closeDrawer(mLeftDrawView);
+//            mDrawerLayout.closeDrawer(mDrawerLayout);
         }
     }
 }

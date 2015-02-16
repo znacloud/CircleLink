@@ -6,10 +6,12 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.TextView;
 
+import com.android.zna.fivecircles.services.ServerSerivce;
 import com.android.zna.fivecircles.ui.LoginActivity;
 import com.android.zna.fivecircles.ui.UserActivity;
 
@@ -22,7 +24,15 @@ public class WelcomeActivity extends Activity {
         super.onCreate(savedState);
 
         //Bmob.initialize(this,Config.APP_ID);
-        BmobChat.getInstance(this).init(Config.APP_ID);
+//        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+//            BmobChat.getInstance(this).init(Config.APP_ID);
+//        }
+        //for android L,reinstall may cause exception for unknown reason
+        try {
+            BmobChat.getInstance(this).init(Config.APP_ID);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         setContentView(R.layout.welcome);
         final TextView appInfoView = (TextView) findViewById(R.id.app_info);
 
@@ -37,7 +47,7 @@ public class WelcomeActivity extends Activity {
         }
 
         //set font type
-        Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/ub.otf");
+        Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/descFont.TTF");
         TextView tvWelcome = (TextView) findViewById(R.id.tv_welcome);
         tvWelcome.setTypeface(tf, Typeface.BOLD);
 
@@ -65,9 +75,7 @@ public class WelcomeActivity extends Activity {
      * @return true if logined
      */
     private boolean isLogined() {
-        String token = Config.getCachedToken(this);
-        if (token != null) return true;
-        return false;
+        return null != ServerSerivce.getService(this,ServerSerivce.SERV_TYPE_BMOB).getCurrentUser();
     }
 
     /**

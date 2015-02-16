@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">环连</string>
-    <string name="welcome_str">连接你的一切</string>
+    <string name="welcome_str">连接最好的你我</string>
     <string name="app_info">version 0.1\nzna 所有</string>
     <string name="user_label">用户名</string>
     <string name="pass_label">密码</string>

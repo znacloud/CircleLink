@@ -169,7 +169,7 @@ public class RegisterActivity extends ActionBarActivity {
             @Override
             public void onClick(View pView) {
                 if (!checkValid2()) return;
-                currentUser.setRealName(mRealnameEt.getText().toString().trim());
+                currentUser.setRealname(mRealnameEt.getText().toString().trim());
                 currentUser.setNickname(mNicknameEt.getText().toString().trim());
                 currentUser.setSex(mSexGp.getCheckedRadioButtonId() == R.id.rb_sex_male ? 0 : 1);
                 currentUser.setSelfDesc(mDescriptionEt.getText().toString().trim());

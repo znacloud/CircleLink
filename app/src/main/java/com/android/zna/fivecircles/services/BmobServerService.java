@@ -3,9 +3,12 @@ package com.android.zna.fivecircles.services;
 import android.content.Context;
 
 import com.android.zna.fivecircles.data.FamilyUser;
+import com.android.zna.fivecircles.net.DownloadImageTask;
 
 import java.io.File;
 
+import cn.bmob.im.BmobChatManager;
+import cn.bmob.im.BmobUserManager;
 import cn.bmob.im.bean.BmobChatUser;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.listener.SaveListener;
@@ -16,6 +19,14 @@ import cn.bmob.v3.listener.UploadFileListener;
  */
 public class BmobServerService extends ServerSerivce {
 
+    private BmobChatManager mChatManager;
+    private BmobUserManager mUserManager;
+    private static BmobServerService pBmobServer;
+
+    /**
+     * This inner class is used to communicate with Bmob server
+     * extend to add more field
+     */
     private class BmobChatUserExt extends BmobChatUser {
 
         private String mRealname;
@@ -33,10 +44,32 @@ public class BmobServerService extends ServerSerivce {
         public void setSex(int pSex) {
             mSex = pSex;
         }
+
+        public FamilyUser convertToFamilyUser(){
+            FamilyUser user = new FamilyUser();
+            user.setUsername(getUsername());
+            user.setPassword(getPassword());
+            user.setNickname(getNick());
+            user.setAvatar(getAvatar());
+            user.setRealname(mRealname);
+            user.setSex(mSex);
+            user.setSelfDesc(mSelfDesc);
+            return  user;
+        }
     }
 
-    public BmobServerService(Context pContext) {
+    //private to prevent create more than one instance
+    private BmobServerService(Context pContext) {
         super(pContext);
+        mChatManager = BmobChatManager.getInstance(pContext);
+        mUserManager = BmobUserManager.getInstance(pContext);
+    }
+
+    public static synchronized  BmobServerService getInstance(Context pContext){
+        if(pBmobServer == null ){
+            pBmobServer = new BmobServerService(pContext);
+        }
+        return  pBmobServer;
     }
 
     @Override
@@ -120,5 +153,21 @@ public class BmobServerService extends ServerSerivce {
         BmobFile bmobFile = new BmobFile();
         bmobFile.setUrl(pFileUri);
         bmobFile.delete(mContext);
+    }
+
+    @Override
+    public void downloadImage(String pUrl,ResultListener pListener){
+        DownloadImageTask task = new DownloadImageTask(pListener);
+        task.execute(pUrl);
+    }
+
+    @Override
+    public FamilyUser getCurrentUser() {
+        BmobChatUserExt currentUser = mUserManager.getCurrentUser(BmobChatUserExt.class);
+        if (currentUser != null){
+            return currentUser.convertToFamilyUser();
+        }
+        return null;
+
     }
 }

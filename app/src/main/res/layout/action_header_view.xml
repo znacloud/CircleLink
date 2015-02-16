@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.makeramen.RoundedImageView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/head_img"
+    style="@style/FamilyImageStyle"
+    android:layout_width="@dimen/action_header_view_size"
+    android:layout_height="@dimen/action_header_view_size"
+    android:src="@drawable/head_img_default"
+    app:riv_oval="true"/>
