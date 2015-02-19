@@ -20,8 +20,9 @@
 
     <TextView
         android:id="@+id/text"
-        style="@android:style/TextAppearance.DeviceDefault.Large"
+        style="@android:style/TextAppearance.DeviceDefault.Medium"
         android:textColor="#888888"
+        android:text="sample"
         android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

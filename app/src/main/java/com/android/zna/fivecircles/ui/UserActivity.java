@@ -30,6 +30,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.zna.fivecircles.CommonUtils;
+import com.android.zna.fivecircles.Config;
 import com.android.zna.fivecircles.R;
 import com.android.zna.fivecircles.data.FamilyUser;
 import com.android.zna.fivecircles.data.NavItem;
@@ -56,6 +57,7 @@ public class UserActivity extends ActionBarActivity {
     private SlidingMenu mSlidingMenuLayout;
     private ServerSerivce mServerService;
     private FamilyUser mCurrentUser;
+    private String mCurrentFragment;
 
     @Override
     public void onCreate(Bundle savedState) {
@@ -70,15 +72,27 @@ public class UserActivity extends ActionBarActivity {
         }
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        mFragmentManager = getFragmentManager();
 //        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mSlidingMenuLayout =(SlidingMenu) findViewById(R.id.sliding_menu_layout);
         mLvNavItem = (ListView) findViewById(R.id.item_list);
         mLvContentView = (FrameLayout) findViewById(R.id.content_frame);
 //        mLeftDrawView = (LinearLayout) findViewById(R.id.left_drawer);
 
-        mLvNavItem.setAdapter(new NavItemAdapter(this));
-        mLvNavItem.setOnItemClickListener(new NavItemClickListener(this));
-        mLvNavItem.setItemChecked(0, true);
+        //setup NavItem list
+        NavItemAdapter adapter = new NavItemAdapter(this);
+        mCurrentPositon = 0;
+        mCurrentFragment = ((NavItem)adapter.getItem(mCurrentPositon)).getTargetFragmentTag();
+        mLvNavItem.setAdapter(adapter);
+
+        NavItemClickListener listener = new NavItemClickListener(this);
+        mLvNavItem.setOnItemClickListener(listener);
+
+        mLvNavItem.setItemChecked(mCurrentPositon, true);
+        mFragmentManager.beginTransaction()
+                .add(R.id.content_frame,HomeFragment.newInstance(),
+                       mCurrentFragment).commit();
 
         //init user information
         mUsernameTv = (TextView) findViewById(R.id.tv_nickname);
@@ -98,8 +112,6 @@ public class UserActivity extends ActionBarActivity {
 
         mHeadIv = (ImageView) findViewById(R.id.iv_head);
 
-
-        mFragmentManager = getFragmentManager();
 
         //set user's real name as title
         mToolbar.setTitle(mCurrentUser.getRealname());
@@ -140,38 +152,8 @@ public class UserActivity extends ActionBarActivity {
                             .COMPLEX_UNIT_DIP,
                     0, getResources().getDisplayMetrics()));
         }
-//        mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.login, R.string.app_name);
 
-        /*mDrawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
-            @Override
-            public void onDrawerSlide(View drawerView, float slideOffset) {
-                mToggle.onDrawerSlide(drawerView, slideOffset);
-            }
 
-            @Override
-            public void onDrawerClosed(View view) {
-                mToggle.onDrawerClosed(view);
-                getSupportActionBar().setTitle(((NavItem) mLvNavItem.getItemAtPosition
-                        (mCurrentPositon))
-                        .getDisplayText());
-                invalidateOptionsMenu();
-            }
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                mToggle.onDrawerOpened(drawerView);
-                getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
-                invalidateOptionsMenu();
-            }
-
-            @Override
-            public void onDrawerStateChanged(int newState) {
-                mToggle.onDrawerStateChanged(newState);
-            }
-        });*/
-
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setHomeButtonEnabled(true);
 
     }
 
@@ -203,11 +185,15 @@ public class UserActivity extends ActionBarActivity {
         private Drawable[] mIcons;
         private Drawable[] mIconFocus;
         private String[] mDisplayNames;
-
+        private String[] mTags;
         private NavItem[] mNavItems;
 
         public NavItemAdapter(Context context) {
             mContext = context;
+            initNavItems(context);
+        }
+
+        private void initNavItems(Context context) {
             mDisplayNames = context.getResources().getStringArray(R.array.nav_item_dislpay);
             //get drawable array
             TypedArray iconArray = mContext.getResources().obtainTypedArray(R.array.nav_item_icons);
@@ -228,12 +214,16 @@ public class UserActivity extends ActionBarActivity {
             }
             iconArray2.recycle();
 
+            //get target fragment tags
+            mTags = context.getResources().getStringArray(R.array.nav_item_target_fragments);
+
             //generate NavItem
             int itemNum = mIcons.length < mDisplayNames.length ? mIcons.length : mDisplayNames
                     .length;
             mNavItems = new NavItem[itemNum];
             for (int i = 0; i < itemNum; i++) {
                 mNavItems[i] = new NavItem(mIcons[i], mIconFocus[i], mDisplayNames[i]);
+                mNavItems[i].setTargetFragmentTag(mTags[i]);
             }
         }
 
@@ -246,7 +236,7 @@ public class UserActivity extends ActionBarActivity {
         @Override
         public long getItemId(int position) {
 
-            return mNavItems[position].getmId();
+            return position;
         }
 
         @Override
@@ -270,35 +260,37 @@ public class UserActivity extends ActionBarActivity {
                         .getResources().getColor(R.color.base_color));
             } else {
                 ((TextView) convertView.findViewById(R.id.text)).setTextColor(mContext
-                        .getResources().getColor(R.color.base_color_gray));
+                        .getResources().getColor(R.color.base_color_gray_dark));
             }
 
             return convertView;
         }
     }
 
-    private class NavItemClickListener implements AdapterView.OnItemClickListener {
+    private class NavItemClickListener implements AdapterView.OnItemClickListener{
         public NavItemClickListener(UserActivity activity) {
         }
 
-        private void switchItemFragment(Class<? extends Fragment> fromFragmentClass,
-                                        Class<? extends Fragment> toFragmentClass, Bundle args) {
+        private void switchItemFragment(String fromFragmentTag,
+                                        String toFragmentTag, Bundle args) {
+            android.util.Log.d("ZNA_DEBUG","FROM:"+fromFragmentTag+" To:"+toFragmentTag);
 
             //obtain Fragment instance
-            String fromFragmentTag = fromFragmentClass.getSimpleName();
             Fragment fromFragment = mFragmentManager.findFragmentByTag(fromFragmentTag);
 
-            String toFragmentTag = toFragmentClass.getSimpleName();
             Fragment toFragment = mFragmentManager.findFragmentByTag(toFragmentTag);
 
             //if toFragment instance is null,create it
             if (toFragment == null) {
                 try {
-                    toFragment = toFragmentClass.newInstance();
+                    Class<? extends Fragment> klass = (Class<? extends Fragment>)Class.forName(Config.APP_PACKAGE+".ui."+toFragmentTag);
+                    toFragment = klass.newInstance();
                     toFragment.setArguments(args);
-                } catch (InstantiationException e) {
+                } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }catch(InstantiationException e){
                     e.printStackTrace();
                 }
             }
@@ -321,17 +313,14 @@ public class UserActivity extends ActionBarActivity {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            android.util.Log.d("ZNA_DEBUG","Item "+ position+"clicked");
             mLvNavItem.setItemChecked(position, true);
             mCurrentPositon = position;
-            if (((NavItem) mLvNavItem.getItemAtPosition(position)).getDisplayText().equals
-                    ("Family")) {
-                mFragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, FamilyFragment.newInstance("", ""))
-                        .commit();
-            } else {
-                //TODO:
-            }
-//            mDrawerLayout.closeDrawer(mDrawerLayout);
+            String targetFragmentTag = ((NavItem)mLvNavItem.getItemAtPosition(position)).getTargetFragmentTag();
+            switchItemFragment(mCurrentFragment,targetFragmentTag,null);
+            mCurrentFragment = targetFragmentTag;
+            mSlidingMenuLayout.toggle();
+
         }
     }
 }

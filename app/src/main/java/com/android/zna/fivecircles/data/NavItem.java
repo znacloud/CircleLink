@@ -2,11 +2,8 @@ package com.android.zna.fivecircles.data;
 
 import android.graphics.drawable.Drawable;
 
-/**
- * Created by ZNA on 2014/12/2.
- */
 public class NavItem {
-    private int mId;
+    private String mTargetFragmentTag;
     private Drawable mIcon;
     private Drawable mIconFocus;
     private String mDisplayText;
@@ -15,7 +12,6 @@ public class NavItem {
         mIcon = icon;
         mIconFocus = iconFocus;
         mDisplayText = text;
-        mId = generateNavItemId();
     }
 
     private int generateNavItemId() {
@@ -33,8 +29,24 @@ public class NavItem {
         return focused ? mIconFocus : mIcon;
     }
 
-    public int getmId() {
+    public String getTargetFragmentTag() {
 
-        return mId;
+        return mTargetFragmentTag;
+    }
+
+    public void setTargetFragmentTag(String pTag){
+        mTargetFragmentTag = pTag;
+    }
+
+    public void setIcon(Drawable pIcon) {
+        mIcon = pIcon;
+    }
+
+    public void setIconFocus(Drawable pIconFocus) {
+        mIconFocus = pIconFocus;
+    }
+
+    public void setDisplayText(String pDisplayText) {
+        mDisplayText = pDisplayText;
     }
 }

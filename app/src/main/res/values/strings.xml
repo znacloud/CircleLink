@@ -67,5 +67,9 @@
     <string name="realname_hint">真实姓名</string>
     <string name="progress_login">正在登录</string>
     <string name="login_fail">登录失败</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tab_chat">聊天</string>
+    <string name="tab_gallery">相册</string>
+    <string name="tab_record">记录</string>
 
 </resources>

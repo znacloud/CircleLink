@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+
     <!-- Base corlor -->
     <color name="base_color">#6ec236</color>
     <color name="base_color_dark">#006b0f</color>
-    <color name="base_color_gray">#ff515252</color>
+    <color name="base_color_gray_dark">#ff515252</color>
+    <color name="base_color_gray">#727272</color>
+    <color name="base_color_gray_light">#bdbdbd</color>
     <color name="base_color_light">#aedd89</color>
     <color name="base_color_inverse">#269d88</color>
     <color name="base_color_black">#000000</color>
@@ -39,5 +42,4 @@
 
     <color name="color_set_5_primary">#8aff65</color>
     <color name="color_set_5_accent">#00d5f9</color>
-    
 </resources>

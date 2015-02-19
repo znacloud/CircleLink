@@ -25,6 +25,15 @@
         <item>@drawable/ic_item_devices_focus</item>
         <item>@drawable/ic_item_settings_focus</item>
     </string-array>
+
+    <string-array name="nav_item_target_fragments">
+        <item>HomeFragment</item>
+        <item>FamilyFragment</item>
+        <item>CommunityFragment</item>
+        <item>DevicesFragment</item>
+        <item>SettingsFragment</item>
+    </string-array>
+
     <string-array name="sample_head_imgs">
         <item>@drawable/grumpy_bear</item>
         <item>@drawable/ooopsy_bear</item>

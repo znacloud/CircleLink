@@ -42,6 +42,7 @@
             android:icon="@drawable/ic_action_white"
             android:label="@string/login"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:theme="@style/NoActionBarActivityTheme"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity
