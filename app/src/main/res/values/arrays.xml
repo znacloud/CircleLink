@@ -1,37 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-
-    <string-array name="nav_item_icons">
-        <item>@drawable/ic_item_home</item>
-        <item>@drawable/ic_item_family</item>
-        <item>@drawable/ic_item_community</item>
-        <item>@drawable/ic_item_devices</item>
-        <item>@drawable/ic_item_settings</item>
-    </string-array>
-
     <string-array name="nav_item_dislpay">
-        <item>@string/home_item_str</item>
-        <item>@string/family_item_str</item>
+        <item>@string/memo_item_str</item>
+        <item>@string/gallery_item_str</item>
+        <item>@string/plan_item_str</item>
         <item>@string/community_item_str</item>
-        <item>@string/devices_item_str</item>
         <item>@string/settings_item_str</item>
     </string-array>
 
     <string-array name="nav_item_icons_focus">
-        <item>@drawable/ic_item_home_focus</item>
-        <item>@drawable/ic_item_family_focus</item>
-        <item>@drawable/ic_item_community_focus</item>
-        <item>@drawable/ic_item_devices_focus</item>
-        <item>@drawable/ic_item_settings_focus</item>
+        <item>@drawable/ic_memo</item>
+        <item>@drawable/ic_gallery</item>
+        <item>@drawable/ic_plan</item>
+        <item>@drawable/ic_community</item>
+        <item>@drawable/ic_settings</item>
     </string-array>
 
-    <string-array name="nav_item_target_fragments">
-        <item>HomeFragment</item>
-        <item>FamilyFragment</item>
-        <item>CommunityFragment</item>
-        <item>DevicesFragment</item>
-        <item>SettingsFragment</item>
+    <string-array name="nav_item_target_activities">
+        <item>MemoActivity</item>
+        <item>GalleryActivity</item>
+        <item>PlanActivity</item>
+        <item>CommunityActivity</item>
+        <item>SettingsActivity</item>
     </string-array>
 
     <string-array name="sample_head_imgs">

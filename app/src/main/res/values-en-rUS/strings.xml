@@ -13,9 +13,9 @@
     <string name="net_error">Network error</string>
     <string name="unknown">Unknown error !</string>
     <string name="community_item_str">Community</string>
-    <string name="family_item_str">Family</string>
-    <string name="devices_item_str">Devices</string>
-    <string name="home_item_str">Home</string>
+    <string name="tab_families">Family</string>
+    <string name="plan_item_str">Plan</string>
+    <string name="memo_item_str">Note</string>
     <string name="settings_item_str">Settings</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_family_detail">FamilyDetailActivity</string>
@@ -48,7 +48,7 @@
     <string name="nickname_avatar">nickname&#38;avatar</string>
     <string name="nickname_default">Little Small Koala</string>
     <string name="modify_tips">Tips:touch to modify</string>
-    <string name="modify">apply</string>
+    <string name="modify">Regsiter</string>
     <string name="user_basic_info">Basic info</string>
     <string name="realname_tips">Consists of 2~4 Chinese characters</string>
     <string name="repassword_tips">Password inconsitant</string>
@@ -66,5 +66,8 @@
     <string name="set_headimg_failed">Set head image failed</string>
     <string name="next">Next</string>
     <string name="realname_hint">Real name</string>
+    <string name="tab_chat">Chat</string>
+    <string name="gallery_item_str">Gallery</string>
+    <string name="tab_record">Interaction</string>
 
 </resources>

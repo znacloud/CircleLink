@@ -46,30 +46,30 @@
                 style="@style/TabExtraIconStyle"/>
             </RelativeLayout>
         <RelativeLayout
-            android:id="@+id/tab_gallery"
+            android:id="@+id/tab_family"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1">
             <ImageView
-                android:id="@+id/iv_tab_icon_gallery"
+                android:id="@+id/iv_tab_icon_family"
                 android:layout_marginTop="8dp"
                 android:layout_width="@dimen/tab_icon_size"
                 android:layout_height="@dimen/tab_icon_size"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/ic_gallery_gray"/>
+                android:src="@drawable/ic_family_gray"/>
             <TextView
-                android:id="@+id/tv_tab_gallery"
+                android:id="@+id/tv_tab_family"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/iv_tab_icon_gallery"
+                android:layout_below="@+id/iv_tab_icon_family"
                 android:layout_centerHorizontal="true"
                 android:textSize="12sp"
                 android:textColor="@color/base_color_gray"
-                android:text="@string/tab_gallery"/>
+                android:text="@string/tab_families"/>
             <ImageView
                 android:id="@+id/iv_extra_icon_gallery"
-                android:layout_alignEnd="@id/iv_tab_icon_gallery"
+                android:layout_alignEnd="@id/iv_tab_icon_family"
                 android:src="@drawable/ic_error_red"
                 style="@style/TabExtraIconStyle"/>
         </RelativeLayout>

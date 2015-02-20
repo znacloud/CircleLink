@@ -27,6 +27,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.zna.fivecircles.CommonUtils;
@@ -37,9 +38,9 @@ import com.android.zna.fivecircles.data.NavItem;
 import com.android.zna.fivecircles.services.ServerSerivce;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
-public class UserActivity extends ActionBarActivity {
+public class UserActivity extends ActionBarActivity implements View.OnClickListener{
     private DrawerLayout mDrawerLayout;
-    private ListView mLvNavItem;
+    private ListView mNavItemsList;
     private FrameLayout mLvContentView;
     private LinearLayout mLeftDrawView;
     private Toolbar mToolbar;
@@ -51,13 +52,26 @@ public class UserActivity extends ActionBarActivity {
     private ImageView mHeadIv;
 
     private ActionBarDrawerToggle mToggle;
-    private int mCurrentPositon = 0;
 
     private FragmentManager mFragmentManager;
     private SlidingMenu mSlidingMenuLayout;
     private ServerSerivce mServerService;
     private FamilyUser mCurrentUser;
     private String mCurrentFragment;
+
+    //main content widget
+    private RelativeLayout mTabChatLy;
+    private RelativeLayout mTabGalleryLy;
+    private RelativeLayout mTabRecordLy;
+    private ImageView mTabRecordIv;
+    private TextView mTabRecordTv;
+    private ImageView mTabRecordIvExt;
+    private ImageView mTabChatIv;
+    private TextView mTabChatTv;
+    private ImageView mTabChatIvExt;
+    private ImageView mTabGalleryIv;
+    private TextView mTabGalleryTv;
+    private ImageView mTabGalleryIvExt;
 
     @Override
     public void onCreate(Bundle savedState) {
@@ -70,28 +84,31 @@ public class UserActivity extends ActionBarActivity {
         if(mCurrentUser == null){
             startActivity(new Intent(this,LoginActivity.class));
         }
+        initView();
+
+    }
+
+    private void initView() {
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
         mFragmentManager = getFragmentManager();
 //        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mSlidingMenuLayout =(SlidingMenu) findViewById(R.id.sliding_menu_layout);
-        mLvNavItem = (ListView) findViewById(R.id.item_list);
+        mNavItemsList = (ListView) findViewById(R.id.item_list);
         mLvContentView = (FrameLayout) findViewById(R.id.content_frame);
 //        mLeftDrawView = (LinearLayout) findViewById(R.id.left_drawer);
 
         //setup NavItem list
         NavItemAdapter adapter = new NavItemAdapter(this);
-        mCurrentPositon = 0;
-        mCurrentFragment = ((NavItem)adapter.getItem(mCurrentPositon)).getTargetFragmentTag();
-        mLvNavItem.setAdapter(adapter);
+        mCurrentFragment = "ChatFragment";
+        mNavItemsList.setAdapter(adapter);
 
         NavItemClickListener listener = new NavItemClickListener(this);
-        mLvNavItem.setOnItemClickListener(listener);
+        mNavItemsList.setOnItemClickListener(listener);
 
-        mLvNavItem.setItemChecked(mCurrentPositon, true);
         mFragmentManager.beginTransaction()
-                .add(R.id.content_frame,HomeFragment.newInstance(),
+                .add(R.id.content_frame,ChatFragment.newInstance(),
                        mCurrentFragment).commit();
 
         //init user information
@@ -153,8 +170,104 @@ public class UserActivity extends ActionBarActivity {
                     0, getResources().getDisplayMetrics()));
         }
 
+        //initial main content widget
+        mTabChatLy = (RelativeLayout) findViewById(R.id.tab_chat);
+        mTabChatIv = (ImageView) mTabChatLy.findViewById(R.id.iv_tab_icon_chat);
+        mTabChatTv = (TextView) mTabChatLy.findViewById(R.id.tv_tab_chat);
+        mTabChatIvExt = (ImageView) mTabChatLy.findViewById(R.id.iv_extra_icon_chat);
+        mTabChatLy.setOnClickListener(this);
+
+        mTabGalleryLy = (RelativeLayout) findViewById(R.id.tab_family);
+        mTabGalleryIv = (ImageView) mTabGalleryLy.findViewById(R.id.iv_tab_icon_family);
+        mTabGalleryTv = (TextView) mTabGalleryLy.findViewById(R.id.tv_tab_family);
+        mTabGalleryIvExt = (ImageView) mTabGalleryLy.findViewById(R.id.iv_extra_icon_gallery);
+        mTabGalleryLy.setOnClickListener(this);
+
+        mTabRecordLy = (RelativeLayout) findViewById(R.id.tab_record);
+        mTabRecordIv = (ImageView) mTabRecordLy.findViewById(R.id.iv_tab_icon_record);
+        mTabRecordTv = (TextView) mTabRecordLy.findViewById(R.id.tv_tab_record);
+        mTabRecordIvExt = (ImageView) mTabRecordLy.findViewById(R.id.iv_extra_icon_record);
+        mTabRecordLy.setOnClickListener(this);
+    }
 
 
+    @Override
+    public void onClick(View v) {
+        resetTabStatus();
+        String toFragmentTag = "";
+        if (v.getId() == R.id.tab_chat) {
+            mTabChatIv.setImageResource(R.drawable.ic_chat);
+            mTabChatTv.setTextColor(getResources().getColor(R.color.base_color));
+            toFragmentTag = "ChatFragment";
+        } else if (v.getId() == R.id.tab_family) {
+            mTabGalleryIv.setImageResource(R.drawable.ic_family);
+            mTabGalleryTv.setTextColor(getResources().getColor(R.color.base_color));
+            toFragmentTag = "FamilyFragment";
+        } else if (v.getId() == R.id.tab_record) {
+            mTabRecordIv.setImageResource(R.drawable.ic_record);
+            mTabRecordTv.setTextColor(getResources().getColor(R.color.base_color));
+            toFragmentTag = "InteractionFragment";
+        }
+        //TODO:switch fragment
+        switchItemFragment(mCurrentFragment,toFragmentTag,null);
+        mCurrentFragment = toFragmentTag;
+    }
+
+    /**
+     * to change from one Fragment to another fragment
+     * @param fromFragmentTag
+     * @param toFragmentTag
+     * @param args
+     */
+    private void switchItemFragment(String fromFragmentTag,
+                                    String toFragmentTag, Bundle args) {
+        android.util.Log.d("ZNA_DEBUG","FROM:"+fromFragmentTag+" To:"+toFragmentTag);
+
+        //obtain Fragment instance
+        Fragment fromFragment = mFragmentManager.findFragmentByTag(fromFragmentTag);
+
+        Fragment toFragment = mFragmentManager.findFragmentByTag(toFragmentTag);
+
+        //if toFragment instance is null,create it
+        if (toFragment == null) {
+            try {
+                Class<? extends Fragment> klass = (Class<? extends Fragment>)Class.forName(Config.APP_PACKAGE+".ui."+toFragmentTag);
+                toFragment = klass.newInstance();
+                toFragment.setArguments(args);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }catch(InstantiationException e){
+                e.printStackTrace();
+            }
+        }
+
+        //if there are arguments
+        if (args != null && !args.isEmpty()) {
+            toFragment.getArguments().putAll(args);
+        }
+
+        FragmentTransaction ft = mFragmentManager.beginTransaction();
+        //if toFragment already added,show it
+        //else add it
+        if (toFragment.isAdded()) {
+            ft.hide(fromFragment).show(toFragment);
+        } else {
+            ft.hide(fromFragment).add(R.id.content_frame, toFragment, toFragmentTag);
+        }
+        ft.commit();
+    }
+
+    private void resetTabStatus() {
+        mTabChatIv.setImageResource(R.drawable.ic_chat_gray);
+        mTabChatTv.setTextColor(getResources().getColor(R.color.base_color_gray));
+
+        mTabGalleryIv.setImageResource(R.drawable.ic_family_gray);
+        mTabGalleryTv.setTextColor(getResources().getColor(R.color.base_color_gray));
+
+        mTabRecordIv.setImageResource(R.drawable.ic_record_gray);
+        mTabRecordTv.setTextColor(getResources().getColor(R.color.base_color_gray));
     }
 
     @Override
@@ -183,9 +296,8 @@ public class UserActivity extends ActionBarActivity {
     private class NavItemAdapter extends BaseAdapter {
         private Context mContext;
         private Drawable[] mIcons;
-        private Drawable[] mIconFocus;
         private String[] mDisplayNames;
-        private String[] mTags;
+        private String[] mActivities;
         private NavItem[] mNavItems;
 
         public NavItemAdapter(Context context) {
@@ -195,8 +307,10 @@ public class UserActivity extends ActionBarActivity {
 
         private void initNavItems(Context context) {
             mDisplayNames = context.getResources().getStringArray(R.array.nav_item_dislpay);
-            //get drawable array
-            TypedArray iconArray = mContext.getResources().obtainTypedArray(R.array.nav_item_icons);
+
+            //get focused drawable array
+            TypedArray iconArray = mContext.getResources().obtainTypedArray(R.array
+                    .nav_item_icons_focus);
             int len = iconArray.length();
             mIcons = new Drawable[len];
             for (int i = 0; i < len; i++) {
@@ -204,26 +318,16 @@ public class UserActivity extends ActionBarActivity {
             }
             iconArray.recycle();
 
-            //get focused drawable array
-            TypedArray iconArray2 = mContext.getResources().obtainTypedArray(R.array
-                    .nav_item_icons_focus);
-            int len2 = iconArray2.length();
-            mIconFocus = new Drawable[len];
-            for (int i = 0; i < len; i++) {
-                mIconFocus[i] = iconArray.getDrawable(i);
-            }
-            iconArray2.recycle();
-
-            //get target fragment tags
-            mTags = context.getResources().getStringArray(R.array.nav_item_target_fragments);
+            //get target activity name
+            mActivities = context.getResources().getStringArray(R.array.nav_item_target_activities);
 
             //generate NavItem
             int itemNum = mIcons.length < mDisplayNames.length ? mIcons.length : mDisplayNames
                     .length;
             mNavItems = new NavItem[itemNum];
             for (int i = 0; i < itemNum; i++) {
-                mNavItems[i] = new NavItem(mIcons[i], mIconFocus[i], mDisplayNames[i]);
-                mNavItems[i].setTargetFragmentTag(mTags[i]);
+                mNavItems[i] = new NavItem(mIcons[i], mDisplayNames[i]);
+                mNavItems[i].setTargetFragmentTag(mActivities[i]);
             }
         }
 
@@ -251,17 +355,8 @@ public class UserActivity extends ActionBarActivity {
                         null);
             }
             NavItem itemData = (NavItem) getItem(position);
-            ((ImageView) convertView.findViewById(R.id.icon)).setImageDrawable(itemData.getIcon
-                    (mLvNavItem.isItemChecked(position)));
+            ((ImageView) convertView.findViewById(R.id.icon)).setImageDrawable(itemData.getIcon());
             ((TextView) convertView.findViewById(R.id.text)).setText(itemData.getDisplayText());
-
-            if (mLvNavItem.isItemChecked(position)) {
-                ((TextView) convertView.findViewById(R.id.text)).setTextColor(mContext
-                        .getResources().getColor(R.color.base_color));
-            } else {
-                ((TextView) convertView.findViewById(R.id.text)).setTextColor(mContext
-                        .getResources().getColor(R.color.base_color_gray_dark));
-            }
 
             return convertView;
         }
@@ -271,55 +366,14 @@ public class UserActivity extends ActionBarActivity {
         public NavItemClickListener(UserActivity activity) {
         }
 
-        private void switchItemFragment(String fromFragmentTag,
-                                        String toFragmentTag, Bundle args) {
-            android.util.Log.d("ZNA_DEBUG","FROM:"+fromFragmentTag+" To:"+toFragmentTag);
 
-            //obtain Fragment instance
-            Fragment fromFragment = mFragmentManager.findFragmentByTag(fromFragmentTag);
-
-            Fragment toFragment = mFragmentManager.findFragmentByTag(toFragmentTag);
-
-            //if toFragment instance is null,create it
-            if (toFragment == null) {
-                try {
-                    Class<? extends Fragment> klass = (Class<? extends Fragment>)Class.forName(Config.APP_PACKAGE+".ui."+toFragmentTag);
-                    toFragment = klass.newInstance();
-                    toFragment.setArguments(args);
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }catch(InstantiationException e){
-                    e.printStackTrace();
-                }
-            }
-
-            //if there are arguments
-            if (args != null && !args.isEmpty()) {
-                toFragment.getArguments().putAll(args);
-            }
-
-            FragmentTransaction ft = mFragmentManager.beginTransaction();
-            //if toFragment already added,show it
-            //else add it
-            if (toFragment.isAdded()) {
-                ft.hide(fromFragment).show(toFragment);
-            } else {
-                ft.hide(fromFragment).add(R.id.content_frame, toFragment, toFragmentTag);
-            }
-            ft.commit();
-        }
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             android.util.Log.d("ZNA_DEBUG","Item "+ position+"clicked");
-            mLvNavItem.setItemChecked(position, true);
-            mCurrentPositon = position;
-            String targetFragmentTag = ((NavItem)mLvNavItem.getItemAtPosition(position)).getTargetFragmentTag();
-            switchItemFragment(mCurrentFragment,targetFragmentTag,null);
-            mCurrentFragment = targetFragmentTag;
-            mSlidingMenuLayout.toggle();
+            mNavItemsList.setItemChecked(position, true);
+            String targetActivityName = ((NavItem) mNavItemsList.getItemAtPosition(position)).getTargetActivityName();
+            //TODO:jump to target activities
 
         }
     }

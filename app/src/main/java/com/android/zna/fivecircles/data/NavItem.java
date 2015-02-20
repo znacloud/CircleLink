@@ -5,12 +5,10 @@ import android.graphics.drawable.Drawable;
 public class NavItem {
     private String mTargetFragmentTag;
     private Drawable mIcon;
-    private Drawable mIconFocus;
     private String mDisplayText;
 
-    public NavItem(Drawable icon, Drawable iconFocus, String text) {
+    public NavItem(Drawable icon, String text) {
         mIcon = icon;
-        mIconFocus = iconFocus;
         mDisplayText = text;
     }
 
@@ -24,12 +22,12 @@ public class NavItem {
         return mDisplayText;
     }
 
-    public Drawable getIcon(boolean focused) {
+    public Drawable getIcon() {
 
-        return focused ? mIconFocus : mIcon;
+            return mIcon;
     }
 
-    public String getTargetFragmentTag() {
+    public String getTargetActivityName() {
 
         return mTargetFragmentTag;
     }
@@ -40,10 +38,6 @@ public class NavItem {
 
     public void setIcon(Drawable pIcon) {
         mIcon = pIcon;
-    }
-
-    public void setIconFocus(Drawable pIconFocus) {
-        mIconFocus = pIconFocus;
     }
 
     public void setDisplayText(String pDisplayText) {
