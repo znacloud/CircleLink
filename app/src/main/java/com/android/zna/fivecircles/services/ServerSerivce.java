@@ -57,7 +57,15 @@ public abstract class ServerSerivce {
      */
     public abstract void register(FamilyUser pUser, ResultListener pListener);
 
-    public abstract void getValidCode(int pType, int pTarget);
+    /**
+     * get validation code from server for phone number or email used to register.
+     * it will send valicode to the specified phone number or email address.
+     * the valicode will also be returned to client for validation compare.
+     * @param pType validation type ,Email or Phone.
+     * @param pTarget target email address or phone number
+     * @param pListener callback to notify the result
+     */
+    public abstract void getValidCode(int pType, String pTarget,ResultListener pListener);
 
     /**
      * upload file to remote server
@@ -80,4 +88,9 @@ public abstract class ServerSerivce {
      * @return
      */
     public abstract FamilyUser getCurrentUser();
+
+    /**
+     * check duplidate user email address
+     */
+    public abstract void checkDuplicateAccount(String pTarget,ResultListener pListener);
 }

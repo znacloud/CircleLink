@@ -5,12 +5,19 @@ import android.content.Context;
 import com.android.zna.fivecircles.data.FamilyUser;
 import com.android.zna.fivecircles.net.DownloadImageTask;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
+import java.util.List;
 
 import cn.bmob.im.BmobChatManager;
 import cn.bmob.im.BmobUserManager;
 import cn.bmob.im.bean.BmobChatUser;
+import cn.bmob.v3.AsyncCustomEndpoints;
 import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.listener.CloudCodeListener;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UploadFileListener;
 
@@ -45,7 +52,7 @@ public class BmobServerService extends ServerSerivce {
             mSex = pSex;
         }
 
-        public FamilyUser convertToFamilyUser(){
+        public FamilyUser convertToFamilyUser() {
             FamilyUser user = new FamilyUser();
             user.setUsername(getUsername());
             user.setPassword(getPassword());
@@ -54,7 +61,7 @@ public class BmobServerService extends ServerSerivce {
             user.setRealname(mRealname);
             user.setSex(mSex);
             user.setSelfDesc(mSelfDesc);
-            return  user;
+            return user;
         }
     }
 
@@ -65,11 +72,11 @@ public class BmobServerService extends ServerSerivce {
         mUserManager = BmobUserManager.getInstance(pContext);
     }
 
-    public static synchronized  BmobServerService getInstance(Context pContext){
-        if(pBmobServer == null ){
+    public static synchronized BmobServerService getInstance(Context pContext) {
+        if (pBmobServer == null) {
             pBmobServer = new BmobServerService(pContext);
         }
-        return  pBmobServer;
+        return pBmobServer;
     }
 
     @Override
@@ -124,8 +131,51 @@ public class BmobServerService extends ServerSerivce {
     }
 
     @Override
-    public void getValidCode(int pType, int pTarget) {
+    public void getValidCode(int pType, String pTarget, final ResultListener pListener) {
+        //cloud end code name
+        String cloudMethodName = "";
+        if (pType == VALID_TYPE_EMAIL) {
+            cloudMethodName = "sendValiCodeMail";
+        } else if (pType == VALID_TYPE_PHONE) {
+            //not implement yet
+            cloudMethodName = "sendValiCodePhone";
+        }
+        JSONObject params = new JSONObject();
+        try {
+            //params to deliver to server
+            params.put("toAddress", pTarget);
+            AsyncCustomEndpoints cloudCode = new AsyncCustomEndpoints();
+            cloudCode.callEndpoint(mContext, cloudMethodName, params, new CloudCodeListener() {
+                @Override
+                public void onSuccess(Object o) {
+                    try {
+                        JSONObject json = new JSONObject((String)o);
+                        String valiCode = json.optString("results");
+                        if (pListener != null) {
+                            if (!valiCode.trim().contentEquals("")) {
+                                pListener.onSuccess(valiCode);
+                            } else {
+                                pListener.onFailure(-1, "Results are empty");
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        if(pListener != null){
+                            pListener.onFailure(-2,e.getMessage());
+                        }
+                    }
+                }
 
+                @Override
+                public void onFailure(int i, String s) {
+                    if (pListener != null) {
+                        pListener.onFailure(i, s);
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -156,7 +206,7 @@ public class BmobServerService extends ServerSerivce {
     }
 
     @Override
-    public void downloadImage(String pUrl,ResultListener pListener){
+    public void downloadImage(String pUrl, ResultListener pListener) {
         DownloadImageTask task = new DownloadImageTask(pListener);
         task.execute(pUrl);
     }
@@ -164,10 +214,33 @@ public class BmobServerService extends ServerSerivce {
     @Override
     public FamilyUser getCurrentUser() {
         BmobChatUserExt currentUser = mUserManager.getCurrentUser(BmobChatUserExt.class);
-        if (currentUser != null){
+        if (currentUser != null) {
             return currentUser.convertToFamilyUser();
         }
         return null;
 
+    }
+
+    @Override
+    public void checkDuplicateAccount(String pTarget, final ResultListener pListener){
+        mUserManager.queryUserByName(pTarget,new FindListener<BmobChatUser>() {
+            @Override
+            public void onSuccess(List<BmobChatUser> pBmobChatUsers) {
+                if(pListener != null){
+                    if (pBmobChatUsers != null && !pBmobChatUsers.isEmpty()) {
+                        pListener.onSuccess(true);//true means this username is duplicated
+                    }else{
+                        pListener.onSuccess(false);
+                    }
+                }
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                if(pListener != null){
+                    pListener.onFailure(i,s);
+                }
+            }
+        });
     }
 }

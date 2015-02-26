@@ -18,11 +18,11 @@
     </string-array>
 
     <string-array name="nav_item_target_activities">
-        <item>MemoActivity</item>
-        <item>GalleryActivity</item>
-        <item>PlanActivity</item>
-        <item>CommunityActivity</item>
-        <item>SettingsActivity</item>
+        <item>.ui.MemoActivity</item>
+        <item>.ui.GalleryActivity</item>
+        <item>.ui.PlanActivity</item>
+        <item>.ui.CommunityActivity</item>
+        <item>.ui.SettingsActivity</item>
     </string-array>
 
     <string-array name="sample_head_imgs">

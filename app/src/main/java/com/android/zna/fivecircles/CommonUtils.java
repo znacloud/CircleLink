@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
+import android.util.Base64;
 
 import org.apache.http.HttpVersion;
 import org.apache.http.client.HttpClient;
@@ -29,6 +30,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
+
 
 /**
  * Created by nianan.zeng
@@ -79,6 +82,18 @@ public class CommonUtils {
         }
     }
 
+    public static File getCacheDir(){
+        if (isSDCARDMounted()) {
+            File dir = new File(Environment.getExternalStorageDirectory(), Config.APP_DIR);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+            return dir;
+        }else{
+            return null;
+        }
+    }
+
     /**
      * generate SHA code
      * @param s String used to generate SHA code
@@ -99,6 +114,45 @@ public class CommonUtils {
             android.util.Log.e("ZNA_DEBUG", e.getMessage());
         }
         return s;
+    }
+
+    /**
+     * generate MD5 code
+     * @param s String used to generate SHA code
+     * @return
+     */
+    public static String makeMD5(String s) {
+        try {
+            byte[] bytes = s.getBytes("UTF-8");
+            MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+            messageDigest.update(bytes);
+            return new String(messageDigest.digest(), "UTF-8");
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            android.util.Log.e("ZNA_DEBUG", e.getMessage());
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            android.util.Log.e("ZNA_DEBUG", e.getMessage());
+        }
+        return s;
+    }
+
+    /**
+     * generate Base64code
+     * @param s String used to generate SHA code
+     * @return
+     */
+    public static String makeBASE64(String s) {
+
+        try {
+            byte[] bytes =  s.getBytes("UTF-8");
+            return Base64.encodeToString(bytes,Base64.DEFAULT);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return "";
+
     }
 
     /**

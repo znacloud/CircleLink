@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -37,6 +38,12 @@ import com.android.zna.fivecircles.data.FamilyUser;
 import com.android.zna.fivecircles.data.NavItem;
 import com.android.zna.fivecircles.services.ServerSerivce;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class UserActivity extends ActionBarActivity implements View.OnClickListener{
     private DrawerLayout mDrawerLayout;
@@ -137,6 +144,7 @@ public class UserActivity extends ActionBarActivity implements View.OnClickListe
             @Override
             public void onSuccess(Object pObj) {
                 Bitmap bitmap = (Bitmap)pObj;
+                cacheAvatar(bitmap,mCurrentUser.getUsername());
                 //menu layout head image
                 mHeadIv.setImageBitmap(bitmap);
 
@@ -147,14 +155,20 @@ public class UserActivity extends ActionBarActivity implements View.OnClickListe
                 mToolbar.setNavigationIcon(drawable);
             }
 
+
+
             @Override
             public void onFailure(int pErrorCode, String pErrorMsg) {
                 //if failed to get head image,set default
-                Drawable drawable = CommonUtils.generateScaledCircleDrawable(UserActivity.this,R.drawable.head_img_default,
-                        (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,18,
-                                getResources().getDisplayMetrics()));
-                mToolbar.setNavigationIcon(drawable);
-                mHeadIv.setImageDrawable(drawable);
+                Bitmap cachedImage = getCachedAvatar(mCurrentUser.getUsername());
+                if(cachedImage != null){
+                    mHeadIv.setImageBitmap(cachedImage);
+                    Drawable drawable = CommonUtils.generateScaledCircleDrawable(UserActivity.this,cachedImage,
+                            (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,18,
+                                    getResources().getDisplayMetrics()));
+                    mToolbar.setNavigationIcon(drawable);
+                }
+
             }
         });
 
@@ -190,6 +204,12 @@ public class UserActivity extends ActionBarActivity implements View.OnClickListe
         mTabRecordLy.setOnClickListener(this);
     }
 
+    private Bitmap getCachedAvatar(String pUsername) {
+        File cachedImage = new File(CommonUtils.getCacheDir(),"/"+CommonUtils.makeBASE64(pUsername));
+        Bitmap bitmap = BitmapFactory.decodeFile(cachedImage.getAbsolutePath());
+        return bitmap;
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -211,6 +231,27 @@ public class UserActivity extends ActionBarActivity implements View.OnClickListe
         //TODO:switch fragment
         switchItemFragment(mCurrentFragment,toFragmentTag,null);
         mCurrentFragment = toFragmentTag;
+    }
+
+    private void cacheAvatar(Bitmap pBitmap, String pUsername) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        pBitmap.compress(Bitmap.CompressFormat.JPEG,100,outputStream);
+        byte[] bytes = outputStream.toByteArray();
+
+        //use username' SHA string as image file name
+        File imageFile = new File(CommonUtils.getCacheDir(),"/"+CommonUtils.makeBASE64(pUsername));
+        android.util.Log.e("ZNA_DEBUG",imageFile.getAbsolutePath());
+        try {
+            imageFile.createNewFile();
+            FileOutputStream fileOutputStream = new FileOutputStream(imageFile);
+            BufferedOutputStream bOutputStream = new BufferedOutputStream(fileOutputStream);
+            bOutputStream.write(bytes);
+            bOutputStream.flush();
+            bOutputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     /**
@@ -327,7 +368,7 @@ public class UserActivity extends ActionBarActivity implements View.OnClickListe
             mNavItems = new NavItem[itemNum];
             for (int i = 0; i < itemNum; i++) {
                 mNavItems[i] = new NavItem(mIcons[i], mDisplayNames[i]);
-                mNavItems[i].setTargetFragmentTag(mActivities[i]);
+                mNavItems[i].setTargetActivityName(mActivities[i]);
             }
         }
 
@@ -374,6 +415,9 @@ public class UserActivity extends ActionBarActivity implements View.OnClickListe
             mNavItemsList.setItemChecked(position, true);
             String targetActivityName = ((NavItem) mNavItemsList.getItemAtPosition(position)).getTargetActivityName();
             //TODO:jump to target activities
+            Intent intent = new Intent();
+            intent.setClassName(UserActivity.this,Config.APP_PACKAGE+targetActivityName);
+            startActivity(intent);
 
         }
     }

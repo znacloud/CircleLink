@@ -3,7 +3,7 @@ package com.android.zna.fivecircles.data;
 import android.graphics.drawable.Drawable;
 
 public class NavItem {
-    private String mTargetFragmentTag;
+    private String mTargetActivityName;
     private Drawable mIcon;
     private String mDisplayText;
 
@@ -29,11 +29,11 @@ public class NavItem {
 
     public String getTargetActivityName() {
 
-        return mTargetFragmentTag;
+        return mTargetActivityName;
     }
 
-    public void setTargetFragmentTag(String pTag){
-        mTargetFragmentTag = pTag;
+    public void setTargetActivityName(String pTag){
+        mTargetActivityName = pTag;
     }
 
     public void setIcon(Drawable pIcon) {

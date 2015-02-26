@@ -67,10 +67,18 @@
     <string name="realname_hint">真实姓名</string>
     <string name="progress_login">正在登录</string>
     <string name="login_fail">登录失败</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="tab_chat">聊天</string>
     <string name="gallery_item_str">相册</string>
     <string name="tab_record">互动</string>
     <string name="title_activity_family_detail"></string>
+    <string name="vlidate_error">获取验证码失败</string>
+    <string name="get_valid_code_format">%1$s秒后\n获取验证码</string>
+    <string name="validate_error">验证码错误</string>
+    <string name="username_tips2">该邮箱已经被注册</string>
+    <string name="title_activity_memo">备忘</string>
+    <string name="title_activity_gallery">相册</string>
+    <string name="title_activity_plan">计划</string>
+    <string name="title_activity_community">社区</string>
+    <string name="title_activity_settings">设置</string>
 
 </resources>

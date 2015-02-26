@@ -106,13 +106,20 @@
                 android:inputType="numberDecimal"/>
 
             <Button
-                android:id="@+id/btn_get_validation"
+                android:id="@+id/btn_validate"
                 style="@style/InnerButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignEnd="@id/et_validate"
                 android:layout_centerInParent="true"
+                android:enabled="false"
                 android:text="@string/get_valid_code"/>
+            <TextView
+                android:id="@+id/tv_validate_error"
+                style="@style/ErrorTextStyle"
+                android:layout_toLeftOf="@id/btn_validate"
+                android:layout_centerInParent="true"
+                android:text="@string/validate_error"/>
         </RelativeLayout>
 
         <TextView

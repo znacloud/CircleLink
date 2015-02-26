@@ -7,10 +7,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -18,6 +20,7 @@ import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CheckedTextView;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -33,11 +36,14 @@ import com.android.zna.fivecircles.services.ServerSerivce;
 import com.android.zna.fivecircles.view.CustomProgressDialog;
 import com.android.zna.fivecircles.view.CustomToast;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 /**
  * Created by ZNA on 2014/12/1.
  */
-public class RegisterActivity extends ActionBarActivity {
+public class RegisterActivity extends ActionBarActivity implements View.OnFocusChangeListener {
     private static String LOG_TAG = "ResigterActivity";
     private static final int REQUEST_PICK_IMAGE = 0;
     private static final int REQUEST_CROP_IMAGE = 1;
@@ -46,6 +52,9 @@ public class RegisterActivity extends ActionBarActivity {
     private EditText mPasswordEdit;
     private EditText mRepasswordEdit;
     private CheckBox mProtocolCheck;
+
+    private EditText mValidateEdit;
+    private Button mValidateBtn;
     private Button mNextBtn;
 
     private ActionBar mToolbar;
@@ -66,9 +75,13 @@ public class RegisterActivity extends ActionBarActivity {
     private FamilyUser currentUser;
     private TextView mNicknameErrorTv;
     private TextView mRealnameErrorTv;
-
+    private TextView mValidateErrorTv;
 
     private ServerSerivce mServerSerivce;
+
+    private String mValiCode = "";
+    private Handler validateHandler = new Handler();
+    private int mValiTime;
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -210,6 +223,8 @@ public class RegisterActivity extends ActionBarActivity {
         mUserNameEdit = (EditText) rootView.findViewById(R.id.et_username);
         mPasswordEdit = (EditText) rootView.findViewById(R.id.et_password);
         mRepasswordEdit = (EditText) rootView.findViewById(R.id.et_repassword);
+        mValidateEdit = (EditText) rootView.findViewById(R.id.et_validate);
+        mValidateBtn = (Button) rootView.findViewById(R.id.btn_validate);
         mProtocolCheck = (CheckBox) rootView.findViewById(R.id.ckb_protocol);
         mNextBtn = (Button) rootView.findViewById(R.id.btn_next);
 
@@ -217,54 +232,53 @@ public class RegisterActivity extends ActionBarActivity {
         mUserNameErrorTv = (TextView) rootView.findViewById(R.id.tv_username_error);
         mPasswordErrorTv = (TextView) rootView.findViewById(R.id.tv_password_error);
         mRepasswordErrorTv = (TextView) rootView.findViewById(R.id.tv_repassword_error);
+        mValidateErrorTv = (TextView) rootView.findViewById(R.id.tv_validate_error);
 
-        //setup textwatcher listener
-        mUserNameEdit.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+        mUserNameEdit.setOnFocusChangeListener(this);
+        mPasswordEdit.setOnFocusChangeListener(this);
+        mRepasswordEdit.setOnFocusChangeListener(this);
+        mValidateEdit.setOnFocusChangeListener(this);
 
+        mValidateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
+            public void onClick(View v) {
+                mServerSerivce.getValidCode(ServerSerivce.VALID_TYPE_EMAIL,
+                        mUserNameEdit.getText().toString().trim(),
+                        new ServerSerivce.ResultListener() {
 
-            @Override
-            public void afterTextChanged(Editable s) {
-                android.util.Log.d("ZNA_DEBUG", "afterTextChange");
-                mUserNameErrorTv.setVisibility(View.GONE);
-                //if username changed,we reset password
-                mPasswordEdit.setText("");
-                mRepasswordEdit.setText("");
-            }
-        });
-        mPasswordEdit.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
+                    @Override
+                    public void onSuccess(Object pObj) {
+                        mValiCode = (String) pObj;
+                        //disable validate btn for a moment
+                        mValiTime = 30;
+                        mValidateBtn.setEnabled(false);
+                        final String format = getString(R.string.get_valid_code_format);
+                        mValidateBtn.setText(String.format(format, mValiTime));
+                        validateHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                mValiTime--;
+                                mValidateBtn.setText(String.format(format, mValiTime));
+                                if (mValiTime > 0) {
+                                    validateHandler.postDelayed(this, 1000);
+                                } else {
+                                    mValidateBtn.setText(R.string.get_valid_code);
+                                    mValidateBtn.setEnabled(true);
+                                }
+                            }
+                        }, 1000);
+                    }
 
-            @Override
-            public void afterTextChanged(Editable s) {
-                android.util.Log.d("ZNA_DEBUG", "afterTextChange");
-                mPasswordErrorTv.setVisibility(View.GONE);
-            }
-        });
-        mRepasswordEdit.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                android.util.Log.d("ZNA_DEBUG", "afterTextChange");
-                mRepasswordErrorTv.setVisibility(View.GONE);
+                    @Override
+                    public void onFailure(int pErrorCode, String pErrorMsg) {
+                        CustomToast.show(RegisterActivity.this, getString(R.string.vlidate_error)
+                                + ":" + pErrorCode + "-" + pErrorMsg, Toast.LENGTH_LONG);
+                        mValidateBtn.setText(R.string.get_valid_code);
+                        mValiCode = "";
+                        mValidateBtn.setEnabled(true);
+                    }
+                });
             }
         });
 
@@ -362,6 +376,7 @@ public class RegisterActivity extends ActionBarActivity {
         boolean valid = true;
         if (!isEmailaddress(mUserNameEdit.getText().toString().trim())) {
             valid = false;
+            mUserNameErrorTv.setText(R.string.username_tips);
             mUserNameErrorTv.setVisibility(View.VISIBLE);
         }
         if (!isPasswdValid(mPasswordEdit.getText().toString())) {
@@ -372,8 +387,14 @@ public class RegisterActivity extends ActionBarActivity {
             valid = false;
             mRepasswordErrorTv.setVisibility(View.VISIBLE);
         }
+
+        if (!isValiCodeCorrect()) {
+            valid = false;
+            mValidateErrorTv.setVisibility(View.VISIBLE);
+        }
         return valid;
     }
+
 
     private boolean checkValid2() {
         boolean valid = true;
@@ -475,6 +496,10 @@ public class RegisterActivity extends ActionBarActivity {
         return isPasswdValid(password) && password.contentEquals(repassword);
     }
 
+    private boolean isValiCodeCorrect() {
+        return !TextUtils.isEmpty(mValiCode)&&mValiCode.contentEquals(mValidateEdit.getText().toString().trim());
+    }
+
     private boolean isNicknameValid(String nickname) {
         String nicknamePattern = "[-0-9a-zA-Z\u4e00-\u9fa5]{4,24}";
         return nickname.matches(nicknamePattern);
@@ -483,5 +508,62 @@ public class RegisterActivity extends ActionBarActivity {
     private boolean isRealNameValid(String realName) {
         String realNamePattern = "[\\u4e00-\\u9fa5]{2,4}";
         return realName.matches(realNamePattern);
+    }
+
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        if (v.getId() == R.id.et_username) {
+            if (!hasFocus) {
+                if (isEmailaddress(mUserNameEdit.getText().toString().trim())) {
+                    mServerSerivce.checkDuplicateAccount(mUserNameEdit.getText().toString().trim
+                            (), new ServerSerivce.ResultListener() {
+                        @Override
+                        public void onSuccess(Object pObj) {
+                            boolean duplicated = (boolean) pObj;
+                            if (duplicated) {
+                                mUserNameErrorTv.setText(R.string.username_tips2);
+                                mUserNameErrorTv.setVisibility(View.VISIBLE);
+                                mValidateBtn.setEnabled(false);
+                            } else {
+                                mValidateBtn.setEnabled(true);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(int pErrorCode, String pErrorMsg) {
+                            //do nothing
+                        }
+                    });
+                } else {
+                    mUserNameErrorTv.setText(R.string.username_tips);
+                    mUserNameErrorTv.setVisibility(View.VISIBLE);
+
+                }
+            } else {
+                mUserNameErrorTv.setVisibility(View.GONE);
+            }
+        }else if(v.getId() == R.id.et_password){
+            if(!hasFocus){
+                if(!isPasswdValid(mPasswordEdit.getText().toString())) {
+                    mPasswordErrorTv.setVisibility(View.VISIBLE);
+                }
+            }else{
+                mPasswordErrorTv.setVisibility(View.GONE);
+            }
+        }else if(v.getId() == R.id.et_repassword){
+            if(!hasFocus){
+                if(!isPasswdConsistent(mPasswordEdit.getText().toString(),mRepasswordEdit.getText().toString())){
+                    mRepasswordErrorTv.setVisibility(View.VISIBLE);
+                }
+            }else{
+                mRepasswordErrorTv.setVisibility(View.GONE);
+            }
+        }else if(v.getId() == R.id.et_validate){
+            if(hasFocus){
+                mValidateErrorTv.setVisibility(View.GONE);
+            }
+        }
+
+
     }
 }

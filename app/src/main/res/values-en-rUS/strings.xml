@@ -69,5 +69,11 @@
     <string name="tab_chat">Chat</string>
     <string name="gallery_item_str">Gallery</string>
     <string name="tab_record">Interaction</string>
+    <string name="get_valid_code_format">%1$s seconds later to get again</string>
+    <string name="title_activity_community">Community</string>
+    <string name="title_activity_gallery">Gallery</string>
+    <string name="title_activity_memo">Memo</string>
+    <string name="title_activity_plan">Plan</string>
+    <string name="title_activity_settings">Settings</string>
 
 </resources>
