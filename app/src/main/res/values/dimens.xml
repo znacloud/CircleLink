@@ -14,6 +14,8 @@
     <!-- Sliding Menu -->
     <dimen name="left_menu_width">256dp</dimen>
     <dimen name="action_header_view_size">48dp</dimen>
+    <dimen name="header_view_size_large">96dp</dimen>
+    <dimen name="heaeer_view_corner_radius">8dp</dimen>
 
     <!-- Tab bar -->
     <dimen name="tab_bar_height">64dp</dimen>

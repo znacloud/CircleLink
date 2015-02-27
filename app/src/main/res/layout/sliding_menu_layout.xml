@@ -25,10 +25,10 @@
             <com.makeramen.RoundedImageView
                 android:id="@+id/iv_head"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="96dp"
-                android:layout_height="96dp"
+                android:layout_width="@dimen/header_view_size_large"
+                android:layout_height="@dimen/header_view_size_large"
                 android:src="@drawable/head_img_default"
-                app:riv_corner_radius="8dp"
+                app:riv_corner_radius="@dimen/heaeer_view_corner_radius"
                 app:riv_oval="false"/>
 
             <LinearLayout
