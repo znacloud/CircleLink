@@ -3,24 +3,25 @@
     <Preference
         android:key="user_info"
         android:layout="@layout/user_header_layout">
-     </Preference>
+    </Preference>
     <PreferenceCategory
-        android:title="消息"
         android:summary="消息设置"
+        android:title="消息"
         >
-    <SwitchPreference
-        android:key="sound"
-        android:title="声音"
-        android:summary="消息到达时播放声音" />
+        <SwitchPreference
+            android:key="sound"
+            android:summary="消息到达时播放声音"
+            android:title="声音"/>
 
-    <SwitchPreference
-        android:key="vibrate"
-        android:title="震动"
-        android:summary="消息到达时震动" />
+        <SwitchPreference
+            android:key="vibrate"
+            android:summary="消息到达时震动"
+            android:title="震动"/>
 
     </PreferenceCategory>
     <Preference
         android:key="logout"
-        android:layout="@layout/logout_layout"/>
+        android:layout="@layout/logout_layout">
+    </Preference>
 
 </PreferenceScreen>

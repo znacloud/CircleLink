@@ -38,40 +38,34 @@ public class SettingsFragment extends PreferenceFragment {
     public void onCreate(Bundle pBundle){
         super.onCreate(pBundle);
         addPreferencesFromResource(R.xml.settings_preference);
-        getPreferenceScreen().setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+    }
 
+    @Override
+    public boolean onPreferenceTreeClick(PreferenceScreen pScreen,Preference pPreference){
+            String  key = pPreference.getKey();
+            android.util.Log.e("ZNA_DEBUG","KEY == "+key);
+            if(key != null && key.contentEquals("logout")){
 
-            @Override
-            public boolean onPreferenceClick(Preference pPreference) {
-                String  key = pPreference.getKey();
-                android.util.Log.e("ZNA_DEBUG","KEY == "+key);
-                if(key != null && key.contentEquals("logout")){
-
-                    AlertDialog dialog = new AlertDialog.Builder(getActivity())
-                            .setTitle("Confirm")
-                            .setMessage("Are you sure to logout this account ???")
-                            .setNegativeButton("cancel",new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface pDialogInterface, int i) {
-                                    pDialogInterface.dismiss();
-                                }
-                            })
-                            .setPositiveButton("OK",new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface pDialogInterface, int i) {
-                                    //TODO:logout action
-                                }
-                            }).create();
-                    dialog.show();
-
-                    return true;
-                }else if(key != null && key.contentEquals("user_info")){
-                    getActivity().startActivity(new Intent(getActivity(),UserInfoActivity.class));
-                }
-                return false;
+                AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                        .setTitle("Confirm")
+                        .setMessage("Are you sure to logout this account ???")
+                        .setNegativeButton("cancel",new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface pDialogInterface, int i) {
+                                pDialogInterface.dismiss();
+                            }
+                        })
+                        .setPositiveButton("OK",new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface pDialogInterface, int i) {
+                                //TODO:logout action
+                            }
+                        }).create();
+                dialog.show();
+            }else if(key != null && key.contentEquals("user_info")){
+                getActivity().startActivity(new Intent(getActivity(),UserInfoActivity.class));
             }
-        });
-
+        return super.onPreferenceTreeClick(pScreen,pPreference);
     }
 
 }
