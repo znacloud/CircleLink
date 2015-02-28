@@ -106,6 +106,10 @@
         <item name="android:textSize">18sp</item>
     </style>
 
+    <style name="LogoutButtonStyle" parent="BaseButtonStyle">
+        <item name="android:background">@drawable/bg_btn_logout</item>
+    </style>
+
     <style name="InnerButtonStyle" parent="BaseButtonStyle">
         <item name="android:padding">5dp</item>
         <item name="android:radius">2dp</item>

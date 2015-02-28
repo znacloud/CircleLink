@@ -83,6 +83,15 @@
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_user_info">User Info</string>
+    <string name="title_activity_user_info">个人信息</string>
+    <string name="notification_title">通知</string>
+    <string name="notification_summary_on">接收新消息通知</string>
+    <string name="notification_summary_off">不接收新消息通知</string>
+    <string name="sound_summary_off">消息到达时不播放声音</string>
+    <string name="sound_summary_on">消息到达时播放声音</string>
+    <string name="sound_title">声音</string>
+    <string name="vibrate_title">震动</string>
+    <string name="vibrate_summary_on">消息到达时震动提示</string>
+    <string name="vibrate_summary_off">消息到达时不震动提示</string>
 
 </resources>

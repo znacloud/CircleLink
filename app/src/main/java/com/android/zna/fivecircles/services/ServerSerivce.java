@@ -51,6 +51,13 @@ public abstract class ServerSerivce {
     public abstract void login(FamilyUser pUser, ResultListener pListener);
 
     /**
+     * logout remote server
+     * @param pUser Ther user to logout server
+     * @param pListener callback to notify the result of login action
+     */
+    public abstract void logout(FamilyUser pUser, ResultListener pListener);
+
+    /**
      * register remote server,FamilyUser contains basic information of an new user
      * @param pUser Ther user to register server
      * @param pListener callback to notify the result of register action

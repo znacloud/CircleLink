@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item >
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/preference_radius" />
+            <solid android:color="@color/base_color_light" />
+            <padding android:top="@dimen/activity_vertical_margin"
+                     android:bottom="@dimen/activity_vertical_margin"
+                     android:left="@dimen/activity_horizontal_margin"
+                     android:right="@dimen/activity_horizontal_margin"/>
+        </shape>
+    </item>
+
+</selector>

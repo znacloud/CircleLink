@@ -7,23 +7,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.android.zna.fivecircles.R;
+import com.android.zna.fivecircles.services.ServerSerivce;
 
 import cn.bmob.im.BmobChatManager;
 import cn.bmob.im.BmobUserManager;
 
 public abstract class BaseActivity extends ActionBarActivity {
-    protected BmobUserManager mUserManager;
-    protected BmobChatManager mChatManager;
     protected ActionBar mToolbar;
+    protected ServerSerivce mServerSerivce;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
 
-        mUserManager = BmobUserManager.getInstance(this);
-        mUserManager.init(this);
-        mChatManager = BmobChatManager.getInstance(this);
-        mChatManager.init(this);
+
+        mServerSerivce = ServerSerivce.getService(this,ServerSerivce.SERV_TYPE_BMOB);
 
         mToolbar = getSupportActionBar();
         mToolbar.setDefaultDisplayHomeAsUpEnabled(true);
@@ -53,5 +51,9 @@ public abstract class BaseActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public ServerSerivce getServerSerivce() {
+        return mServerSerivce;
     }
 }

@@ -1,6 +1,7 @@
 package com.android.zna.fivecircles.ui;
 
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,14 +14,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.zna.fivecircles.R;
+import com.android.zna.fivecircles.data.FamilyUser;
+import com.android.zna.fivecircles.services.ServerSerivce;
+import com.android.zna.fivecircles.view.CustomToast;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class SettingsFragment extends PreferenceFragment {
 
+    private BaseActivity mActivity;
 
     public static  SettingsFragment newInstance(){
         SettingsFragment fragment = new SettingsFragment();
@@ -33,6 +39,12 @@ public class SettingsFragment extends PreferenceFragment {
         // Required empty public constructor
     }
 
+
+    @Override
+    public void onAttach(Activity pActivity){
+        super.onAttach(pActivity);
+        mActivity =(BaseActivity)pActivity;
+    }
 
     @Override
     public void onCreate(Bundle pBundle){
@@ -59,13 +71,28 @@ public class SettingsFragment extends PreferenceFragment {
                             @Override
                             public void onClick(DialogInterface pDialogInterface, int i) {
                                 //TODO:logout action
+                                logout();
                             }
                         }).create();
                 dialog.show();
             }else if(key != null && key.contentEquals("user_info")){
-                getActivity().startActivity(new Intent(getActivity(),UserInfoActivity.class));
+                mActivity.startActivity(new Intent(mActivity, UserInfoActivity.class));
             }
         return super.onPreferenceTreeClick(pScreen,pPreference);
+    }
+
+    private void logout() {
+        mActivity.getServerSerivce().logout(null,new ServerSerivce.ResultListener() {
+            @Override
+            public void onSuccess(Object pObj) {
+                mActivity.startActivity(new Intent(mActivity,LoginActivity.class));
+            }
+
+            @Override
+            public void onFailure(int pErrorCode, String pErrorMsg) {
+                CustomToast.show(mActivity,pErrorMsg, Toast.LENGTH_LONG);
+            }
+        });
     }
 
 }

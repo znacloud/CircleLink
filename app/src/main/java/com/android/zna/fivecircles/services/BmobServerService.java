@@ -81,8 +81,8 @@ public class BmobServerService extends ServerSerivce {
 
     @Override
     public void login(FamilyUser pUser, final ResultListener pListener) {
-        android.util.Log.e("ZNA_DEBUG", "username:" + pUser.getUsername());
-        android.util.Log.e("ZNA_DEBUG", "password:" + pUser.getPassword());
+        android.util.Log.d("ZNA_DEBUG", "username:" + pUser.getUsername());
+        android.util.Log.d("ZNA_DEBUG", "password:" + pUser.getPassword());
         BmobChatUser bmobChatUser = new BmobChatUser();
         bmobChatUser.setUsername(pUser.getUsername());
         bmobChatUser.setPassword(pUser.getPassword());
@@ -101,6 +101,10 @@ public class BmobServerService extends ServerSerivce {
                 }
             }
         });
+    }
+
+    @Override
+    public void logout(FamilyUser pUser,final  ResultListener pResultListener){
     }
 
     @Override

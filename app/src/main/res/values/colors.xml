@@ -12,6 +12,8 @@
     <color name="base_color_inverse">#269d88</color>
     <color name="base_color_black">#000000</color>
     <color name="base_color_progress">#aa2F3528</color>
+    <color name="base_color_red">#ff0000</color>
+    <color name="base_color_red_dark">#b30000</color>
 
     <!-- Theme colors -->
     <color name="theme_light">#F48FB1</color>
@@ -42,4 +44,5 @@
 
     <color name="color_set_5_primary">#8aff65</color>
     <color name="color_set_5_accent">#00d5f9</color>
+
 </resources>

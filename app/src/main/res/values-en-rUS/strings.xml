@@ -52,7 +52,7 @@
     <string name="user_basic_info">Basic info</string>
     <string name="realname_tips">Consists of 2~4 Chinese characters</string>
     <string name="repassword_tips">Password inconsitant</string>
-    <string name="get_valid_code">Get Vali Code</string>
+    <string name="get_valid_code">Get ValiCode</string>
     <string name="sex_male">Man</string>
     <string name="sex_female">Woman</string>
     <string name="role_brother">Son</string>
@@ -75,5 +75,22 @@
     <string name="title_activity_memo">Memo</string>
     <string name="title_activity_plan">Plan</string>
     <string name="title_activity_settings">Settings</string>
+    <string name="notification_summary_off">Don\'t receive notification</string>
+    <string name="notification_summary_on">Receive notification</string>
+    <string name="notification_title">Notification</string>
+    <string name="progress_login">Login...</string>
+    <string name="sex_group">Sex</string>
+    <string name="sound_summary_off">Don\'t play sound when receive message</string>
+    <string name="sound_summary_on">Play sound when receive message</string>
+    <string name="sound_title">Sound</string>
+    <string name="title_activity_user_info">Personal information</string>
+    <string name="upload_head_image">Uploading avatar</string>
+    <string name="username_tips2">This mailbox is registered already</string>
+    <string name="validate_error">Error ValiCode</string>
+    <string name="vibrate_summary_off">Don\'t vibrate when receive message</string>
+    <string name="vibrate_summary_on">Vibrate when receive message</string>
+    <string name="vibrate_title">Vibrate</string>
+    <string name="vlidate_error"></string>
+    <string name="login_fail">Login failed</string>
 
 </resources>
