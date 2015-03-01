@@ -20,7 +20,6 @@ import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CheckedTextView;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -33,11 +32,8 @@ import com.android.zna.fivecircles.CommonUtils;
 import com.android.zna.fivecircles.R;
 import com.android.zna.fivecircles.data.FamilyUser;
 import com.android.zna.fivecircles.services.ServerSerivce;
-import com.android.zna.fivecircles.view.CustomProgressDialog;
+import com.android.zna.fivecircles.view.CustomSimpleProgressDialog;
 import com.android.zna.fivecircles.view.CustomToast;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 
 /**
@@ -188,7 +184,7 @@ public class RegisterActivity extends ActionBarActivity implements View.OnFocusC
                 currentUser.setSelfDesc(mDescriptionEt.getText().toString().trim());
 
 
-                final CustomProgressDialog progressDialog = CustomProgressDialog.show
+                final CustomSimpleProgressDialog progressDialog = CustomSimpleProgressDialog.show
                         (RegisterActivity.this, R.string.progress_register);
                 //register on server
                 mServerSerivce.register(currentUser, new ServerSerivce.ResultListener() {
@@ -440,7 +436,7 @@ public class RegisterActivity extends ActionBarActivity implements View.OnFocusC
 
 
     private void updateAvatar() {
-        final CustomProgressDialog progressDialog = CustomProgressDialog.show(this,
+        final CustomSimpleProgressDialog progressDialog = CustomSimpleProgressDialog.show(this,
                 R.string.upload_head_image);
         android.util.Log.e("ZNA_DEBUG", "UPDATE AVATAR");
         //upload head image file to server

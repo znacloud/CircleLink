@@ -2,8 +2,8 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="rectangle">
-            <corners android:topLeftRadius="@dimen/preference_radius"
-                     android:topRightRadius="@dimen/preference_radius"
+            <corners android:topLeftRadius="@dimen/base_radius"
+                     android:topRightRadius="@dimen/base_radius"
                      android:bottomLeftRadius="0dp"
                      android:bottomRightRadius="0dp" />
             <solid android:color="@color/base_color_light" />

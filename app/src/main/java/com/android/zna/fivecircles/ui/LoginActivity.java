@@ -14,7 +14,7 @@ import com.android.zna.fivecircles.Config;
 import com.android.zna.fivecircles.R;
 import com.android.zna.fivecircles.data.FamilyUser;
 import com.android.zna.fivecircles.services.ServerSerivce;
-import com.android.zna.fivecircles.view.CustomProgressDialog;
+import com.android.zna.fivecircles.view.CustomSimpleProgressDialog;
 import com.android.zna.fivecircles.view.CustomToast;
 
 public class LoginActivity extends ActionBarActivity {
@@ -43,7 +43,7 @@ public class LoginActivity extends ActionBarActivity {
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final CustomProgressDialog customProgressDialog = CustomProgressDialog.show
+                final CustomSimpleProgressDialog customProgressDialog = CustomSimpleProgressDialog.show
                         (LoginActivity.this, R.string.progress_login);
                 FamilyUser user = new FamilyUser();
                 user.setUsername(mUsernameEdit.getText().toString());

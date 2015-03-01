@@ -105,6 +105,27 @@ public class BmobServerService extends ServerSerivce {
 
     @Override
     public void logout(FamilyUser pUser,final  ResultListener pResultListener){
+
+        FamilyUser user = pUser;
+        if(user == null){
+            user = mUserManager.getCurrentUser(FamilyUser.class);
+        }
+
+        mUserManager.logout();
+        //clear cache
+        user.setNickname(null);
+        user.setUsername(null);
+        user.setPassword(null);
+        user.setSex(-1);
+        user.setRealname(null);
+        user.setSelfDesc(null);
+        user.setAvatar(null);
+
+        //callback,always success
+        if(pResultListener != null){
+            pResultListener.onSuccess(null);
+        }
+
     }
 
     @Override
@@ -246,5 +267,10 @@ public class BmobServerService extends ServerSerivce {
                 }
             }
         });
+    }
+
+    @Override
+    public  void updateUser(FamilyUser pCurrentUser, ResultListener pListener){
+     //TODO:implements updateUSER
     }
 }

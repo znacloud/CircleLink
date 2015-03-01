@@ -46,10 +46,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class UserActivity extends ActionBarActivity implements View.OnClickListener{
-    private DrawerLayout mDrawerLayout;
     private ListView mNavItemsList;
     private FrameLayout mLvContentView;
-    private LinearLayout mLeftDrawView;
     private Toolbar mToolbar;
 
     private TextView mUsernameTv;
@@ -58,7 +56,6 @@ public class UserActivity extends ActionBarActivity implements View.OnClickListe
     private TextView mAccountName;
     private ImageView mHeadIv;
 
-    private ActionBarDrawerToggle mToggle;
 
     private FragmentManager mFragmentManager;
     private SlidingMenu mSlidingMenuLayout;
@@ -100,11 +97,9 @@ public class UserActivity extends ActionBarActivity implements View.OnClickListe
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
         mFragmentManager = getFragmentManager();
-//        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mSlidingMenuLayout =(SlidingMenu) findViewById(R.id.sliding_menu_layout);
         mNavItemsList = (ListView) findViewById(R.id.item_list);
         mLvContentView = (FrameLayout) findViewById(R.id.content_frame);
-//        mLeftDrawView = (LinearLayout) findViewById(R.id.left_drawer);
 
         //setup NavItem list
         NavItemAdapter adapter = new NavItemAdapter(this);
@@ -181,7 +176,7 @@ public class UserActivity extends ActionBarActivity implements View.OnClickListe
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mToolbar.setElevation(TypedValue.applyDimension(TypedValue
                             .COMPLEX_UNIT_DIP,
-                    0, getResources().getDisplayMetrics()));
+                    10, getResources().getDisplayMetrics()));
         }
 
         //initial main content widget
@@ -314,24 +309,30 @@ public class UserActivity extends ActionBarActivity implements View.OnClickListe
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-//        mToggle.syncState();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-//        mToggle.onConfigurationChanged(newConfig);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        //in OptionsItemSelected event,to do mToggle event
-//        if (mToggle.onOptionsItemSelected(item)) {
-//            return true;
-//        }
         // TODO: other Item selected event
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed(){
+        /*
+        if menu is showing ,we should closing menu instead of back to another activity
+         */
+        if(mSlidingMenuLayout.isMenuShowing()){
+            mSlidingMenuLayout.showContent();
+        }else{
+            moveTaskToBack(false);
+        }
     }
 
     private class NavItemAdapter extends BaseAdapter {

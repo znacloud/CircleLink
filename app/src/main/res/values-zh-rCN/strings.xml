@@ -88,5 +88,7 @@
     <string name="vibrate_summary_off">消息到达时不震动提示</string>
     <string name="vibrate_summary_on">消息到达时震动提示</string>
     <string name="vibrate_title">震动</string>
+    <string name="logout_msg_title">退出登录</string>
+    <string name="logout_msg">退出登录后将接收不到新消息，确认退出？</string>
 
 </resources>

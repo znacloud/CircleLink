@@ -2,12 +2,12 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item >
         <shape android:shape="rectangle">
-            <corners android:radius="@dimen/preference_radius" />
+            <corners android:radius="@dimen/base_radius" />
             <solid android:color="@color/base_color_light" />
-            <padding android:top="@dimen/activity_vertical_margin"
-                     android:bottom="@dimen/activity_vertical_margin"
-                     android:left="@dimen/activity_horizontal_margin"
-                     android:right="@dimen/activity_horizontal_margin"/>
+            <padding android:top="@dimen/base_vertical_margin"
+                     android:bottom="@dimen/base_vertical_margin"
+                     android:left="@dimen/base_horizontal_margin"
+                     android:right="@dimen/base_horizontal_margin"/>
         </shape>
     </item>
 

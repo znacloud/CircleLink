@@ -17,8 +17,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.zna.fivecircles.R;
+import com.android.zna.fivecircles.WelcomeActivity;
 import com.android.zna.fivecircles.data.FamilyUser;
 import com.android.zna.fivecircles.services.ServerSerivce;
+import com.android.zna.fivecircles.view.CustomSimpleAlertDialog;
 import com.android.zna.fivecircles.view.CustomToast;
 
 /**
@@ -27,6 +29,7 @@ import com.android.zna.fivecircles.view.CustomToast;
 public class SettingsFragment extends PreferenceFragment {
 
     private BaseActivity mActivity;
+
 
     public static  SettingsFragment newInstance(){
         SettingsFragment fragment = new SettingsFragment();
@@ -58,23 +61,23 @@ public class SettingsFragment extends PreferenceFragment {
             android.util.Log.e("ZNA_DEBUG","KEY == "+key);
             if(key != null && key.contentEquals("logout")){
 
-                AlertDialog dialog = new AlertDialog.Builder(getActivity())
-                        .setTitle("Confirm")
-                        .setMessage("Are you sure to logout this account ???")
-                        .setNegativeButton("cancel",new DialogInterface.OnClickListener() {
+                CustomSimpleAlertDialog dialog = new CustomSimpleAlertDialog.Builder(getActivity())
+                        .setTitle(R.string.logout_msg_title)
+                        .setMessage(R.string.logout_msg)
+                        .setNegativeButton(android.R.string.cancel, new View.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface pDialogInterface, int i) {
-                                pDialogInterface.dismiss();
+                            public void onClick(View v) {
+                                //TODO:you should not call dismiss or cancel
+                                //because it be called in super already
                             }
                         })
-                        .setPositiveButton("OK",new DialogInterface.OnClickListener() {
+                        .setPositiveButton(android.R.string.ok, new View.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface pDialogInterface, int i) {
+                            public void onClick(View v) {
                                 //TODO:logout action
                                 logout();
                             }
-                        }).create();
-                dialog.show();
+                        }).show();
             }else if(key != null && key.contentEquals("user_info")){
                 mActivity.startActivity(new Intent(mActivity, UserInfoActivity.class));
             }
@@ -85,7 +88,10 @@ public class SettingsFragment extends PreferenceFragment {
         mActivity.getServerSerivce().logout(null,new ServerSerivce.ResultListener() {
             @Override
             public void onSuccess(Object pObj) {
-                mActivity.startActivity(new Intent(mActivity,LoginActivity.class));
+                Intent intent = new Intent(mActivity,LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                mActivity.startActivity(new Intent(mActivity, LoginActivity.class));
+                mActivity.finish();
             }
 
             @Override

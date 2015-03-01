@@ -15,6 +15,8 @@ public abstract class ServerSerivce {
 
     protected final Context mContext;
 
+
+
     public static interface ResultListener {
         public void onSuccess(Object pObj);
 
@@ -100,4 +102,6 @@ public abstract class ServerSerivce {
      * check duplidate user email address
      */
     public abstract void checkDuplicateAccount(String pTarget,ResultListener pListener);
+
+    public abstract void updateUser(FamilyUser pCurrentUser, ResultListener pListener);
 }

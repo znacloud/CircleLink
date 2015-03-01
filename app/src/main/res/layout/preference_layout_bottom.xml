@@ -45,7 +45,7 @@
         android:id="@android:id/widget_frame"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingEnd="@dimen/base_horizontal_margin"
         android:gravity="center_vertical"
         android:orientation="vertical" />
 

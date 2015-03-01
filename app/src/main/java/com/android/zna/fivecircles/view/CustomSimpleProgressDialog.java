@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.android.zna.fivecircles.R;
 
-public class CustomProgressDialog extends Dialog {
+public class CustomSimpleProgressDialog extends Dialog {
 
     private Context mContext;
     private Drawable mDrawable;
@@ -30,12 +30,12 @@ public class CustomProgressDialog extends Dialog {
      */
     private boolean animated = true;
 
-    public CustomProgressDialog(Context context) {
-        super(context, R.style.custom_progress_dialog);
+    public CustomSimpleProgressDialog(Context context) {
+        super(context, R.style.CustomProgressDialogStyle);
         mContext = context;
     }
 
-    public CustomProgressDialog(Context context, int theme) {
+    public CustomSimpleProgressDialog(Context context, int theme) {
         super(context, theme);
         mContext = context;
     }
@@ -57,7 +57,7 @@ public class CustomProgressDialog extends Dialog {
      * @param message string to show in Dialog
      * @return CustomProgressDialog
      */
-    public static CustomProgressDialog show(Context context, String message) {
+    public static CustomSimpleProgressDialog show(Context context, String message) {
         return show(context, message, null);
     }
 
@@ -68,7 +68,7 @@ public class CustomProgressDialog extends Dialog {
      * @param messageId String id to show in Dialog
      * @return CustomProgressDialog
      */
-    public static CustomProgressDialog show(Context context, int messageId) {
+    public static CustomSimpleProgressDialog show(Context context, int messageId) {
         return show(context, messageId, 0);
     }
 
@@ -80,8 +80,8 @@ public class CustomProgressDialog extends Dialog {
      * @param drawable Drawable to show in Dialog
      * @return CustomProgressDialog
      */
-    public static CustomProgressDialog show(Context context, String message, Drawable drawable) {
-        CustomProgressDialog dialog = new CustomProgressDialog(context);
+    public static CustomSimpleProgressDialog show(Context context, String message, Drawable drawable) {
+        CustomSimpleProgressDialog dialog = new CustomSimpleProgressDialog(context);
         dialog.show();
         dialog.setMessage(message);
         dialog.setDrawable(drawable);
@@ -101,8 +101,8 @@ public class CustomProgressDialog extends Dialog {
      * @param drawableId Drawable id to show in Dialog
      * @return CustomProgressDialog
      */
-    public static CustomProgressDialog show(Context context, int messageId, int drawableId) {
-        CustomProgressDialog dialog = new CustomProgressDialog(context);
+    public static CustomSimpleProgressDialog show(Context context, int messageId, int drawableId) {
+        CustomSimpleProgressDialog dialog = new CustomSimpleProgressDialog(context);
         dialog.show();
         dialog.setMessage(messageId);
         if (0 != drawableId) {

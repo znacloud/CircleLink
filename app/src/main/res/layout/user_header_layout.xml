@@ -3,13 +3,13 @@
               android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:layout_margin="@dimen/activity_horizontal_margin"
+              android:layout_margin="@dimen/base_horizontal_margin"
               android:background="@drawable/bg_preference">
     <com.makeramen.RoundedImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="@dimen/header_view_size_small"
         android:layout_height="@dimen/header_view_size_small"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/base_horizontal_margin"
         android:src="@drawable/head_img_default"
         app:riv_corner_radius="@dimen/header_view_corner_radius"
         app:riv_oval="false"/>
